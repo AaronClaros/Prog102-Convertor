@@ -18,20 +18,25 @@ package main.com.fundations.convertor.View;
  * @version 0.1
  */
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JFileChooser;
+import javax.swing.BorderFactory;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.EventListener;
 
+
 public class SearchPanel extends JPanel implements ActionListener, EventListener{
 
-    private JLabel title;            //Panel title:Sear Criteria
-    private JTextField boxPath;             // box for path insertion
+    private JLabel title;               //Panel title:Sear Criteria
+    private JTextField boxPath;         // box for path insertion
     private JButton buttonPath;         // button with browse action
     private JButton buttonSearch;       // button with search action
-
 
     public SearchPanel() {
         super();                    // constructor of father class JPanel
@@ -44,7 +49,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.setBackground(Color.gray);
         this.setLayout(null);                                   // layout not used, to position components
-
     }
 
     private void initComp() {
@@ -62,9 +66,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         buttonSearch.setText("Search");   // Text for button
         buttonSearch.setBounds(50, 800, 200, 30);  // button position and size (x, y, width, height)
         buttonPath.addActionListener(this);      // box has action and the action is inside this class
-
-
-
         // add components to frame and make them visible
         this.add(title);
         this.add(buttonPath);
@@ -73,8 +74,13 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         this.setVisible(true);
     }
 
+    public JButton getSearchButton()        //getter of the search path
+    {
+        return this.buttonSearch;
+    }
+
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {        //Obtain path for Search
         //File chooser for path
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
@@ -83,9 +89,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             File yourFolder = fc.getSelectedFile();
         }
-        boxPath.setText(fc.getSelectedFile().getAbsolutePath()); //get path and set it on the text box
-        //JOptionPane.showMessageDialog(this,fc.getSelectedFile().getAbsolutePath());    // show message (frame, message)
-
+        boxPath.setText(fc.getSelectedFile().getAbsolutePath());    //Copy selected path to the text box
     }
-
 }

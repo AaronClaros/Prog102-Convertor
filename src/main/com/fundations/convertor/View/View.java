@@ -18,7 +18,8 @@ package main.com.fundations.convertor.View;
  * @version 0.1
  */
 
-import javax.swing.*;
+import javax.swing.JFrame;
+
 
 public class View extends JFrame {
 
@@ -31,32 +32,28 @@ public class View extends JFrame {
         initComp();                 // Initialize attributes or components
     }
 
-    private void settings() {
+    private void settings() {                                   //Set frames
         this.setTitle("Convertor V 0.1");                       // Project tittle
         this.setSize(1280, 924);                   // Frame size
         this.setLocationRelativeTo(null);                       // Frame centered
         this.setLayout(null);                                   // layout not used, to position components
         this.setResizable(false);                               // Frame not resizable
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    // All processes are terminated once the frame is closed
-
     }
 
-    private void initComp() {
-        // initialize components
-        sPanel = new SearchPanel();
-        slPanel = new SearchListPanel();
+    private void initComp() {               // initialize components
+        sPanel = new SearchPanel();         //Instanciar el frame con los criterios de busqueda
+        slPanel = new SearchListPanel();    //Instanciar el frame con la tabla del resultado de busqueda
         this.add(sPanel);
         this.add(slPanel);
-
-        //Display the window
-
-        this.setVisible(true);
-
-
+        this.setVisible(true);        //Display the window
     }
-
-    public void showMessage(String m)
+    public SearchPanel getSPanel ()
     {
-        JOptionPane.showMessageDialog(this,m);
+        return sPanel;
+    }
+    public SearchListPanel getSLPanel ()
+    {
+        return slPanel;
     }
 }
