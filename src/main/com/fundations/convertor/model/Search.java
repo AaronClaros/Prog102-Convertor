@@ -10,7 +10,12 @@
  * with Jala Foundation.
  */
 
-package main.com.fundations.convertor;
+package main.com.fundations.convertor.model;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *  Search class for java applications, class which search videos
  *
@@ -18,10 +23,16 @@ package main.com.fundations.convertor;
  * @version 0.1
  */
 public class Search {
-    public Search() {
+    private List<String> lFicheros=new ArrayList<String>();
+    private String ruta;
+    public Search(String ruta) {
+        this.ruta = ruta;
     }
-    public int Found(){
-        
-        return 0;
+    public List<String> Found(){
+        File dir= new File(ruta);
+        String[] ficheros=dir.list();
+            for(int x=0;x<ficheros.length;x++)
+                lFicheros.add(ficheros[x]);
+            return lFicheros;
     }
 }
