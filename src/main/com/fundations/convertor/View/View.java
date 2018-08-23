@@ -18,19 +18,12 @@ package main.com.fundations.convertor.View;
  * @version 0.1
  */
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 
-public class View extends JFrame implements ActionListener {
+public class View extends JFrame {
 
-    private JLabel text;            //non editable label
-    private JTextField box;        // box for data insertion
-    private JButton button;          // button with action
+    private SearchPanel sPanel;            // search criteria selection panel
+    private SearchListPanel slPanel;            // search list display panel
 
     public View() {
         super();                    // constructor of father class JFrame
@@ -40,7 +33,7 @@ public class View extends JFrame implements ActionListener {
 
     private void settings() {
         this.setTitle("Convertor V 0.1");                       // Project tittle
-        this.setSize(900, 900);                   // Frame size
+        this.setSize(1280, 924);                   // Frame size
         this.setLocationRelativeTo(null);                       // Frame centered
         this.setLayout(null);                                   // layout not used, to position components
         this.setResizable(false);                               // Frame not resizable
@@ -50,26 +43,20 @@ public class View extends JFrame implements ActionListener {
 
     private void initComp() {
         // initialize components
-        text = new JLabel();
-        box = new JTextField();
-        button = new JButton();
-        // configure components
-        text.setText("Insert message");    // Insert a message to be displayed
-        text.setBounds(50, 50, 100, 25);   // text position and size(x, y, width, height)
-        box.setBounds(150, 50, 100, 25);   // box position and size (x, y, width, height)
-        button.setText("Show message");   // Text for button
-        button.setBounds(50, 100, 200, 30);  // button position and size (x, y, width, height)
-        button.addActionListener(this);      // button has action and the action is inside this class
-        // add components to frame and make them visible
-        this.add(text);
-        this.add(box);
-        this.add(button);
+        sPanel = new SearchPanel();
+        slPanel = new SearchListPanel();
+        this.add(sPanel);
+        this.add(slPanel);
+
+        //Display the window
+
         this.setVisible(true);
+
+
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String message = box.getText();                                 // get message from the box
-        JOptionPane.showMessageDialog(this,message);    // show message (frame, message)
+    public void showMessage(String m)
+    {
+        JOptionPane.showMessageDialog(this,m);
     }
 }
