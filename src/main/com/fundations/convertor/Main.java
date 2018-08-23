@@ -21,6 +21,7 @@ package main.com.fundations.convertor;
 public class Main {
 
     public static void main(String[] args) {
+        //LoggerManager.getLogger().Log("Starting Main", LoggerManager.LogLevel.INFO);
         System.out.println("Hello, World");
     }
 }
