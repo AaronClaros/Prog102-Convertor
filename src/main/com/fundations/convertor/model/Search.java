@@ -35,7 +35,7 @@ public class Search {
      * this method allows to create a list of String with files
      * from the given path, that list is returned to be used
      */
-    public List<String> findPath(){
+    public List<String> getAllFilesOnPath(){
         File dir= new File(path);
         String[] files; // array of string for the files
         files = dir.list();
