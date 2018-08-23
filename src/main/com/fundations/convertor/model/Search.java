@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2018 Jala Foundation.
  * 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
@@ -9,7 +10,6 @@
  * accordance with the terms of the license agreement you entered into
  * with Jala Foundation.
  */
-
 package main.com.fundations.convertor.model;
 
 import java.io.File;
@@ -22,17 +22,28 @@ import java.util.List;
  * @author Kevin Sanchez - AWT-[01].
  * @version 0.1
  */
+
 public class Search {
-    private List<String> lFicheros=new ArrayList<String>();
-    private String ruta;
-    public Search(String ruta) {
-        this.ruta = ruta;
+    private List<String> lFiles = new ArrayList<String>(); // list of file of the specified path
+    private String path; // path that will be received for the search
+
+    public Search(String path) {
+        this.path = path;
     }
-    public List<String> Found(){
-        File dir= new File(ruta);
-        String[] ficheros=dir.list();
-            for(int x=0;x<ficheros.length;x++)
-                lFicheros.add(ficheros[x]);
-            return lFicheros;
+
+    /**
+     * this method allows to create a list of String with files
+     * from the given path, that list is returned to be used
+     */
+    public List<String> findPath(){
+        File dir= new File(path);
+        String[] files; // array of string for the files
+        files = dir.list();
+
+            /**this "for" send the recuperated data into the list*/
+            for (int i = 0; i < files.length; i++) {
+                lFiles.add(files[i]);
+            }
+            return lFiles;
     }
 }
