@@ -27,8 +27,10 @@ import java.awt.Color;
 public class SearchListPanel extends JPanel {
 
     private JTable resultsTable;         // Results table to be displayed based on the search criteria
-    private String[] columnNames = {"File Name", "File Path", "Extension", "Frame Rate", "Duration"};
-    private Object [][] data = {{"Name", "Path", "Extension", "Frame Rate", "Duration"}};
+    private String[] columnNames = {"File Name", "File Path", "Extension", "Frame Rate", "Duration",
+                                    "Aspect Ratio","Dimension","Video Codec","Audio Codec"};
+    private Object [][] data = {{"Name", "Path", "Extension", "Frame Rate", "Duration", "Aspect Ratio",
+                                "Dimension","Video Codec","Audio Codec"}};
     private JScrollPane scrollPane;
 
     public SearchListPanel() {
@@ -37,7 +39,7 @@ public class SearchListPanel extends JPanel {
         settings();                 // set the panel
     }
 
-    private void settings() {                                                 //Set the frame and ots components
+    private void settings() {                                                 //Set the frame and other components
         this.setBounds(310,5,960,519);                   // Panel size and location
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.setBackground(Color.gray);
@@ -47,9 +49,9 @@ public class SearchListPanel extends JPanel {
 
     private void initComp() {                                       // initialize components
         resultsTable = new JTable(data,columnNames);               // configure components
-        resultsTable.setBounds(5,5,900,500);
+        resultsTable.setBounds(5,5,945,500);
         scrollPane = new JScrollPane(resultsTable);
-        scrollPane.setBounds(5,5,905,500);
+        scrollPane.setBounds(5,5,950,500);
         // add components to frame and make them visible
         this.add(scrollPane);
         this.setVisible(true);
