@@ -17,11 +17,18 @@
 package main.com.fundations.utils;
 
 import org.apache.log4j.Logger;
+
 import org.apache.log4j.xml.DOMConfigurator;
+
+import java.net.URL;
 
 public class LoggerManager {
 
-    //public enum LogLevel {DEBUG, INFO, WARNING, ERROR, FATAL};
+    static final String DEBUG_LEVEL = "DEBUG";
+    static final String INFO_LEVEL = "INFO";
+    static final String WARNING_LEVEL = "WARNING";
+    static final String ERROR_LEVEL = "ERROR";
+    static final String FATAL_LEVEL = "FATAL";
 
     private static LoggerManager obj;
     private Logger oLog;
@@ -30,7 +37,8 @@ public class LoggerManager {
         /*
          * Config.xml: file path used to configure log4j
          */
-        DOMConfigurator.configure("Config.xml");
+        final URL log4jFile=LoggerManager.class.getResource("Config.xml");
+        DOMConfigurator.configure(log4jFile);
     }
 
     public LoggerManager(Logger logger) {
@@ -38,9 +46,9 @@ public class LoggerManager {
         setLogger(logger);
     }
 
-    private void setLogger(Logger _oLog)
+    private void setLogger(Logger oLog)
     {
-        oLog = _oLog;
+        this.oLog = oLog;
     }
 
     public static LoggerManager getLogger(){
@@ -50,25 +58,22 @@ public class LoggerManager {
         return obj;
     }
 
-   /* public void Log(String _sMsg, LoggerManager.LogLevel _eLogLevel){
-        switch(_eLogLevel){
-            case DEBUG:
-                oLog.debug(_sMsg);
-                break;
-            case INFO:
-                oLog.info(_sMsg);
-                break;
-            case WARNING:
-                oLog.warn(_sMsg);
-                break;
-            case ERROR:
-                oLog.error(_sMsg);
-                break;
-            case FATAL:
-                oLog.fatal(_sMsg);
-                break;
-            default:
+    public void Log(String msg, String level){
+        if (DEBUG_LEVEL.equals(level)) {
+            oLog.debug(msg);
+
+        } else if (INFO_LEVEL.equals(level)) {
+            oLog.info(msg);
+
+        } else if (WARNING_LEVEL.equals(level)) {
+            oLog.warn(msg);
+
+        } else if (ERROR_LEVEL.equals(level)) {
+            oLog.error(msg);
+
+        } else if (FATAL_LEVEL.equals(level)) {
+            oLog.fatal(msg);
         }
-    }*/
+    }
 }
 
