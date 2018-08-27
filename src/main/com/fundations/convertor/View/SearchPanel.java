@@ -34,8 +34,10 @@ import java.util.EventListener;
 public class SearchPanel extends JPanel implements ActionListener, EventListener{
 
     private JLabel title;               //Panel title:Sear Criteria
-    private JTextField boxPath;         // box for path insertion
+    private JTextField boxPath;         // box for path insertion criteria
     private JButton buttonPath;         // button with browse action
+    private JLabel titleFileName;       //Title File name
+    private JTextField boxFileName;     // box for file name criteria
     private JButton buttonSearch;       // button with search action
 
     public SearchPanel() {
@@ -47,7 +49,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     private void settings() {
         this.setBounds(5,5,300,919);                   // Panel size
         this.setBorder(BorderFactory.createLineBorder(Color.black));
-        this.setBackground(Color.gray);
+        this.setBackground(Color.lightGray);
         this.setLayout(null);                                   // layout not used, to position components
     }
 
@@ -56,6 +58,8 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         title= new JLabel();
         buttonPath = new JButton();
         boxPath = new JTextField();
+        boxFileName = new JTextField();
+        titleFileName= new JLabel();
         buttonSearch = new JButton();
         // configure components
         title.setBounds(10,20,100,20);
@@ -63,6 +67,9 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         buttonPath.setText("Path");    // Insert a message to be displayed
         buttonPath.setBounds(220, 50, 60, 25);   // text position and size(x, y, width, height)
         boxPath.setBounds(10, 50, 200, 25);   // box position and size (x, y, width, height)
+        titleFileName.setText("File Name");
+        titleFileName.setBounds(10,90,80,25);
+        boxFileName.setBounds(90, 90, 200, 25);   // box position and size (x, y, width, height)
         buttonSearch.setText("Search");   // Text for button
         buttonSearch.setBounds(50, 800, 200, 30);  // button position and size (x, y, width, height)
         buttonPath.addActionListener(this);      // box has action and the action is inside this class
@@ -70,15 +77,21 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         this.add(title);
         this.add(buttonPath);
         this.add(boxPath);
+        this.add(titleFileName);
+        this.add(boxFileName);
         this.add(buttonSearch);
         this.setVisible(true);
     }
 
-    public JButton getSearchButton()        //getter of the search path
-    {
+    public JButton getSearchButton(){        //getter of the search button
         return this.buttonSearch;
     }
-
+    public JTextField getBoxPath(){        //getter of the search path box
+        return this.boxPath;
+    }
+    public JTextField getBoxFileName(){     //getter for file name
+        return this.boxFileName;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {        //Obtain path for Search
         //File chooser for path
