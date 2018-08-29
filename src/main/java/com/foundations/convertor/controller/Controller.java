@@ -12,7 +12,7 @@
 
 package com.foundations.convertor.controller;
 
-import com.foundations.convertor.View.View;
+import com.foundations.convertor.view.View;
 import com.foundations.convertor.model.Search;
 
 import javax.swing.table.DefaultTableModel;
@@ -82,12 +82,13 @@ public class Controller implements ActionListener, EventListener {
                                 "Dimension","Video Codec","Audio Codec"}; // names of columns for table
         Object[][] new_data = new Object[s_result_list.size()][columnNames.length]; //  data for table
 
+        view.getSLPanel().getResultsTable().removeRow(0);
         for (int i=0; i<s_result_list.size(); i++){
             Object[] d = {s_result_list.get(i).getName(),s_result_list.get(i).getAbsolutePath(),"","","","","","",""}; // setting row data of table
-            new_data[i] = d;
+            view.getSLPanel().getResultsTable().addRow(d); //creating row data
         }
-        DefaultTableModel model = new DefaultTableModel(new_data, columnNames);
-        view.getSLPanel().getResultsTable().setModel(model); // setting new model for jTable
+        //DefaultTableModel model = new DefaultTableModel(new_data, columnNames);
+
     }
 
     /**
