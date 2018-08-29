@@ -78,17 +78,16 @@ public class Controller implements ActionListener, EventListener {
             System.out.println("results list null");
             return;
         }
-        String[] columnNames = {"File Name", "File Path", "Extension", "Frame Rate", "Duration", "Aspect Ratio",
-                                "Dimension","Video Codec","Audio Codec"}; // names of columns for table
-        Object[][] new_data = new Object[s_result_list.size()][columnNames.length]; //  data for table
-
-        view.getSLPanel().getResultsTable().removeRow(0);
+        view.getSLPanel().getResultsTable().setNumRows(s_result_list.size());
         for (int i=0; i<s_result_list.size(); i++){
-            Object[] d = {s_result_list.get(i).getName(),s_result_list.get(i).getAbsolutePath(),"","","","","","",""}; // setting row data of table
-            view.getSLPanel().getResultsTable().addRow(d); //creating row data
+            // setting row data of table ("name", "path", Extension", "Frame Rate", "Duration",
+            //                            "Aspect Ratio","Dimension","Video Codec","Audio Codec")
+            Object[] d = {s_result_list.get(i).getName(),s_result_list.get(i).getAbsolutePath(),"","","","","","",""};
+            // cleaning row data
+            view.getSLPanel().getResultsTable().removeRow(i);
+            // adding new row data
+            view.getSLPanel().getResultsTable().insertRow(i,d);
         }
-        //DefaultTableModel model = new DefaultTableModel(new_data, columnNames);
-
     }
 
     /**
