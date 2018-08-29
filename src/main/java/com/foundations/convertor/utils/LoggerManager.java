@@ -37,7 +37,7 @@ public class LoggerManager {
         /*
          * Config.xml: file path used to configure log4j
          */
-        final URL log4jFile=LoggerManager.class.getResource("Config.xml");
+        final URL log4jFile=LoggerManager.class.getResource("/Config.xml");
         DOMConfigurator.configure(log4jFile);
     }
 
