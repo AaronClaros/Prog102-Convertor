@@ -20,6 +20,7 @@ package com.foundations.convertor;
  */
 
 import com.foundations.convertor.controller.Controller;
+import com.foundations.convertor.utils.LoggerManager;
 
 public class Main {
     public String getGreeting() {
@@ -27,7 +28,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        //LoggerManager.getLogger().Log("Starting Main", LoggerManager.LogLevel.INFO);
+        LoggerManager.getLogger().Log("Starting Main", "INFO");
         Controller controller = new Controller();
     }
 }
