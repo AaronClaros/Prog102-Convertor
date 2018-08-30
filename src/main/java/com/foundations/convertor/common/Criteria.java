@@ -14,7 +14,7 @@
  * @version 0.1
  */
 
-package com.foundations.convertor.controller;
+package com.foundations.convertor.common;
 
 /**
  *  Criteria class where the search attributes will be passed
@@ -23,18 +23,29 @@ package com.foundations.convertor.controller;
  * @version 0.1
  */
 public class Criteria {
+
+    // path for the search
     private String path;
+
+    // file name for the search
     private String fileName;
 
-    //Empty constructor
+    /**
+     * Empty constructor
+     */
     public Criteria() {
     }
 
+    /**
+     * 
+     */
     public String getPath() {
+
         return path;
     }
 
     public String getFileName() {
+
         return fileName;
     }
 
@@ -43,6 +54,7 @@ public class Criteria {
     }
 
     public void setFileName(String fileName) {
+
         this.fileName = fileName;
     }
 }
