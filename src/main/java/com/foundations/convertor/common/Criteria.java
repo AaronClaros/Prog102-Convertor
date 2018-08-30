@@ -8,7 +8,6 @@
  * disclose such Confidential Information and shall use it only in
  * accordance with the terms of the license agreement you entered into
  * with Jala Foundation.
- *
  */
 
 package com.foundations.convertor.common;
@@ -29,7 +28,7 @@ public class Criteria {
 
     // extension of the file to search
     private String extension;
-
+  
     /**
      * Empty constructor
      */
