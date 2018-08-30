@@ -11,8 +11,11 @@
  */
 package com.foundations.convertor.model;
 
+import com.foundations.convertor.common.Criteria;
+import com.sun.istack.internal.NotNull;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -99,6 +102,31 @@ public class Search {
         }
         return newListFiles;
     }
+
+    /**
+     * This method allows to create a list of File with
+     * the criteria extension
+     * @param criteria contains the information of searching
+     * @return List of Files
+     */
+    public List<File> getFilesByExtension (@NotNull Criteria criteria){
+        List<File> files = Collections.emptyList();
+        String directory = criteria.getPath();
+        String extension = criteria.getExtension();
+
+        File file = new File(directory);
+
+        if (file.exists()){
+            File[] directoryFiles = file.listFiles();
+
+            for(File path: directoryFiles) {
+                String name = path.getName();
+                if (!name.isEmpty() && name.indexOf(extension)!= -1){
+                    files.add(path);
+                }
+            }
+        }
+
+        return  files;
+    }
 }
-
-
