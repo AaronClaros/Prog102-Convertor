@@ -108,59 +108,67 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Initialize components
      */
     private void initComp() {
+        //Panel title
         title= new JLabel("Search Criteria");
+        //button path instance and title set
         buttonPath = new JButton("Path");
+        //text field path instance
         boxPath = new JTextField();
+        //text field file name
         boxFileName = new JTextField();
+        //label file name instance and text set
         titleFileName= new JLabel("File Name");
+        //button search instance and text set
         buttonSearch = new JButton("Search");
+        //label file extension instance and text set
         labelFileExt = new JLabel("File Ext.");
+        //text field file extension instance
         boxFileExt = new JTextField();
+        //label duration instance and text set
         labelDuration = new JLabel("Duration");
+        //label "duration from" instance and text set
         labelDurationFrom = new JLabel("From");
+        //label "duration to" instance and text set
         labelDurationTo = new JLabel("To");
+        //label frame rate instance and text set
         labelFrameRate = new JLabel("Frame Rate");
+        //frame rates array
         String[] frame_rates = {"","24","29","30","60"};
+        //combo box frame rate instance and content set
         comboxFrameRate = new JComboBox(frame_rates);
+        //box "duration from" instance and text format set
         boxDurationFrom = new JFormattedTextField(createFormat("###:##:##"));
-        boxDurationTo = new JFormattedTextField(createFormat("###:##:##"));
-        labelAspectRatio = new JLabel("Aspect Ratio");
-        String[] asp_ratios = {"","16:9","16:10","4:3"};
-        comboxAspectRatio = new JComboBox(asp_ratios);
-        labelResolution = new JLabel("Resolution");
-        String[] resolutions = {"","720x480","1080x720","1440x1080"};
-        comboxResolution = new JComboBox(resolutions);
-        labelVideoCodec = new JLabel("Video Codec");
-        String[] video_codecs = {"","H264","MP4","AVI"};
-        comboxVideoCodec = new JComboBox(video_codecs);
-        labelAudioCodec = new JLabel("Audio Codec");
-        String[] audio_codecs = {"","MP3","WMA","OGG"};
-        comboxAudioCodec = new JComboBox(audio_codecs);
-        // Panel title
-        //title.setText("Search Criteria");
-        //button title
-        //buttonPath.setText("Path");
-        //Field title
-        //titleFileName.setText("File Name");
-        // Text for button
-        //buttonSearch.setText("Search");
-        //Setting text labelDuration
-        //labelDuration.setText("Duration");
-        //Setting text labelDuration
-        //labelDurationFrom.setText("From");
-        //Setting text labelDuration
-        //labelDurationTo.setText("To");
-        //Setting text labelFileExt;
-        //labelFileExt.setText("File Ext.");
-        //Setting text labelFrameRate
-        //labelFrameRate.setText("Frame Rate");
-        //Setting default duration from time
+        //set default duration time for duration from
         boxDurationFrom.setValue("000:00:00");
-        //Setting default duration to time
+        //box "duration to" instance and text format set
+        boxDurationTo = new JFormattedTextField(createFormat("###:##:##"));
+        //set default duration time for duration to
         boxDurationTo.setValue("000:00:00");
-        //Setting labelAspectRatio text
-        //labelAspectRatio.setText("Aspect Ratio");
-        // box is listening for the path button to fill
+        //label aspect ratio instance and text set
+        labelAspectRatio = new JLabel("Aspect Ratio");
+        //aspect ratio array
+        String[] asp_ratios = {"","16:9","16:10","4:3"};
+        //combo box aspect ratio instance and content set
+        comboxAspectRatio = new JComboBox(asp_ratios);
+        //label resolution instance and text set
+        labelResolution = new JLabel("Resolution");
+        //resolution array
+        String[] resolutions = {"","720x480","1080x720","1440x1080"};
+        //combo box resolution instance and content set
+        comboxResolution = new JComboBox(resolutions);
+        //label video code instance and text set
+        labelVideoCodec = new JLabel("Video Codec");
+        //video codecs array
+        String[] video_codecs = {"","H264","MP4","AVI"};
+        //combo box video codec instance and content set
+        comboxVideoCodec = new JComboBox(video_codecs);
+        //label audio code instance and text set
+        labelAudioCodec = new JLabel("Audio Codec");
+        //audio codecs array
+        String[] audio_codecs = {"","MP3","WMA","OGG"};
+        //combo box audio codec instance and content set
+        comboxAudioCodec = new JComboBox(audio_codecs);
+
         buttonPath.addActionListener(this);
         //title set positions and sizes
         title.setBounds(10,20,100,20);
