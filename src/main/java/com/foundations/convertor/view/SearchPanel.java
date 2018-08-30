@@ -224,7 +224,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     }
     /**
      * Getter of the search button
-     * @return the button
+     * @return the search button object
      */
     public JButton getSearchButton(){
         return this.buttonSearch;
@@ -232,7 +232,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
     /**
      * Getter of the search path box
-     * @return path string
+     * @return Path text field object
      */
     public JTextField getBoxPath(){
         return this.boxPath;
@@ -240,12 +240,79 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
     /**
      * Getter for the file name box
-     * @return file name string
+     * @return file name text field object
      */
     public JTextField getBoxFileName(){
         return this.boxFileName;
     }
 
+    /**
+     * Getter for the file extension box
+     * @return filer extension box object
+     */
+    public JTextField getBoxFileExt() {
+        return this.boxFileExt;
+    }
+
+    /**
+     * Getter for the Frame Rate combo box
+     * @return frame rate combo box object
+     */
+    public JComboBox getCBFrameRate() {
+        return this.comboxFrameRate;
+    }
+    /**
+     * Getter for the Duration From box object
+     */
+    public JTextField getBoxDurationFrom() {
+        return this.boxDurationFrom;
+    }
+
+    /**
+     * Getter for the Duration To box
+     * @return duration to combo box object
+     */
+    public JTextField getBoxDurationTo() {
+        return this.boxDurationFrom;
+    }
+
+    /**
+     * Getter for the Aspect Ratio combo box
+     * @return aspect ratio combo box object
+     */
+    public JComboBox getCBAspectRatio() {
+        return this.comboxAspectRatio;
+    }
+
+    /**
+     * Getter for the Resolution combo box
+     * @return resolution combo box object
+     */
+    public JComboBox getCBResolution() {
+        return this.comboxResolution;
+    }
+
+    /**
+     * Getter for the Video Codec combo box
+     * @return video codec combo box object
+     */
+    public JComboBox getCBVideoCodec() {
+        return this.comboxVideoCodec;
+    }
+
+    /**
+     * Getter for the Audio Codec combo box
+     * @return audio codec combo box object
+     */
+    public JComboBox getCBVAudioCodec() {
+        return this.comboxAudioCodec;
+    }
+
+    /**
+     * try to create a masked text format
+     * @param s desired format
+     * @return text maskformat
+     */
     private MaskFormatter createFormat(String s) {
         MaskFormatter formatter = null;
         try {
