@@ -30,6 +30,8 @@ public class View extends JFrame {  //
     private SearchPanel sPanel;
     // search list display panel
     private SearchListPanel slPanel;
+    // conversion parameters panel
+    private ConverterPanel convPanel;
     // constructor of father class JFrame
     public Dimension screenSize;
     public View() {
@@ -68,10 +70,14 @@ public class View extends JFrame {  //
         sPanel = new SearchPanel(this.getWidth(),this.getHeight());
         //Instance frame with result table panel
         slPanel = new SearchListPanel(this.getWidth(),this.getHeight());
+        //Instance frame with converter panel
+        convPanel = new ConverterPanel(this.getWidth(),this.getHeight());
         //add Search criteria selection panel to main frame
         this.add(sPanel);
         //add Search list results panel to main frame
         this.add(slPanel);
+        //add converter panel to main frame
+        this.add(convPanel);
         //Display the window
         this.setVisible(true);
     }
