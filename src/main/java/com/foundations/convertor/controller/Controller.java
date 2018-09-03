@@ -12,6 +12,8 @@
 
 package com.foundations.convertor.controller;
 
+import com.foundations.convertor.common.Criteria;
+import com.foundations.convertor.utils.ConverterUtils;
 import com.foundations.convertor.view.View;
 import com.foundations.convertor.model.Search;
 
@@ -19,23 +21,25 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.EventListener;
 import java.util.List;
 
 /**
  *  Controller for use as pattern MVC, here is instanced the view and model classes
  *
- * @author Kevin Herrera - AWT-[01].
+ * @authors Kevin Herrera, Kevin Sanchez - AWT-[01].
  * @version 0.1
  */
 public class Controller implements ActionListener, EventListener {
 
     private View view; // reference to object view
     private Search search; // reference to object search
-    private String search_path;
+    private Criteria criteria; // reference to object criteria
 
     public Controller(){
         System.out.println("creating object controller");
+        instanceCriteria();
         instanceViewComponent();
         instanceModelComponent();
     }
@@ -52,20 +56,55 @@ public class Controller implements ActionListener, EventListener {
      *  instance the search object
      */
     public void instanceModelComponent(){
-        //search = new Search(search_path);
         search = new Search();
+    }
+
+    public void instanceCriteria(){
+        criteria = new Criteria();
     }
 
     /**
      * execute a search
      */
     public void doSearch(){
-        search_path = view.getSPanel().getBoxPath().getText(); // storing reference for search path
-        String name = view.getSPanel().getBoxFileName().getText();
-        if (name == ""){
-            fillTableData(search.getAllFilesOnPath(search_path));
+        ConverterUtils converterUtils=new ConverterUtils();
+
+        // this variables help to validate the fields
+        String durFrom;
+        String durTo;
+        Timestamp timeFrom;
+        Timestamp timeTo;
+        Timestamp timeAux;
+
+        criteria.setPath(view.getSPanel().getBoxPath().getText());
+        criteria.setFileName(view.getSPanel().getBoxFileName().getText());
+        criteria.setExtension(view.getSPanel().getBoxFileExt().getText());
+        durFrom = view.getSPanel().getBoxDurationFrom().getText();
+        durTo = view.getSPanel().getBoxDurationTo().getText();
+
+        // converting the given string to search into timestamp
+        timeFrom = converterUtils.stringToTime(durFrom.substring(1,durFrom.length()));
+        timeTo = converterUtils.stringToTime(durTo.substring(1,durTo.length()));
+
+        // validating duration from always lower than duration to
+        if (timeFrom.getTime() >timeTo.getTime()){
+            timeAux = timeFrom;
+            timeFrom = timeTo;
+            timeTo = timeAux;
+        }
+
+        // validating the time will be in a range to search
+        if (timeFrom.getTime() == timeTo.getTime()){
+            timeTo.setTime(timeTo.getTime()+3600000);
+        }
+
+        criteria.setDurFrom(timeFrom);
+        criteria.setDurTo(timeTo);
+
+        if (criteria.getFileName() == ""){
+            fillTableData(search.getAllFilesOnPath(criteria.getPath()));
         } else {
-            fillTableData(search.getAllFilesByName(search_path, name ));
+            fillTableData(search.getAllFilesByName(criteria.getPath(), criteria.getFileName()));
         }
     }
 

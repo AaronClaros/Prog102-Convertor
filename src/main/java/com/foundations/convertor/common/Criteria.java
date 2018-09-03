@@ -12,6 +12,8 @@
 
 package com.foundations.convertor.common;
 
+import java.sql.Timestamp;
+
 /**
  *  Criteria class where the search attributes will be passed
  *
@@ -33,10 +35,10 @@ public class Criteria {
     private String frameRate;
 
     // Initial time to search
-    private String durFrom;
+    private Timestamp durFrom;
 
     // Final time to search
-    private String durTo;
+    private Timestamp durTo;
 
     // aspect ratio to search
     private String aspcRatio;
@@ -80,14 +82,14 @@ public class Criteria {
     /**
      * @return It returns the given initial time to search
      */
-    public String getDurFrom() {
+    public Timestamp getDurFrom() {
         return durFrom;
     }
 
     /**
      * @return It returns the given final time to search
      */
-    public String getDurTo() {
+    public Timestamp getDurTo() {
         return durTo;
     }
 
@@ -157,14 +159,14 @@ public class Criteria {
     /**
      * @param durFrom It will set the initial time to search
      */
-    public void setDurFrom(String durFrom) {
+    public void setDurFrom(Timestamp durFrom) {
         this.durFrom = durFrom;
     }
 
     /**
      * @param durTo It will set the final time to search
      */
-    public void setDurTo(String durTo) {
+    public void setDurTo(Timestamp durTo) {
         this.durTo = durTo;
     }
 
