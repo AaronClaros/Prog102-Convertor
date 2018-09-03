@@ -33,7 +33,7 @@ public class ConverterPanel extends JPanel {
     //text field for input path
     private JTextField tFieldInputPath;
     //button for get table selection
-    private JButton buttonGetTableSelect;
+    private JButton buttonGetTSelection;
     //label for output path
     private JLabel labelOutPath;
     //text field for output path
@@ -43,8 +43,6 @@ public class ConverterPanel extends JPanel {
 
     /**
      * constructor of father class JPanel
-     * @param fWidth main frame width
-     * @param fHeight main frame height
      */
     public ConverterPanel() {
         super();
@@ -59,6 +57,8 @@ public class ConverterPanel extends JPanel {
      */
     private void settings() {
 
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
         this.setBorder(BorderFactory.createLineBorder(Color.black));
 
         this.setBackground(Color.lightGray);
@@ -70,13 +70,61 @@ public class ConverterPanel extends JPanel {
     private void initComp() {
         //instance labelPanelTitle and set text
         labelPanelTitle = new JLabel("Conversion parameters");
+
+        //create panel container for title section
+        JPanel panelTitle = new JPanel();
+        //set layout for panel title
+        panelTitle.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+        //add label labelTitle to panel
+        panelTitle.add(labelPanelTitle);
+
+        //instance labelInputPath and set text
+        labelInputPath = new JLabel("Input Path");
+        //instance textField for input path
+        tFieldInputPath = new JTextField(15);
+        //instance button get table selection and set text
+        buttonGetTSelection = new JButton("Set Selection");
+        JPanel panelInputPath = new JPanel();
+        panelInputPath.setLayout(new FlowLayout(FlowLayout.LEADING));
+        panelInputPath.add(labelInputPath);
+        panelInputPath.add(tFieldInputPath);
+        panelInputPath.add(buttonGetTSelection);
+
+        //instance label output path and set text
+        labelOutPath = new JLabel("Output Path");
+        //instance textField for OutputPath
+        tFieldOutPath = new JTextField(15);
+        //instance button for output path and set text
+        buttonOutPath = new JButton("Path");
+        JPanel panelOutputPath = new JPanel();
+        panelOutputPath.setLayout(new FlowLayout(FlowLayout.LEADING));
+        panelOutputPath.add(labelInputPath);
+        panelOutputPath.add(tFieldInputPath);
+        panelOutputPath.add(buttonGetTSelection);
+
+
+        JPanel panelCenter = new JPanel();
+        panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.Y_AXIS));
+        panelInputPath.setMinimumSize(new Dimension(300, 300));
+        panelInputPath.setMaximumSize(new Dimension(1000, 300));
+
+        panelOutputPath.setMinimumSize(new Dimension(300, 300));
+        panelOutputPath.setMaximumSize(new Dimension(1000, 300));
+
+        panelCenter.add(panelInputPath);
+        panelCenter.add(panelOutputPath);
+
+        this.add(panelTitle);
+        this.add(Box.createRigidArea(new Dimension(5,0)));
+        this.add(panelCenter);
+
         /*
         //instance labelInputPath and set text
         labelInputPath = new JLabel("Input Path");
         //instance textField for input path
         tFieldInputPath = new JTextField();
         //instance button get table selection and set text
-        buttonGetTableSelect = new JButton("Set Selection");
+        buttonGetTSelection = new JButton("Set Selection");
         //instance label output path and set text
         labelOutPath = new JLabel("Output Path");
         //instance textField for OutputPath
@@ -87,7 +135,7 @@ public class ConverterPanel extends JPanel {
         labelPanelTitle.setBounds(10,10,150,25);
         labelInputPath.setBounds(10, 50, 100, 25);
         tFieldInputPath.setBounds(90,50,200,25);
-        buttonGetTableSelect.setBounds(300,50,110,25);
+        buttonGetTSelection.setBounds(300,50,110,25);
         labelOutPath.setBounds(430, 50, 100, 25);
         tFieldOutPath.setBounds(520,50,200,25);
         buttonOutPath.setBounds(730,50,60,25);
@@ -95,12 +143,13 @@ public class ConverterPanel extends JPanel {
         this.add(labelPanelTitle);
         this.add(labelInputPath);
         this.add(tFieldInputPath);
-        this.add(buttonGetTableSelect);
+        this.add(buttonGetTSelection);
         this.add(buttonOutPath);
         this.add(labelOutPath);
         this.add(tFieldOutPath);
         */
-        this.add(labelPanelTitle);
+
+        //this.add(mainPanel);
         this.setVisible(true);
     }
 
@@ -125,7 +174,7 @@ public class ConverterPanel extends JPanel {
      * @return text field input path
      */
     public JButton getBTableSelect(){
-        return buttonGetTableSelect;
+        return buttonGetTSelection;
     }
 
     /**

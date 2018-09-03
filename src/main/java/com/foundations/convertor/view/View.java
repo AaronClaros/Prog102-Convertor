@@ -76,7 +76,7 @@ public class View extends JFrame {  //
         sPanel.setMaximumSize(new Dimension(350, 600));
         //add search panel to main frame
         this.add(sPanel);
-        //add a rigid area to separe seach panel from right container
+        //add a rigid area to separe search panel from right container
         this.add(Box.createRigidArea(new Dimension(5,0)));
         //create a panel to contain SearchListPanel and ConverterPanel
         JPanel right_container = new JPanel();

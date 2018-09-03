@@ -19,8 +19,17 @@ package com.foundations.convertor.view;
  * @version 0.1
  */
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.BorderFactory;
 import javax.swing.text.MaskFormatter;
+import javax.swing.UIManager;
+import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
