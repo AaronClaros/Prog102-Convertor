@@ -11,9 +11,16 @@
  */
 package com.foundations.convertor.model;
 
+import com.foundations.convertor.common.Criteria;
+import com.foundations.convertor.model.Video.MMVideoFile;
+import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFprobe;
+import net.bramp.ffmpeg.probe.FFmpegProbeResult;
+import net.bramp.ffmpeg.probe.FFmpegStream;
 
 /**
  *  Search class for java applications, class which search videos
@@ -24,6 +31,10 @@ import java.util.List;
 public class Search {
     // list of file of the specified path
     private List<File> lFiles = new ArrayList<File>();
+    // Variable to get the metadata
+    private FFprobe ffprobe;
+    //Variable to build the path
+    private static final String SEPARATOR = System.getProperty("file.separator");
 
     public Search() {
     }
@@ -98,6 +109,72 @@ public class Search {
             }
         }
         return newListFiles;
+    }
+
+    /**
+     * This method allows to create a list of File with
+     * the criteria extension
+     * @param criteria contains the information of searching
+     * @return List of Files
+     */
+    public List<File> getFilesByExtension (Criteria criteria){
+        List<File> files = new ArrayList<File>();
+        String directory = criteria.getPath();
+        String extension = criteria.getExtension();
+
+        File file = new File(directory);
+
+        if (file.exists()){
+            File[] directoryFiles = file.listFiles();
+
+            for(File path: directoryFiles) {
+                String name = path.getName();
+                if (!name.isEmpty() && name.indexOf(extension)!= -1){
+                    files.add(path);
+                }
+            }
+        }
+
+        return  files;
+    }
+
+
+    /**
+     * This method fill all the stream for a video file media
+     * @param criteria to search
+     * @return a Multi media video File
+     */
+    public MMVideoFile getStreamVideo(Criteria criteria) {
+        MMVideoFile mmVideoFile = new MMVideoFile();
+      try{
+
+         String ffprobePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
+         String videoPath = new File(".").getCanonicalFile() + SEPARATOR + "video"+ SEPARATOR +"Sample.mp4";
+
+         ffprobe = new FFprobe(ffprobePath);
+         FFmpegStream multimediaFile = ffprobe.probe(videoPath).getStreams().get(0);
+
+
+         double duration = multimediaFile.duration;
+         double frameRate = multimediaFile.r_frame_rate.doubleValue();
+         int height = multimediaFile.height;
+         int width = multimediaFile.width;
+         String aspectRatio = multimediaFile.display_aspect_ratio;
+         String codec = multimediaFile.codec_name;
+
+         System.out.println("duration: " + duration);
+         System.out.println("frame Rate: " + frameRate);
+         System.out.println("Dimension : " + width + "X" + height);
+         System.out.println("aspect Ratio: " + aspectRatio);
+         System.out.println("codec: " + codec);
+
+       }
+       catch (Exception ex)
+       {
+           LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
+       }
+
+        return mmVideoFile;
     }
 }
 
