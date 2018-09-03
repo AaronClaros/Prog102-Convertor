@@ -28,7 +28,28 @@ public class Criteria {
 
     // extension of the file to search
     private String extension;
-  
+
+    // frame Rate to search
+    private String frameRate;
+
+    // Initial time to search
+    private String durFrom;
+
+    // Final time to search
+    private String durTo;
+
+    // aspect ratio to search
+    private String aspcRatio;
+
+    // resolution to search
+    private String resolution;
+
+    //video codec to search
+    private String videoCodec;
+
+    // audio codec to search
+    private String audioCodec;
+
     /**
      * Empty constructor
      */
@@ -43,10 +64,59 @@ public class Criteria {
     }
 
     /**
-    * @return It returns the given file to search
-    */
+     * @return It returns the given file to search
+     */
     public String getFileName() {
         return fileName;
+    }
+
+    /**
+     * @return It returns the given frame rate to search
+     */
+    public String getFrameRate() {
+        return frameRate;
+    }
+
+    /**
+     * @return It returns the given initial time to search
+     */
+    public String getDurFrom() {
+        return durFrom;
+    }
+
+    /**
+     * @return It returns the given final time to search
+     */
+    public String getDurTo() {
+        return durTo;
+    }
+
+    /**
+     * @return It returns the given aspect ratio to search
+     */
+    public String getAspcRatio() {
+        return aspcRatio;
+    }
+
+    /**
+     * @return It returns the given resolution to search
+     */
+    public String getResolution() {
+        return resolution;
+    }
+
+    /**
+     * @return It returns the given video codec to search
+     */
+    public String getVideoCodec() {
+        return videoCodec;
+    }
+
+    /**
+     * @return It returns the given audio codec to search
+     */
+    public String getAudioCodec() {
+        return audioCodec;
     }
 
     /**
@@ -57,14 +127,14 @@ public class Criteria {
     }
 
     /**
-     * @param path It will set the path for the search
+     * @param path It will set the path to search
      */
     public void setPath(String path) {
         this.path = path;
     }
 
     /**
-     * @param fileName It will set the file name for the search
+     * @param fileName It will set the file name to search
      */
     public void setFileName(String fileName) {
         this.fileName = fileName;
@@ -75,5 +145,54 @@ public class Criteria {
      */
     public void setExtension(String extension) {
         this.extension = extension;
+    }
+
+    /**
+     * @param frameRate It will set the frame rate to search
+     */
+    public void setFrameRate(String frameRate) {
+        this.frameRate = frameRate;
+    }
+
+    /**
+     * @param durFrom It will set the initial time to search
+     */
+    public void setDurFrom(String durFrom) {
+        this.durFrom = durFrom;
+    }
+
+    /**
+     * @param durTo It will set the final time to search
+     */
+    public void setDurTo(String durTo) {
+        this.durTo = durTo;
+    }
+
+    /**
+     * @param aspcRatio It will set the aspect ratio to search
+     */
+    public void setAspcRatio(String aspcRatio) {
+        this.aspcRatio = aspcRatio;
+    }
+
+    /**
+     * @param resolution It will set the resolution to search
+     */
+    public void setResolution(String resolution) {
+        this.resolution = resolution;
+    }
+
+    /**
+     * @param videoCodec It will set the video codec to search
+     */
+    public void setVideoCodec(String videoCodec) {
+        this.videoCodec = videoCodec;
+    }
+
+    /**
+     * @param audioCodec It will set the audio codec to search
+     */
+    public void setAudioCodec(String audioCodec) {
+        this.audioCodec = audioCodec;
     }
 }

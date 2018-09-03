@@ -12,11 +12,15 @@
 package com.foundations.convertor.model;
 
 import com.foundations.convertor.common.Criteria;
-import com.sun.istack.internal.NotNull;
+import com.foundations.convertor.model.Video.MMVideoFile;
+import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFprobe;
+import net.bramp.ffmpeg.probe.FFmpegProbeResult;
+import net.bramp.ffmpeg.probe.FFmpegStream;
 
 /**
  *  Search class for java applications, class which search videos
@@ -109,8 +113,8 @@ public class Search {
      * @param criteria contains the information of searching
      * @return List of Files
      */
-    public List<File> getFilesByExtension (@NotNull Criteria criteria){
-        List<File> files = Collections.emptyList();
+    public List<File> getFilesByExtension (Criteria criteria){
+        List<File> files = new ArrayList<File>();
         String directory = criteria.getPath();
         String extension = criteria.getExtension();
 
@@ -129,4 +133,40 @@ public class Search {
 
         return  files;
     }
+
+
+    /**
+     * This method fill all the stream for a video file media
+     * @param pathFileVideo to search
+     * @return a Multi media video File
+     */
+    public MMVideoFile getStreamVideo(String pathFileVideo) {
+        MMVideoFile mmVideoFile = new MMVideoFile();
+
+        String pathProbe = "C:/Users/AngelicaLopez/Desktop/ffprobe/ffprobe.exe";
+       try{
+       FFprobe movie = new FFprobe("C://Users//AngelicaLopez//Desktop//ffprobe//ffprobe.exe");
+       FFmpegProbeResult resultProbe = movie.probe(pathFileVideo);
+        List<FFmpegStream> streams = resultProbe.getStreams();
+
+           //FFmpegStream stream = streams.get(0);
+          // mmVideoFile.setvCodec(stream.codec_name);
+
+        for (FFmpegStream stream: streams){
+            mmVideoFile.setvCodec(stream.codec_name);
+            mmVideoFile.setaCodec(stream.codec_type.name());
+            mmVideoFile.setfRate(stream.avg_frame_rate.toString());
+            mmVideoFile.setDuration(new Double(stream.duration).toString());
+            mmVideoFile.setaRatio(stream.display_aspect_ratio);
+           // mmVideoFile.setResolution(stream.width + "X" + stream.height);
+        }
+       }
+       catch (Exception ex)
+       {
+           LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
+       }
+
+        return mmVideoFile;
+    }
 }
+
