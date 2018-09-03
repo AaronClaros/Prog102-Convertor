@@ -31,6 +31,10 @@ import net.bramp.ffmpeg.probe.FFmpegStream;
 public class Search {
     // list of file of the specified path
     private List<File> lFiles = new ArrayList<File>();
+    // Variable to get the metadata
+    private FFprobe ffprobe;
+    //Variable to build the path
+    private static final String SEPARATOR = System.getProperty("file.separator");
 
     public Search() {
     }
@@ -137,29 +141,33 @@ public class Search {
 
     /**
      * This method fill all the stream for a video file media
-     * @param pathFileVideo to search
+     * @param criteria to search
      * @return a Multi media video File
      */
-    public MMVideoFile getStreamVideo(String pathFileVideo) {
+    public MMVideoFile getStreamVideo(Criteria criteria) {
         MMVideoFile mmVideoFile = new MMVideoFile();
+      try{
 
-        String pathProbe = "C:/Users/AngelicaLopez/Desktop/ffprobe/ffprobe.exe";
-       try{
-       FFprobe movie = new FFprobe("C://Users//AngelicaLopez//Desktop//ffprobe//ffprobe.exe");
-       FFmpegProbeResult resultProbe = movie.probe(pathFileVideo);
-        List<FFmpegStream> streams = resultProbe.getStreams();
+         String ffprobePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
+         String videoPath = new File(".").getCanonicalFile() + SEPARATOR + "video"+ SEPARATOR +"Sample.mp4";
 
-           //FFmpegStream stream = streams.get(0);
-          // mmVideoFile.setvCodec(stream.codec_name);
+         ffprobe = new FFprobe(ffprobePath);
+         FFmpegStream multimediaFile = ffprobe.probe(videoPath).getStreams().get(0);
 
-        for (FFmpegStream stream: streams){
-            mmVideoFile.setvCodec(stream.codec_name);
-            mmVideoFile.setaCodec(stream.codec_type.name());
-            mmVideoFile.setfRate(stream.avg_frame_rate.toString());
-            mmVideoFile.setDuration(new Double(stream.duration).toString());
-            mmVideoFile.setaRatio(stream.display_aspect_ratio);
-           // mmVideoFile.setResolution(stream.width + "X" + stream.height);
-        }
+
+         double duration = multimediaFile.duration;
+         double frameRate = multimediaFile.r_frame_rate.doubleValue();
+         int height = multimediaFile.height;
+         int width = multimediaFile.width;
+         String aspectRatio = multimediaFile.display_aspect_ratio;
+         String codec = multimediaFile.codec_name;
+
+         System.out.println("duration: " + duration);
+         System.out.println("frame Rate: " + frameRate);
+         System.out.println("Dimension : " + width + "X" + height);
+         System.out.println("aspect Ratio: " + aspectRatio);
+         System.out.println("codec: " + codec);
+
        }
        catch (Exception ex)
        {
@@ -169,4 +177,5 @@ public class Search {
         return mmVideoFile;
     }
 }
+
 
