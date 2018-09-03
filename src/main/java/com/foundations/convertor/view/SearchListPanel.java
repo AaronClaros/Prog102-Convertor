@@ -17,10 +17,7 @@ package com.foundations.convertor.view;
  * @author Adrian Rojas - AWT-[01].
  * @version 0.1
  */
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.BorderFactory;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
@@ -36,44 +33,41 @@ public class SearchListPanel extends JPanel {
     private JScrollPane scrollPane;
 
     /**
-     * // constructor of father class JPanel
-     * @param fWidth main frame width
-     * @param fHeight main frame height
+     * constructor of father class JPanel
      */
-    public SearchListPanel(int fWidth, int fHeight) {
+    public SearchListPanel() {
         super();
         // Initialize attributes or components
         initComp();
         // set the panel
-        settings(fWidth,fHeight);
+        settings();
     }
 
     /**
      * configure components
-     * @param w main frame width
-     * @param h main frame height
      */
-    private void settings(int w, int h) {
-        // Panel size and location
-        this.setSize(3*w/4-20,(h-40)/2);
-        this.setBounds(w/4+5,5,3*w/4-20,(h-40)/2);
+    private void settings() {
+        //set border for search list panel
         this.setBorder(BorderFactory.createLineBorder(Color.black));
-        this.setBackground(Color.gray);
-        // layout not used, to position components
-
+        //set background color
+        this.setBackground(UIManager.getColor ( "Panel.background" ));
     }
 
     /**
      * Initialize components
      */
     private void initComp() {
+        //instance default table model
         model = new DefaultTableModel(columnNames,1);
+        //instance results table
         resultsTable = new JTable(model);
+        //instance scroll panel container for results table
         scrollPane = new JScrollPane(resultsTable);
-        //fill the frame with the table
-        this.setLayout(new CardLayout());
-        // add components to frame and make them visible
-        this.add(scrollPane);
+        //set layout of panel as Border Layout
+        this.setLayout(new BorderLayout());
+        //add components to panel and center to layout
+        this.add(scrollPane, BorderLayout.CENTER);
+        //make panel components visible
         this.setVisible(true);
     }
 

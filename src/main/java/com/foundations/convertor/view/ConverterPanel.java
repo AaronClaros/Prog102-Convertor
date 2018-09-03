@@ -46,27 +46,22 @@ public class ConverterPanel extends JPanel {
      * @param fWidth main frame width
      * @param fHeight main frame height
      */
-    public ConverterPanel(int fWidth, int fHeight) {
+    public ConverterPanel() {
         super();
         // Initialize attributes or components
         initComp();
         // set the panel
-        settings(fWidth,fHeight);
+        settings();
     }
 
     /**
      * configure components
-     * @param w main frame width
-     * @param h main frame height
      */
-    private void settings(int w, int h) {
-        // Panel size and location
-        //this.setSize(3*w/4-20,(h-40)/2);
-        this.setBounds(w/4+5,h/2-5,3*w/4-20,(h)/2-30);
+    private void settings() {
+
         this.setBorder(BorderFactory.createLineBorder(Color.black));
+
         this.setBackground(Color.lightGray);
-        // layout not used, to position components
-        this.setLayout(null);
     }
 
     /**
@@ -75,6 +70,7 @@ public class ConverterPanel extends JPanel {
     private void initComp() {
         //instance labelPanelTitle and set text
         labelPanelTitle = new JLabel("Conversion parameters");
+        /*
         //instance labelInputPath and set text
         labelInputPath = new JLabel("Input Path");
         //instance textField for input path
@@ -103,6 +99,8 @@ public class ConverterPanel extends JPanel {
         this.add(buttonOutPath);
         this.add(labelOutPath);
         this.add(tFieldOutPath);
+        */
+        this.add(labelPanelTitle);
         this.setVisible(true);
     }
 
