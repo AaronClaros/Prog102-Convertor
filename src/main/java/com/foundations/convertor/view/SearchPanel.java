@@ -18,8 +18,18 @@ package com.foundations.convertor.view;
  * @authors Adrian Rojas, Kevin Herrera - AWT-[01].
  * @version 0.1
  */
-import javax.swing.*;
+
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.BorderFactory;
 import javax.swing.text.MaskFormatter;
+import javax.swing.UIManager;
+import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,8 +40,10 @@ import java.util.EventListener;
  * UI: Search panel with the criteria options for the search
  */
 public class SearchPanel extends JPanel implements ActionListener, EventListener{
-    //Panel title:Search Criteria
-    private JLabel title;
+    //Panel labelTitle:Search Criteria
+    private JLabel labelTitle;
+    //Panel labelTitle:Search Criteria
+    private JLabel labelPath;
     // box for path insertion criteria
     private JTextField boxPath;
     // button with browse action
@@ -79,51 +91,49 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
     /**
      * Constructor of father class JPanel
-     * @param fWidth main frame width
-     * @param fHeight main frame height
      */
-    public SearchPanel(int fWidth, int fHeight) {
+    public SearchPanel() {
         super();
         // Initialize attributes or components
         initComp();
         // set the panel
-        settings(fWidth,fHeight);
+        settings();
     }
 
     /**
      * Search panel settings
-     * @param w main frame width
-     * @param h main frame height
      */
-    private void settings(int w,int h) {
-        // Panel size: main frame/4 for width
-        this.setBounds(5,5,w/4-10,h-40);
+    private void settings() {
+        //set panel layout as Box Layout
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        //set border to panel
         this.setBorder(BorderFactory.createLineBorder(Color.black));
-        this.setBackground(Color.lightGray);
-        // layout not used, to position components
-        this.setLayout(null);
+        //set background color of panel
+        this.setBackground(UIManager.getColor ( "Panel.background" ));
     }
 
     /**
      * Initialize components
      */
     private void initComp() {
-        //Panel title
-        title= new JLabel("Search Criteria");
-        //button path instance and title set
-        buttonPath = new JButton("Path");
+        //Panel labelTitle
+        labelTitle = new JLabel("Search Criteria");
+        //Label for text field path
+        labelPath = new JLabel("Path:");
+        //button path instance and labelTitle set
+        buttonPath = new JButton("Open");
         //text field path instance
-        boxPath = new JTextField();
+        boxPath = new JTextField(15);
         //text field file name
-        boxFileName = new JTextField();
+        boxFileName = new JTextField(10);
         //label file name instance and text set
-        titleFileName= new JLabel("File Name");
+        titleFileName= new JLabel("File Name:");
         //button search instance and text set
         buttonSearch = new JButton("Search");
         //label file extension instance and text set
         labelFileExt = new JLabel("File Ext.");
         //text field file extension instance
-        boxFileExt = new JTextField();
+        boxFileExt = new JTextField(10);
         //label duration instance and text set
         labelDuration = new JLabel("Duration");
         //label "duration from" instance and text set
@@ -137,13 +147,13 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //combo box frame rate instance and content set
         comboxFrameRate = new JComboBox(frame_rates);
         //box "duration from" instance and text format set
-        boxDurationFrom = new JFormattedTextField(createFormat("###:##:##"));
+        boxDurationFrom = new JFormattedTextField(createFormat("##:##:##"));
         //set default duration time for duration from
-        boxDurationFrom.setValue("000:00:00");
+        boxDurationFrom.setValue("00:00:00");
         //box "duration to" instance and text format set
-        boxDurationTo = new JFormattedTextField(createFormat("###:##:##"));
+        boxDurationTo = new JFormattedTextField(createFormat("##:##:##"));
         //set default duration time for duration to
-        boxDurationTo.setValue("000:00:00");
+        boxDurationTo.setValue("00:00:00");
         //label aspect ratio instance and text set
         labelAspectRatio = new JLabel("Aspect Ratio");
         //aspect ratio array
@@ -168,66 +178,129 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         String[] audio_codecs = {"","MP3","WMA","OGG"};
         //combo box audio codec instance and content set
         comboxAudioCodec = new JComboBox(audio_codecs);
-
+        //set action listener to button set search path
         buttonPath.addActionListener(this);
-        //title set positions and sizes
-        title.setBounds(10,20,100,20);
-        //field Path set positions and sizes
-        buttonPath.setBounds(220, 50, 60, 25);
-        boxPath.setBounds(10, 50, 200, 25);
-        //field FileName set positions and sizes
-        titleFileName.setBounds(10,90,80,25);
-        boxFileName.setBounds(90, 90, 200, 25);
-        //field FileExt set positions and sizes
-        labelFileExt.setBounds(10, 120, 80, 25);
-        boxFileExt.setBounds(90, 120, 50, 25);
-        //field FrameRate set positions and sizes
-        labelFrameRate.setBounds(10, 150, 100, 25);
-        comboxFrameRate.setBounds(90, 150, 50, 25);
-        //field Duration set positions and size
-        labelDuration.setBounds(10,180,80,25);
-        labelDurationFrom.setBounds(90,180,80,25);
-        boxDurationFrom.setBounds(125,180,60,25);
-        labelDurationTo.setBounds(200,180,80,25);
-        boxDurationTo.setBounds(220,180,60,25);
-        //Field AspectRatio set positions and size
-        labelAspectRatio.setBounds(10,210,100,25);
-        comboxAspectRatio.setBounds(90,210,50,25);
-        //Field Resolution set positions and size
-        labelResolution.setBounds(10,240,100,25);
-        comboxResolution.setBounds(90,240,100,25);
-        //Field Video Codec set positions and size
-        labelVideoCodec.setBounds(10,270,100,25);
-        comboxVideoCodec.setBounds(90,270,60,25);
-        //Field Audio Codec set positions and size
-        labelAudioCodec.setBounds(10,300,100,25);
-        comboxAudioCodec.setBounds(90,300,60,25);
-        //field buttonSearch set positions and size
-        buttonSearch.setBounds(50, 600, 200, 30);
-        // add components to frame and make them visible
-        this.add(title);
-        this.add(buttonPath);
-        this.add(boxPath);
-        this.add(titleFileName);
-        this.add(boxFileName);
-        this.add(buttonSearch);
-        this.add(labelDuration);
-        this.add(labelDurationFrom);
-        this.add(labelDurationTo);
-        this.add(boxDurationFrom);
-        this.add(boxDurationTo);
-        this.add(labelFileExt);
-        this.add(boxFileExt);
-        this.add(labelFrameRate);
-        this.add(comboxFrameRate);
-        this.add(labelAspectRatio);
-        this.add(comboxAspectRatio);
-        this.add(labelResolution);
-        this.add(comboxResolution);
-        this.add(labelVideoCodec);
-        this.add(comboxVideoCodec);
-        this.add(labelAudioCodec);
-        this.add(comboxAudioCodec);
+        //      Setting title section
+        //create panel container for title section
+        JPanel panelTitle = new JPanel();
+        //set layout for panel title
+        panelTitle.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+        //add label labelTitle to panel
+        panelTitle.add(labelTitle);
+        //add panel labelTitle to search panel
+        this.add(panelTitle);
+
+        //      Setting path section
+        //create panel container for path section
+        JPanel panelPath = new JPanel();
+        //set layout for panelPath
+        panelPath.setLayout(new FlowLayout(FlowLayout.LEFT));
+        //add components to panelPath
+        panelPath.add(labelPath);
+        panelPath.add(boxPath);
+        panelPath.add(buttonPath);
+        this.add(panelPath);
+
+        //      Setting File Name section
+        //create panel container for file name section
+        JPanel panelFileName = new JPanel();
+        //set layout for panelFileName
+        panelFileName.setLayout(new FlowLayout(FlowLayout.LEADING));
+        //add components to panelFileName
+        panelFileName.add(titleFileName);
+        panelFileName.add(boxFileName);
+        this.add(panelFileName);
+
+        //      Setting Duration section
+        //create panel container for duration section
+        JPanel panelDuration = new JPanel();
+        //set layout for panelDuration
+        panelDuration.setLayout(new FlowLayout(FlowLayout.LEADING));
+        //add components to panelDuration
+        panelDuration.add(labelDuration);
+        panelDuration.add(labelDurationFrom);
+        panelDuration.add(boxDurationFrom);
+        panelDuration.add(labelDurationTo);
+        panelDuration.add(boxDurationTo);
+        //add panelDuration to search panel
+        this.add(panelDuration);
+
+        //      Setting File Extension section
+        //create panel container for file extension section
+        JPanel panelFileExt = new JPanel();
+        //set layout for panelFileExt
+        panelFileExt.setLayout(new FlowLayout(FlowLayout.LEADING));
+        //add components to panelFileExt
+        panelFileExt.add(labelFileExt);
+        panelFileExt.add(boxFileExt);
+        //add panelFileExt to search panel
+        this.add(panelFileExt);
+
+        //      Setting Frame Rate section
+        //create panel for frame rate section
+        JPanel panelFrameRate = new JPanel();
+        //set layout for panelFrameRate
+        panelFrameRate.setLayout(new FlowLayout(FlowLayout.LEADING));
+        //add components to panelFrameRate
+        panelFrameRate.add(labelFrameRate);
+        panelFrameRate.add(comboxFrameRate);
+        //add panelFrameRate to search panel
+        this.add(panelFrameRate);
+
+        //      Setting Aspect Ration section
+        //create panel for aspect ratio section
+        JPanel panelAspectRatio = new JPanel();
+        //set layout for panelAspectRation
+        panelAspectRatio.setLayout(new FlowLayout(FlowLayout.LEADING));
+        //add components to panelAspectRatio
+        panelAspectRatio.add(labelAspectRatio);
+        panelAspectRatio.add(comboxAspectRatio);
+        //add panelAspectRatio to search panel
+        this.add(panelAspectRatio);
+
+        //      Setting Resolution section
+        //create panel for resolution section
+        JPanel panelResolution = new JPanel();
+        //set layout for panelResolution
+        panelResolution.setLayout(new FlowLayout(FlowLayout.LEADING));
+        //add components to panelResolution
+        panelResolution.add(labelResolution);
+        panelResolution.add(comboxResolution);
+        //add panelResolution to search panel
+        this.add(panelResolution);
+
+        //      Setting Video Codec Section
+        //create panel for video codec section
+        JPanel panelVideoCodec = new JPanel();
+        //set layout for panelVideoCodec
+        panelVideoCodec.setLayout(new FlowLayout(FlowLayout.LEADING));
+        //add components to panelVideoCodec
+        panelVideoCodec.add(labelVideoCodec);
+        panelVideoCodec.add(comboxVideoCodec);
+        //add panelVideoCodec to search panel
+        this.add(panelVideoCodec);
+
+        //      Setting Audio Codec section
+        //create panel for audio codec section
+        JPanel panelAudioCodec = new JPanel();
+        //set layout got panelAudioCodec
+        panelAudioCodec.setLayout(new FlowLayout(FlowLayout.LEADING));
+        //add components to panelAudioCodec
+        panelAudioCodec.add(labelAudioCodec);
+        panelAudioCodec.add(comboxAudioCodec);
+        //add panelAudioCodec to search panel
+        this.add(panelAudioCodec);
+
+        //      Setting Search Button section
+        //create panel for search panel section
+        JPanel panelButtonSearch = new JPanel();
+        //set layout for panelButtonSearch
+        panelButtonSearch.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+        //add components to panelButtonSearch
+        panelButtonSearch.add(buttonSearch);
+        //add panelButtonSearch  to search panel
+        this.add(panelButtonSearch );
+        //set visible the search panel
         this.setVisible(true);
     }
     /**
@@ -281,7 +354,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * @return duration to combo box object
      */
     public JTextField getBoxDurationTo() {
-        return this.boxDurationFrom;
+        return this.boxDurationTo;
     }
 
     /**
