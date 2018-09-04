@@ -145,35 +145,29 @@ public class Search {
      * @return a Multi media video File
      */
     public MMVideoFile getStreamVideo(Criteria criteria) {
-        MMVideoFile mmVideoFile = new MMVideoFile();
-      try{
 
-         String ffprobePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
-         String videoPath = new File(".").getCanonicalFile() + SEPARATOR + "video"+ SEPARATOR +"Sample.mp4";
+      MMVideoFile mmVideoFile = new MMVideoFile();
+      try{
+        String ffprobePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
+        //TODO
+        //String videoPath = new File(".").getCanonicalFile() + SEPARATOR + "video"+ SEPARATOR +"Sample.mp4";
 
          ffprobe = new FFprobe(ffprobePath);
-         FFmpegStream multimediaFile = ffprobe.probe(videoPath).getStreams().get(0);
-
-
-         double duration = multimediaFile.duration;
-         double frameRate = multimediaFile.r_frame_rate.doubleValue();
-         int height = multimediaFile.height;
-         int width = multimediaFile.width;
-         String aspectRatio = multimediaFile.display_aspect_ratio;
-         String codec = multimediaFile.codec_name;
-
-         System.out.println("duration: " + duration);
-         System.out.println("frame Rate: " + frameRate);
-         System.out.println("Dimension : " + width + "X" + height);
-         System.out.println("aspect Ratio: " + aspectRatio);
-         System.out.println("codec: " + codec);
-
+         FFmpegStream videoStream = ffprobe.probe(criteria.getPath()).getStreams().get(0);
+         String ext = criteria.getExtension();
+         if (ext == "mp4" || ext == "avi"){
+             mmVideoFile.setvCodec(videoStream.codec_name);
+             mmVideoFile.setaCodec(videoStream.codec_type.name());
+             mmVideoFile.setfRate(videoStream.avg_frame_rate.toString());
+             mmVideoFile.setDuration(new Double(videoStream.duration).toString());
+             mmVideoFile.setaRatio(videoStream.display_aspect_ratio);
+             mmVideoFile.setResolution(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
+         }
        }
        catch (Exception ex)
        {
            LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
        }
-
         return mmVideoFile;
     }
 }
