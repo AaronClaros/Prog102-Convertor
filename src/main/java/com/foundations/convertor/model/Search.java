@@ -39,6 +39,36 @@ public class Search {
     public Search() {
     }
 
+
+    public List<MMVideoFile> getAllfilesVideo(Criteria criteria){
+          List<MMVideoFile> listMMVideoFile = new ArrayList<MMVideoFile>();
+
+          File file = new File(criteria.getPath());
+
+          if (file.exists()){
+              File[] directoryFiles = file.listFiles();
+
+           for(File fileDirectory: directoryFiles) {
+                String nameFile = fileDirectory.getName();
+                String pathFile = fileDirectory.getPath();
+            if(criteria.getPath() != null && !criteria.getPath().isEmpty()){
+                if (fileDirectory.isFile()){
+                  //TODO GET STREAM
+                }
+                else {
+                  getAllfilesVideo(criteria);
+                }
+            }else if(!criteria.getFileName().isEmpty()){
+              if(fileDirectory.getName().contains(criteria.getFileName())){
+                //TODO GET STREAM
+              }
+            }else if (!criteria.getExtension().isEmpty() && !nameFile.isEmpty() && nameFile.indexOf(criteria.getExtension())!= -1){
+              //TODO GET STREAM
+            } }
+        }
+      return listMMVideoFile;
+    }
+
     /**
      * this method allows to create a list of String with files
      * from the given path, that list is returned to be used
