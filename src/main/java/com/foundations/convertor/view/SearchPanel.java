@@ -57,7 +57,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     //Title File name
     private JLabel labelFileExt;
     //Box for file name criteria
-    private JTextField boxFileExt;
+    private JComboBox boxFileExt;
     //Label for combo box frame rate
     private JLabel labelFrameRate;
     //Combo Box for frame rate selection;
@@ -132,8 +132,10 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         buttonSearch = new JButton("Search");
         //label file extension instance and text set
         labelFileExt = new JLabel("File Ext.");
+        //suportede extencions array
+        String[] suported_ext = {"","mp4","flv"};
         //text field file extension instance
-        boxFileExt = new JTextField(10);
+        boxFileExt = new JComboBox(suported_ext);
         //label duration instance and text set
         labelDuration = new JLabel("Duration");
         //label "duration from" instance and text set
@@ -331,7 +333,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Getter for the file extension box
      * @return filer extension box object
      */
-    public JTextField getBoxFileExt() {
+    public JComboBox getBoxFileExt() {
         return this.boxFileExt;
     }
 
