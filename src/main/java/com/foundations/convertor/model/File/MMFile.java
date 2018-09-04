@@ -16,7 +16,6 @@
 
 package com.foundations.convertor.model.File;
 import com.foundations.convertor.common.Criteria;
-import com.sun.istack.internal.NotNull;
 
 public abstract class MMFile {
     //fileName is the variable to set and get the name
@@ -24,7 +23,7 @@ public abstract class MMFile {
     //filePath is the variable to set and get the path
     private String filePath;
 
-    public MMFile(@NotNull Criteria criteria){
+    public MMFile(Criteria criteria){
         setFileName(criteria.getFileName());
         setFilePath(criteria.getPath());
     }
