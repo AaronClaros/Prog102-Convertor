@@ -83,8 +83,8 @@ public class Controller implements ActionListener, EventListener {
         durTo = view.getSPanel().getBoxDurationTo().getText();
 
         // converting the given string to search into timestamp
-        timeFrom = converterUtils.stringToTime(durFrom.substring(1,durFrom.length()));
-        timeTo = converterUtils.stringToTime(durTo.substring(1,durTo.length()));
+        timeFrom = converterUtils.stringToTime(durFrom);
+        timeTo = converterUtils.stringToTime(durTo);
 
         // validating duration from always lower than duration to
         if (timeFrom.getTime() >timeTo.getTime()){
