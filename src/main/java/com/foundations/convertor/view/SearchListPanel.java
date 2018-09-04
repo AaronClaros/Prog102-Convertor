@@ -20,6 +20,8 @@ package com.foundations.convertor.view;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * UI: Search list results table
@@ -58,7 +60,11 @@ public class SearchListPanel extends JPanel {
      */
     private void initComp() {
         //instance default table model
-        model = new DefaultTableModel(columnNames,1);
+        model = new DefaultTableModel(columnNames,1){
+            public boolean isCellEditable(int rowIndex, int mColIndex) {
+                return false;
+            }
+        };
         //instance results table
         resultsTable = new JTable(model);
         //instance scroll panel container for results table
@@ -69,6 +75,16 @@ public class SearchListPanel extends JPanel {
         this.add(scrollPane, BorderLayout.CENTER);
         //make panel components visible
         this.setVisible(true);
+
+        //Add action listener for double click over table
+        resultsTable.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e){
+                if (e.getClickCount() == 2){
+                    System.out.println(" double click" );
+                    playVideo();
+                }
+            }
+        } );
     }
 
     /**
@@ -79,6 +95,31 @@ public class SearchListPanel extends JPanel {
         return this.model;
     }
 
+    /**
+     * Method to call the video player
+     */
+    public void playVideo() {
+
+        //Set table to get data
+        String selectedData = null;
+        resultsTable.setCellSelectionEnabled(true);
+        int selectedRow = resultsTable.getSelectedRow();
+        resultsTable.getSelectedRow();
+        selectedData = (String) resultsTable.getValueAt(selectedRow,1);
+
+        //Only creates the video player frame if the path for the cell selection is not null
+        if(selectedData!=null) {
+            System.out.println("Selected: " + selectedData);
+            MoviePlayer player = new MoviePlayer();
+            try {
+                player.start(selectedData);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
 
 
 }
