@@ -17,12 +17,11 @@ package com.foundations.convertor.view;
  * @author Adrian Rojas - AWT-[01].
  * @version 0.1
  */
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.BorderFactory;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * UI: Search list results table
@@ -36,45 +35,56 @@ public class SearchListPanel extends JPanel {
     private JScrollPane scrollPane;
 
     /**
-     * // constructor of father class JPanel
-     * @param fWidth main frame width
-     * @param fHeight main frame height
+     * constructor of father class JPanel
      */
-    public SearchListPanel(int fWidth, int fHeight) {
+    public SearchListPanel() {
         super();
         // Initialize attributes or components
         initComp();
         // set the panel
-        settings(fWidth,fHeight);
+        settings();
     }
 
     /**
      * configure components
-     * @param w main frame width
-     * @param h main frame height
      */
-    private void settings(int w, int h) {
-        // Panel size and location
-        this.setSize(3*w/4-20,(h-40)/2);
-        this.setBounds(w/4+5,5,3*w/4-20,(h-40)/2);
+    private void settings() {
+        //set border for search list panel
         this.setBorder(BorderFactory.createLineBorder(Color.black));
-        this.setBackground(Color.gray);
-        // layout not used, to position components
-
+        //set background color
+        this.setBackground(UIManager.getColor ( "Panel.background" ));
     }
 
     /**
      * Initialize components
      */
     private void initComp() {
-        model = new DefaultTableModel(columnNames,1);
+        //instance default table model
+        model = new DefaultTableModel(columnNames,1){
+            public boolean isCellEditable(int rowIndex, int mColIndex) {
+                return false;
+            }
+        };
+        //instance results table
         resultsTable = new JTable(model);
+        //instance scroll panel container for results table
         scrollPane = new JScrollPane(resultsTable);
-        //fill the frame with the table
-        this.setLayout(new CardLayout());
-        // add components to frame and make them visible
-        this.add(scrollPane);
+        //set layout of panel as Border Layout
+        this.setLayout(new BorderLayout());
+        //add components to panel and center to layout
+        this.add(scrollPane, BorderLayout.CENTER);
+        //make panel components visible
         this.setVisible(true);
+
+        //Add action listener for double click over table
+        resultsTable.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e){
+                if (e.getClickCount() == 2){
+                    System.out.println(" double click" );
+                    playVideo();
+                }
+            }
+        } );
     }
 
     /**
@@ -85,6 +95,31 @@ public class SearchListPanel extends JPanel {
         return this.model;
     }
 
+    /**
+     * Method to call the video player
+     */
+    public void playVideo() {
+
+        //Set table to get data
+        String selectedData = null;
+        resultsTable.setCellSelectionEnabled(true);
+        int selectedRow = resultsTable.getSelectedRow();
+        resultsTable.getSelectedRow();
+        selectedData = (String) resultsTable.getValueAt(selectedRow,1);
+
+        //Only creates the video player frame if the path for the cell selection is not null
+        if(selectedData!=null) {
+            System.out.println("Selected: " + selectedData);
+            MoviePlayer player = new MoviePlayer();
+            try {
+                player.start(selectedData);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
 
 
 }
