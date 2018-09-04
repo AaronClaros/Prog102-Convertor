@@ -30,9 +30,11 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import javax.swing.*;
+import javax.swing.SwingUtilities;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 import java.io.File;
-import java.nio.file.Path;
+
 
 /**
  *  Video player using JavaFx
@@ -44,11 +46,6 @@ public class MoviePlayer {
 
     private JFrame playerFrame;
     private JFXPanel jfxPanel;
-    private Group root;
-    private MediaView view;
-    private String path;
-    private Media media;
-    private Scene scene;
     private MediaPlayer player;
     private Timeline slideIn;
     private Timeline slideOut;
@@ -69,19 +66,29 @@ public class MoviePlayer {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                String path=videoPath;
-                framePlayer(path);
+                framePlayer(encodePath(videoPath));
             }
         });
     }
 
+    /**
+     * Encodes path to UTF-8
+     * @param path brute path
+     * @return usable path
+     */
+    private String encodePath(String path){
+        path = "file:"+File.separator+path;
+        path = path.replace("\\","/");
+        path = path.replace(" ","%20");
+        return path;
+    }
     /**
      * This method runs on the EDT thread: It loads the content from the Swing context
      */
     private void framePlayer(String path) {
         playerFrame = new JFrame("Convertor - Movie Player");
         jfxPanel = new JFXPanel();
-        playerFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        playerFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         playerFrame.setSize(400,400);
         playerFrame.add(jfxPanel);
         playerFrame.setVisible(true);
@@ -99,18 +106,14 @@ public class MoviePlayer {
      */
     private void initFX(JFXPanel fxPanel, String path) {
         //Create objects for video player
-        root  =  new  Group();
-        //path="file:/C:/Users/AdrianRojas/Desktop/Project/Prog102-Convertor/samples/Sample.mp4";
-        path= "file:"+File.separator+path;
-        path = path.replace("\\","/");
-        //System.out.println(path);
-        media = new Media(path);
+        Group root = new Group();
+        Media media = new Media(path);
         player = new MediaPlayer(media);
-        view = new MediaView(player);
-        scene = new Scene(root, 400, 400, Color.BLACK);
+        MediaView view = new MediaView(player);
+        Scene scene = new Scene(root, 400, 400, Color.BLACK);
         //Create objects for slider
-        final Timeline slideIn = new Timeline();
-        final Timeline slideOut = new Timeline();
+        slideIn = new Timeline();
+        slideOut = new Timeline();
         root.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -132,6 +135,28 @@ public class MoviePlayer {
         player.play();
         fxPanel.setScene(scene);
         //Frame and slider changes size depending on the video size
+        changeToMedia();
+        //Listener for the slider position
+        player.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observableValue, Duration duration, Duration current) {
+                slider.setValue(current.toSeconds());
+            }
+        });
+        //Listener for the slider click action
+        slider.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                player.seek(Duration.seconds(slider.getValue()));
+            }
+        });
+
+    }
+
+    /**
+     * Frame Size and JavaFX slider changes size according to the video size
+     */
+    public void changeToMedia (){
         player.setOnReady(new Runnable() {
             @Override
             public void run() {
@@ -142,7 +167,7 @@ public class MoviePlayer {
                     @Override
                     public void run() {
                         playerFrame.setSize(w,h);
-                        System.out.println("Video size"+w+","+h);
+                        System.out.println("Video size "+w+","+h);
                     }
                 });
 
@@ -175,23 +200,5 @@ public class MoviePlayer {
                 );
             }
         });
-        //Listener for the slider position
-        player.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-            @Override
-            public void changed(ObservableValue<? extends Duration> observableValue, Duration duration, Duration current) {
-                slider.setValue(current.toSeconds());
-            }
-        });
-        //Listener for the slider click action
-        slider.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                player.seek(Duration.seconds(slider.getValue()));
-            }
-        });
-
     }
-
 }
-
-
