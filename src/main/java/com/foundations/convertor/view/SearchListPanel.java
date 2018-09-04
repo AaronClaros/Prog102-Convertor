@@ -30,8 +30,8 @@ public class SearchListPanel extends JPanel {
     // Results table to be displayed based on the search criteria
     private JTable resultsTable;
     private DefaultTableModel model;
-    private String[] columnNames = {"File Name", "File Path", "Extension", "Frame Rate", "Duration",
-            "Aspect Ratio","Dimension","Video Codec","Audio Codec"};
+    private String[] columnNames = {"File Name", "File Path", "Extension","Resolution", "Frame Rate", "Duration",
+            "Aspect Ratio","Video Codec","Audio Codec"};
     private JScrollPane scrollPane;
 
     /**

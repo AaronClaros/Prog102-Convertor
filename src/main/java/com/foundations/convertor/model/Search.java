@@ -144,24 +144,25 @@ public class Search {
      * @param criteria to search
      * @return a Multi media video File
      */
-    public MMVideoFile getStreamVideo(Criteria criteria) {
+    public MMVideoFile getStreamVideo(Criteria criteria,File file) {
 
       MMVideoFile mmVideoFile = new MMVideoFile();
       try{
         String ffprobePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
-        //TODO
-        //String videoPath = new File(".").getCanonicalFile() + SEPARATOR + "video"+ SEPARATOR +"Sample.mp4";
 
          ffprobe = new FFprobe(ffprobePath);
-         FFmpegStream videoStream = ffprobe.probe(criteria.getPath()).getStreams().get(0);
+         FFmpegStream videoStream = ffprobe.probe(file.getPath()).getStreams().get(0);
          String ext = criteria.getExtension();
-         if (ext == "mp4" || ext == "avi"){
+         String extFile = getExtension(file);
+         if (ext.equalsIgnoreCase("mp4") || ext.equalsIgnoreCase("avi") || extFile.equalsIgnoreCase("mp4") || extFile.equalsIgnoreCase("avi")){
              mmVideoFile.setvCodec(videoStream.codec_name);
              mmVideoFile.setaCodec(videoStream.codec_type.name());
              mmVideoFile.setfRate(videoStream.avg_frame_rate.toString());
              mmVideoFile.setDuration(new Double(videoStream.duration).toString());
              mmVideoFile.setaRatio(videoStream.display_aspect_ratio);
-             mmVideoFile.setResolution(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
+             String resolution=(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
+             mmVideoFile.setResolution(resolution);
+             mmVideoFile.setExt(extFile);
          }
        }
        catch (Exception ex)
@@ -169,6 +170,13 @@ public class Search {
            LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
        }
         return mmVideoFile;
+    }
+    
+    //TODO helper to integrate in criteria
+    public String getExtension(File file){
+      String fileName = file.getPath();
+      String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+      return ext;
     }
 }
 
