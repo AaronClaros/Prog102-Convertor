@@ -10,7 +10,7 @@
  * with Jala Foundation.
  */
 
-package main.com.fundations.convertor.view;
+package com.foundations.convertor.view;
 
 /**
  *  View class for UI
@@ -49,7 +49,7 @@ public class View extends JFrame {  //
         //Set screensize dimensions
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         // Frame size and Screen dimensions
-         this.setSize(screenSize.width, screenSize.height-50);
+        this.setSize(screenSize.width, screenSize.height-50);
         // Frame centered
         this.setLocationRelativeTo(null);
         // layout not used, to position components

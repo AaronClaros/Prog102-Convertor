@@ -11,16 +11,24 @@
  *
  * */
 
-package main.com.fundations.convertor;
+package com.foundations.convertor;
 /**
  *  Main class for java applications, here start the application
  *
  * @author Kevin Herrera - AWT-[01].
  * @version 0.1
  */
+
+import com.foundations.convertor.controller.Controller;
+import com.foundations.convertor.utils.LoggerManager;
+
 public class Main {
+    public String getGreeting() {
+        return "Hello world.";
+    }
 
     public static void main(String[] args) {
-        System.out.println("Hello, World");
+        LoggerManager.getLogger().Log("Starting Main", "INFO");
+        Controller controller = new Controller();
     }
 }

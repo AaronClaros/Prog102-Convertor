@@ -1,2 +1,14 @@
-# IntelliJ
+# Gradle
+.gradle/
+build/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
 out/
+*.iml
+*.iws
