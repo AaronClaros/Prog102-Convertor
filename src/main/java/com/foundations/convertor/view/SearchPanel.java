@@ -132,7 +132,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         buttonSearch = new JButton("Search");
         //label file extension instance and text set
         labelFileExt = new JLabel("File Ext.");
-        //suportede extencions array
+        //suportede extentions array
         String[] suported_ext = {"","mp4","flv"};
         //text field file extension instance
         boxFileExt = new JComboBox(suported_ext);

@@ -79,7 +79,7 @@ public class Controller implements ActionListener, EventListener {
 
         criteria.setPath(view.getSPanel().getBoxPath().getText());
         criteria.setFileName(view.getSPanel().getBoxFileName().getText());
-        criteria.setExtension(view.getSPanel().getBoxFileExt().getText());
+        criteria.setExtension(view.getSPanel().getBoxFileExt().getSelectedItem().toString());
         durFrom = view.getSPanel().getBoxDurationFrom().getText();
         durTo = view.getSPanel().getBoxDurationTo().getText();
 
