@@ -69,13 +69,6 @@ public class SearchListPanel extends JPanel {
         resultsTable = new JTable(model);
         //instance scroll panel container for results table
         scrollPane = new JScrollPane(resultsTable);
-        //set layout of panel as Border Layout
-        this.setLayout(new BorderLayout());
-        //add components to panel and center to layout
-        this.add(scrollPane, BorderLayout.CENTER);
-        //make panel components visible
-        this.setVisible(true);
-
         //Add action listener for double click over table
         resultsTable.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e){
@@ -85,6 +78,12 @@ public class SearchListPanel extends JPanel {
                 }
             }
         } );
+        //set layout of panel as Border Layout
+        this.setLayout(new BorderLayout());
+        //add components to panel and center to layout
+        this.add(scrollPane, BorderLayout.CENTER);
+        //make panel components visible
+        this.setVisible(true);
     }
 
     /**
@@ -94,7 +93,6 @@ public class SearchListPanel extends JPanel {
     public DefaultTableModel getResultsTable(){
         return this.model;
     }
-
     /**
      * Method to call the video player
      */
@@ -120,6 +118,5 @@ public class SearchListPanel extends JPanel {
 
 
     }
-
 
 }
