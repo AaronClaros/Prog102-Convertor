@@ -11,9 +11,16 @@
  */
 package com.foundations.convertor.model;
 
+import com.foundations.convertor.common.Criteria;
+import com.foundations.convertor.model.Video.MMVideoFile;
+import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFprobe;
+import net.bramp.ffmpeg.probe.FFmpegProbeResult;
+import net.bramp.ffmpeg.probe.FFmpegStream;
 
 /**
  *  Search class for java applications, class which search videos
@@ -24,8 +31,42 @@ import java.util.List;
 public class Search {
     // list of file of the specified path
     private List<File> lFiles = new ArrayList<File>();
+    // Variable to get the metadata
+    private FFprobe ffprobe;
+    //Variable to build the path
+    private static final String SEPARATOR = System.getProperty("file.separator");
 
     public Search() {
+    }
+
+
+    public List<MMVideoFile> getAllfilesVideo(Criteria criteria){
+          List<MMVideoFile> listMMVideoFile = new ArrayList<MMVideoFile>();
+
+          File file = new File(criteria.getPath());
+
+          if (file.exists()){
+              File[] directoryFiles = file.listFiles();
+
+           for(File fileDirectory: directoryFiles) {
+                String nameFile = fileDirectory.getName();
+                String pathFile = fileDirectory.getPath();
+            if(criteria.getPath() != null && !criteria.getPath().isEmpty()){
+                if (fileDirectory.isFile()){
+                  //TODO GET STREAM
+                }
+                else {
+                  getAllfilesVideo(criteria);
+                }
+            }else if(!criteria.getFileName().isEmpty()){
+              if(fileDirectory.getName().contains(criteria.getFileName())){
+                //TODO GET STREAM
+              }
+            }else if (!criteria.getExtension().isEmpty() && !nameFile.isEmpty() && nameFile.indexOf(criteria.getExtension())!= -1){
+              //TODO GET STREAM
+            } }
+        }
+      return listMMVideoFile;
     }
 
     /**
@@ -98,6 +139,74 @@ public class Search {
             }
         }
         return newListFiles;
+    }
+
+    /**
+     * This method allows to create a list of File with
+     * the criteria extension
+     * @param criteria contains the information of searching
+     * @return List of Files
+     */
+    public List<File> getFilesByExtension (Criteria criteria){
+        List<File> files = new ArrayList<File>();
+        String directory = criteria.getPath();
+        String extension = criteria.getExtension();
+
+        File file = new File(directory);
+
+        if (file.exists()){
+            File[] directoryFiles = file.listFiles();
+
+            for(File path: directoryFiles) {
+                String name = path.getName();
+                if (!name.isEmpty() && name.indexOf(extension)!= -1){
+                    files.add(path);
+                }
+            }
+        }
+
+        return  files;
+    }
+
+
+    /**
+     * This method fill all the stream for a video file media
+     * @param criteria to search
+     * @return a Multi media video File
+     */
+    public MMVideoFile getStreamVideo(Criteria criteria,File file) {
+
+      MMVideoFile mmVideoFile = new MMVideoFile();
+      try{
+        String ffprobePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
+
+         ffprobe = new FFprobe(ffprobePath);
+         FFmpegStream videoStream = ffprobe.probe(file.getPath()).getStreams().get(0);
+         String ext = criteria.getExtension();
+         String extFile = getExtension(file);
+         if (ext.equalsIgnoreCase("mp4") || ext.equalsIgnoreCase("avi") || extFile.equalsIgnoreCase("mp4") || extFile.equalsIgnoreCase("avi")){
+             mmVideoFile.setvCodec(videoStream.codec_name);
+             mmVideoFile.setaCodec(videoStream.codec_type.name());
+             mmVideoFile.setfRate(videoStream.avg_frame_rate.toString());
+             mmVideoFile.setDuration(new Double(videoStream.duration).toString());
+             mmVideoFile.setaRatio(videoStream.display_aspect_ratio);
+             String resolution=(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
+             mmVideoFile.setResolution(resolution);
+             mmVideoFile.setExt(extFile);
+         }
+       }
+       catch (Exception ex)
+       {
+           LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
+       }
+        return mmVideoFile;
+    }
+    
+    //TODO helper to integrate in criteria
+    public String getExtension(File file){
+      String fileName = file.getPath();
+      String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+      return ext;
     }
 }
 

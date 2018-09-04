@@ -13,6 +13,7 @@
 package com.foundations.convertor.controller;
 
 import com.foundations.convertor.common.Criteria;
+import com.foundations.convertor.model.Video.MMVideoFile;
 import com.foundations.convertor.utils.ConverterUtils;
 import com.foundations.convertor.view.View;
 import com.foundations.convertor.model.Search;
@@ -100,7 +101,7 @@ public class Controller implements ActionListener, EventListener {
 
         criteria.setDurFrom(timeFrom);
         criteria.setDurTo(timeTo);
-
+        //TODO call a method
         if (criteria.getFileName() == ""){
             fillTableData(search.getAllFilesOnPath(criteria.getPath()));
         } else {
@@ -119,9 +120,15 @@ public class Controller implements ActionListener, EventListener {
         }
         view.getSLPanel().getResultsTable().setNumRows(s_result_list.size());
         for (int i=0; i<s_result_list.size(); i++){
-            // setting row data of table ("name", "path", Extension", "Frame Rate", "Duration",
-            //                            "Aspect Ratio","Dimension","Video Codec","Audio Codec")
-            Object[] d = {s_result_list.get(i).getName(),s_result_list.get(i).getAbsolutePath(),"","","","","","",""};
+
+            MMVideoFile videoFile = search.getStreamVideo(criteria,s_result_list.get(i));
+            // setting row data of table ("name", "path", Extension", "Resolution","Frame Rate",
+            // "Duration","Aspect Ratio","Dimension","Video Codec","Audio Codec")
+            Object[] d = {s_result_list.get(i).getName(),s_result_list.get(i).getAbsolutePath(),
+                videoFile.getExt(),
+                videoFile.getResolution()
+                ,videoFile.getfRate(),videoFile.getDuration(),videoFile.getaRatio(),
+                videoFile.getvCodec(),videoFile.getaCodec()};
             // cleaning row data
             view.getSLPanel().getResultsTable().removeRow(i);
             // adding new row data
