@@ -12,15 +12,15 @@
 package com.foundations.convertor.model;
 
 import com.foundations.convertor.common.Criteria;
-import com.foundations.convertor.model.Video.MMVideoFile;
+import com.foundations.convertor.model.Video.Video;
 import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import net.bramp.ffmpeg.FFmpeg;
+
 import net.bramp.ffmpeg.FFprobe;
-import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import net.bramp.ffmpeg.probe.FFmpegStream;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  *  Search class for java applications, class which search videos
@@ -39,36 +39,96 @@ public class Search {
     public Search() {
     }
 
-
-    public List<MMVideoFile> getAllfilesVideo(Criteria criteria){
-          List<MMVideoFile> listMMVideoFile = new ArrayList<MMVideoFile>();
-
-          File file = new File(criteria.getPath());
-
-          if (file.exists()){
-              File[] directoryFiles = file.listFiles();
-
-           for(File fileDirectory: directoryFiles) {
-                String nameFile = fileDirectory.getName();
-                String pathFile = fileDirectory.getPath();
-            if(criteria.getPath() != null && !criteria.getPath().isEmpty()){
-                if (fileDirectory.isFile()){
-                  //TODO GET STREAM
-                }
-                else {
-                  getAllfilesVideo(criteria);
-                }
-            }else if(!criteria.getFileName().isEmpty()){
-              if(fileDirectory.getName().contains(criteria.getFileName())){
-                //TODO GET STREAM
-              }
-            }else if (!criteria.getExtension().isEmpty() && !nameFile.isEmpty() && nameFile.indexOf(criteria.getExtension())!= -1){
-              //TODO GET STREAM
-            } }
+    /**
+     *
+     * @param criteria retrieved from GUI with all the search criteria
+     * @return list of Video Files
+     */
+    public List<Video> getAllVideoFiles(Criteria criteria) {
+        //Check if the path is correct for a file or directory
+        if ((criteria.getPath() == null) || criteria.getPath().isEmpty()) {
+            System.out.println("Error message: There is no path selected");
+            return null;
         }
-      return listMMVideoFile;
+        //Check if the path is for a File type
+        File file = new File(criteria.getPath());
+        if (!file.exists()) {
+            System.out.println("Error message: Search path is not a directory");
+            return null;
+        }
+
+        List<Video> videoList = new ArrayList<Video>();
+        File[] directoryFiles = file.listFiles();
+        Video auxVideo = new Video();
+
+        //Go through every file in the path
+        for (File elementFile : directoryFiles) {
+            //if it is not a file get all video files in the directory
+            if (elementFile.isDirectory()) {
+                //TODO Implement recursively: ready
+                //Criteria subCriteria = new Criteria();
+                //subCriteria = criteria;
+                //subCriteria.setPath(fileDirectory.getPath());
+                //getAllVideoFiles(criteria);
+            }
+            else  if(isVideo(elementFile)) {
+                auxVideo=getStreamVideo(criteria,elementFile);
+                //Check File Name
+                if(!criteria.getFileName().isEmpty()&&!auxVideo.getFileName().contains(criteria.getFileName())){
+                    continue;
+                }
+                //Check File extension
+                if(!criteria.getExtension().isEmpty()&&!auxVideo.getExt().equals(criteria.getExtension())){
+                    continue;
+                }/*
+                //Check duration
+                if(!criteria.getDurTo()==criteria.getDurFrom()){
+                    continue;
+                }
+                //Check Frame rate
+                if(criteria.getFrameRate()!=null&&auxVideo.getFrameRate()!=criteria.getFrameRate()){
+                    System.out.println(criteria.getFrameRate());
+                    System.out.println(auxVideo.getFrameRate());
+                    System.out.println(!auxVideo.getFrameRate().equals(criteria.getFrameRate()));
+                    continue;
+                }
+                //Check Aspect ratio
+                if(criteria.getAspcRatio()!=null&&!auxVideo.getAspectRatio().equals(criteria.getAspcRatio())){
+                    continue;
+                }/*
+                //Check Resolution
+                if(!criteria.getResolution().isEmpty()&&!auxVideo.getResolution().equals(criteria.getResolution())){
+                    continue;
+                }
+                //Check Video Codec
+                if(!criteria.getVideoCodec().isEmpty()&&!auxVideo.getVideoCodec().equals(criteria.getVideoCodec())){
+                    continue;
+                }
+                //Check Audio Codec
+                if(!criteria.getAudioCodec().isEmpty()&&!auxVideo.getAudioCodec().equals(criteria.getAudioCodec())){
+                    continue;
+                }
+*/
+                videoList.add(auxVideo);
+            }
+        }
+        return videoList;
     }
 
+    /**
+     * Check if a file is a video by the extension
+     * @param file which would be compared to a list of supported extensions
+     * @return
+     */
+    private boolean isVideo(File file){
+        String[] supportedExtensions = {"mp4", "avi", "flv", "mkv", "mov","3gp"};
+        boolean video = false;
+        for (String supportedExtension : supportedExtensions) {
+            if (FilenameUtils.getExtension(file.getAbsolutePath()).equals(supportedExtension))
+                video = true;
+        }
+        return video;
+    }
     /**
      * this method allows to create a list of String with files
      * from the given path, that list is returned to be used
@@ -85,7 +145,10 @@ public class Search {
         // array of string for the files
         String[] files;
         files = dir.list();
-
+        if(!dir.exists()){
+            System.out.println("Error message: Search path is not a directory");
+            return null;
+        }
             // this "for" send the recuperated data into the list
             for (int i = 0; i < files.length; i++) {
 
@@ -109,7 +172,7 @@ public class Search {
     /**
      * this method allows to create a list of String with files
      * from the given path and it filters that list with the name
-     * 
+     *
      * @param path the path where the search begin
      * @param name the name which be used to search the file
      * @return a list
@@ -174,40 +237,34 @@ public class Search {
      * @param criteria to search
      * @return a Multi media video File
      */
-    public MMVideoFile getStreamVideo(Criteria criteria,File file) {
+    public Video getStreamVideo(Criteria criteria, File file) {
 
-      MMVideoFile mmVideoFile = new MMVideoFile();
+      Video video = new Video();
       try{
-        String ffprobePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
+        String ffProbePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
 
-         ffprobe = new FFprobe(ffprobePath);
+         ffprobe = new FFprobe(ffProbePath);
          FFmpegStream videoStream = ffprobe.probe(file.getPath()).getStreams().get(0);
-         String ext = criteria.getExtension();
-         String extFile = getExtension(file);
-         if (ext.equalsIgnoreCase("mp4") || ext.equalsIgnoreCase("avi") || extFile.equalsIgnoreCase("mp4") || extFile.equalsIgnoreCase("avi")){
-             mmVideoFile.setvCodec(videoStream.codec_name);
-             mmVideoFile.setaCodec(videoStream.codec_type.name());
-             mmVideoFile.setfRate(videoStream.avg_frame_rate.toString());
-             mmVideoFile.setDuration(new Double(videoStream.duration).toString());
-             mmVideoFile.setaRatio(videoStream.display_aspect_ratio);
-             String resolution=(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
-             mmVideoFile.setResolution(resolution);
-             mmVideoFile.setExt(extFile);
-         }
+         String extFile = FilenameUtils.getExtension(file.getAbsolutePath());
+         video.setFileName(file.getName());
+         video.setPathFile(file.getAbsolutePath());
+         video.setVideoCodec(videoStream.codec_name);
+         video.setAudioCodec(videoStream.codec_type.name());
+         video.setFrameRate(videoStream.avg_frame_rate.toString());
+         video.setDuration(new Double(videoStream.duration).toString());
+         video.setAspectRatio(videoStream.display_aspect_ratio);
+         String resolution=(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
+         video.setResolution(resolution);
+         video.setExt(extFile);
        }
        catch (Exception ex)
        {
            LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
        }
-        return mmVideoFile;
+        return video;
     }
     
-    //TODO helper to integrate in criteria
-    public String getExtension(File file){
-      String fileName = file.getPath();
-      String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
-      return ext;
-    }
+
 }
 
 
