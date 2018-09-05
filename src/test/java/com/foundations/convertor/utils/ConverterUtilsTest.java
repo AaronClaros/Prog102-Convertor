@@ -36,4 +36,19 @@ public class ConverterUtilsTest {
         when(mockedConverter.timeToString(32760000L)).thenReturn("00:09:06.58");
         System.out.println(mockedConverter.timeToString(32760000L));
     }
+
+    @Test
+    public void doubleToTimeString(){
+        ConverterUtils mockedConverter = mock(ConverterUtils.class);
+        double time = 5.28;
+        when(mockedConverter.doubleToTimeString(time)).thenReturn("00:00:05");
+        System.out.println(mockedConverter.doubleToTimeString(time));
+    }
+
+    @Test
+    public void extension(){
+        ConverterUtils mockedConverter = mock(ConverterUtils.class);
+        when(mockedConverter.extension(4,5)).thenReturn("4X5");
+        System.out.println(mockedConverter.extension(4,5));
+    }
 }
