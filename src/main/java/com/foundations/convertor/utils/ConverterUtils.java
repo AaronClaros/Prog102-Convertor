@@ -13,6 +13,12 @@
 package com.foundations.convertor.utils;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  *  ConverterUtils class allows to convert data types
@@ -97,5 +103,16 @@ public class ConverterUtils {
 
         Timestamp dur = new Timestamp(hours + minutes + seconds);
         return dur;
+    }
+
+    public  String doubleToTimeString(double time){
+        double timeReal = time * 1000;
+        long longSeconds = (long) timeReal;
+        String res = timeToString(longSeconds);
+        return res;
+    }
+
+    public String extension(int x, int y){
+        return String.valueOf(x) + "X" + String.valueOf(y);
     }
 }
