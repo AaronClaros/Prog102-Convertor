@@ -27,7 +27,7 @@ import java.awt.*;
 public class View extends JFrame {  //
     // search criteria selection panel
     private SearchPanel sPanel;
-    // search list display panel
+    //  search list display panel
     private SearchListPanel slPanel;
     // conversion parameters panel
     private ConverterPanel convPanel;
@@ -88,7 +88,7 @@ public class View extends JFrame {  //
         //add search list panel for right_container
         right_container.add(slPanel);
         //set layout for converter panel
-        convPanel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+        convPanel.setLayout(new BoxLayout(convPanel,BoxLayout.Y_AXIS));
         //set converter panel minimum an maximum dimensions
         convPanel.setMinimumSize(new Dimension(500, 300));
         convPanel.setMaximumSize(new Dimension(1000, 300));
