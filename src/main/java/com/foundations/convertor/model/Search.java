@@ -15,9 +15,9 @@ import com.foundations.convertor.common.Criteria;
 import com.foundations.convertor.model.Video.Video;
 import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
+import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.List;
-
 import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.probe.FFmpegStream;
 import org.apache.commons.io.FilenameUtils;
@@ -25,7 +25,7 @@ import org.apache.commons.io.FilenameUtils;
 /**
  *  Search class for java applications, class which search videos
  *
- * @author Kevin Sanchez - AWT-[01].
+ * @author Kevin Sanchez, Adrian Rojas - AWT-[01].
  * @version 0.1
  */
 public class Search {
@@ -35,44 +35,55 @@ public class Search {
     private FFprobe ffprobe;
     //Variable to build the path
     private static final String SEPARATOR = System.getProperty("file.separator");
-
+    /**
+     * Search constructor
+     */
     public Search() {
     }
 
     /**
-     *
+     * All the video files in the path directory are added to the video list
      * @param criteria retrieved from GUI with all the search criteria
      * @return list of Video Files
      */
     public List<Video> getAllVideoFiles(Criteria criteria) {
         //Check if the path is correct for a file or directory
         if ((criteria.getPath() == null) || criteria.getPath().isEmpty()) {
-            System.out.println("Error message: There is no path selected");
+            LoggerManager.getLogger().Log("Error message: There is no path selected", "INFO");
             return null;
         }
         //Check if the path is for a File type
         File file = new File(criteria.getPath());
         if (!file.exists()) {
-            System.out.println("Error message: Search path is not a directory");
+            LoggerManager.getLogger().Log("Error message: Search path is not a directory", "INFO");
             return null;
         }
-
         List<Video> videoList = new ArrayList<Video>();
-        File[] directoryFiles = file.listFiles();
-        Video auxVideo = new Video();
+         //Go through every file in the path
+        fillWithCriteria(criteria,file,videoList);
+        return videoList;
+    }
 
-        //Go through every file in the path
+    /**
+     * If the file is a video according to the search criteria it is added to the video list
+     * @param criteria Selected on the UI Search panel
+     * @param file inside the file list from the path directory
+     * @param videoList list to be filled with all the files that are videos and have the criteria selected
+     */
+    private void fillWithCriteria(Criteria criteria, File file,List<Video> videoList){
+        File[] directoryFiles = file.listFiles();
+        Video auxVideo;
         for (File elementFile : directoryFiles) {
-            //if it is not a file get all video files in the directory
+            //if it is not a file get all video files in the directory: Recursively
             if (elementFile.isDirectory()) {
-                //TODO Implement recursively: ready
-                //Criteria subCriteria = new Criteria();
-                //subCriteria = criteria;
-                //subCriteria.setPath(fileDirectory.getPath());
-                //getAllVideoFiles(criteria);
+                Criteria subCriteria;
+                File subFile=new File(elementFile.getAbsolutePath());
+                subCriteria = criteria;
+                fillWithCriteria(subCriteria,subFile,videoList);
             }
+            //Check if the file is video and convert it to Video object
             else  if(isVideo(elementFile)) {
-                auxVideo=getStreamVideo(criteria,elementFile);
+                auxVideo = getStreamVideo(elementFile);
                 //Check File Name
                 if(!criteria.getFileName().isEmpty()&&!auxVideo.getFileName().contains(criteria.getFileName())){
                     continue;
@@ -80,22 +91,19 @@ public class Search {
                 //Check File extension
                 if(!criteria.getExtension().isEmpty()&&!auxVideo.getExt().equals(criteria.getExtension())){
                     continue;
-                }/*
-                //Check duration
-                if(!criteria.getDurTo()==criteria.getDurFrom()){
-                    continue;
                 }
+                //Check duration
+                /*if(){
+                    continue;
+                }*/
                 //Check Frame rate
-                if(criteria.getFrameRate()!=null&&auxVideo.getFrameRate()!=criteria.getFrameRate()){
-                    System.out.println(criteria.getFrameRate());
-                    System.out.println(auxVideo.getFrameRate());
-                    System.out.println(!auxVideo.getFrameRate().equals(criteria.getFrameRate()));
+                if(!criteria.getFrameRate().isEmpty()&&!auxVideo.getFrameRate().equals(criteria.getFrameRate())){
                     continue;
                 }
                 //Check Aspect ratio
-                if(criteria.getAspcRatio()!=null&&!auxVideo.getAspectRatio().equals(criteria.getAspcRatio())){
+                if(!criteria.getAspcRatio().isEmpty()&&!auxVideo.getAspectRatio().equals(criteria.getAspcRatio())){
                     continue;
-                }/*
+                }
                 //Check Resolution
                 if(!criteria.getResolution().isEmpty()&&!auxVideo.getResolution().equals(criteria.getResolution())){
                     continue;
@@ -108,17 +116,14 @@ public class Search {
                 if(!criteria.getAudioCodec().isEmpty()&&!auxVideo.getAudioCodec().equals(criteria.getAudioCodec())){
                     continue;
                 }
-*/
                 videoList.add(auxVideo);
             }
         }
-        return videoList;
     }
-
     /**
      * Check if a file is a video by the extension
      * @param file which would be compared to a list of supported extensions
-     * @return
+     * @return Video verified
      */
     private boolean isVideo(File file){
         String[] supportedExtensions = {"mp4", "avi", "flv", "mkv", "mov","3gp"};
@@ -130,114 +135,11 @@ public class Search {
         return video;
     }
     /**
-     * this method allows to create a list of String with files
-     * from the given path, that list is returned to be used
-     *
-     * @param path is the path where the search begin
-     * @return a list of found files with the given path
-     */
-    public List<File> getAllFilesOnPath(String path){
-        File dir = new File(path);
-
-        // is declared to help prove if it is a file o folder
-        File auxFile;
-
-        // array of string for the files
-        String[] files;
-        files = dir.list();
-        if(!dir.exists()){
-            System.out.println("Error message: Search path is not a directory");
-            return null;
-        }
-            // this "for" send the recuperated data into the list
-            for (int i = 0; i < files.length; i++) {
-
-                // File class need a path to create an instance the
-                // path given is the construction of de actual path
-                // and the file we want to check
-                auxFile = new File(path+"\\"+files[i]);
-
-                //this part check if the given path is a file if It
-                // is a file It will be add to the list else It will
-                // be check for the same method again
-                if (auxFile.isFile()) {
-                    lFiles.add(auxFile);
-                }else{
-                    getAllFilesOnPath(path+"\\"+files[i]);
-                }
-            }
-            return lFiles;
-    }
-
-    /**
-     * this method allows to create a list of String with files
-     * from the given path and it filters that list with the name
-     *
-     * @param path the path where the search begin
-     * @param name the name which be used to search the file
-     * @return a list
-     */
-    public List<File> getAllFilesByName(String path, String name){
-
-        // list of files of the specified path
-        List<File> newListFiles = new ArrayList<File>();
-
-        // auxiliar list of files rececived to filter
-        List<File> aFiles = new ArrayList<File>();
-
-        // Size of the non-filter list
-        int sizeList;
-
-        // it will clean the list just in case that some information keeps on it
-        lFiles.clear();
-        sizeList = getAllFilesOnPath(path).size();
-        aFiles = getAllFilesOnPath(path);
-
-        for (int i = 0; i < sizeList; i++){
-
-            //this condition will filter the auxiliar list
-            // with the file name and it will be returned
-            if (aFiles.get(i).getName().contains(name)){
-                newListFiles.add(aFiles.get(i));
-            }
-        }
-        return newListFiles;
-    }
-
-    /**
-     * This method allows to create a list of File with
-     * the criteria extension
-     * @param criteria contains the information of searching
-     * @return List of Files
-     */
-    public List<File> getFilesByExtension (Criteria criteria){
-        List<File> files = new ArrayList<File>();
-        String directory = criteria.getPath();
-        String extension = criteria.getExtension();
-
-        File file = new File(directory);
-
-        if (file.exists()){
-            File[] directoryFiles = file.listFiles();
-
-            for(File path: directoryFiles) {
-                String name = path.getName();
-                if (!name.isEmpty() && name.indexOf(extension)!= -1){
-                    files.add(path);
-                }
-            }
-        }
-
-        return  files;
-    }
-
-
-    /**
      * This method fill all the stream for a video file media
-     * @param criteria to search
+     * @param file to convert to video object
      * @return a Multi media video File
      */
-    public Video getStreamVideo(Criteria criteria, File file) {
+    public Video getStreamVideo(File file) {
 
       Video video = new Video();
       try{
@@ -257,6 +159,7 @@ public class Search {
          video.setResolution(resolution);
          video.setExt(extFile);
        }
+       //If the file is not a video an exception is send
        catch (Exception ex)
        {
            LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");

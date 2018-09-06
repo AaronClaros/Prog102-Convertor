@@ -15,12 +15,11 @@ package com.foundations.convertor.controller;
 import com.foundations.convertor.common.Criteria;
 import com.foundations.convertor.model.Video.Video;
 import com.foundations.convertor.utils.ConverterUtils;
+import com.foundations.convertor.utils.LoggerManager;
 import com.foundations.convertor.view.View;
 import com.foundations.convertor.model.Search;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.sql.Timestamp;
 import java.util.EventListener;
 import java.util.List;
@@ -109,13 +108,6 @@ public class Controller implements ActionListener, EventListener {
          */
         List<Video> resultsVideoList =  search.getAllVideoFiles(criteria);
         fillTableVideos(resultsVideoList);
-        /* not anymore
-        if (criteria.getFileName() == ""){
-            fillTableData(search.getAllFilesOnPath(criteria.getPath()));
-        } else {
-            fillTableData(search.getAllFilesByName(criteria.getPath(), criteria.getFileName()));
-        }
-        */
     }
 
     /**
@@ -124,13 +116,12 @@ public class Controller implements ActionListener, EventListener {
      */
     public void fillTableVideos(List<Video> resultsVideoList){
         if(resultsVideoList==null){
-            System.out.println("Result list is null");
+            LoggerManager.getLogger().Log("fillTable Videos: Result is null", "INFO");
             return;
         }
-        System.out.println("On fillTableVideos list size: "+resultsVideoList.size());
         view.getSLPanel().getResultsTable().setNumRows(resultsVideoList.size());
         for (int i=0; i<resultsVideoList.size(); i++){
-            // setting row data of table ("name", "path", Extension", "Resolution","Frame Rate",
+            // Setting row data of table ("name", "path", Extension", "Resolution","Frame Rate",
             // "Duration","Aspect Ratio","Dimension","Video Codec","Audio Codec")
             Object[] d = {resultsVideoList.get(i).getFileName(),resultsVideoList.get(i).getPathFile(),
                     resultsVideoList.get(i).getExt(),resultsVideoList.get(i).getResolution(),
@@ -144,34 +135,7 @@ public class Controller implements ActionListener, EventListener {
         }
     }
     /**
-     * fill table on view with search results
-     * @param s_result_list list of results of search
-     */
-    public void fillTableData(List<File> s_result_list){
-        if (s_result_list==null){
-            System.out.println("results list null");
-            return;
-        }
-        view.getSLPanel().getResultsTable().setNumRows(s_result_list.size());
-        for (int i=0; i<s_result_list.size(); i++){
-
-            Video videoFile = search.getStreamVideo(criteria,s_result_list.get(i));
-            // setting row data of table ("name", "path", Extension", "Resolution","Frame Rate",
-            // "Duration","Aspect Ratio","Dimension","Video Codec","Audio Codec")
-            Object[] d = {s_result_list.get(i).getName(),s_result_list.get(i).getAbsolutePath(),
-                videoFile.getExt(),
-                videoFile.getResolution()
-                ,videoFile.getFrameRate(),videoFile.getDuration(),videoFile.getAspectRatio(),
-                videoFile.getVideoCodec(),videoFile.getAudioCodec()};
-            // cleaning row data
-            view.getSLPanel().getResultsTable().removeRow(i);
-            // adding new row data
-            view.getSLPanel().getResultsTable().insertRow(i,d);
-        }
-    }
-
-    /**
-     * override method for event listener, here is listen button search when is pressed
+     * override method for event listener for button search when is pressed
      */
     @Override
     public void actionPerformed(ActionEvent e) {
