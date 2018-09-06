@@ -17,40 +17,52 @@
 package com.foundations.convertor.utils;
 
 import org.apache.log4j.Logger;
-
 import org.apache.log4j.xml.DOMConfigurator;
-
 import java.net.URL;
 
 public class LoggerManager {
-
+    //Variables to define the level of the log
     static final String DEBUG_LEVEL = "DEBUG";
     static final String INFO_LEVEL = "INFO";
     static final String WARNING_LEVEL = "WARNING";
     static final String ERROR_LEVEL = "ERROR";
     static final String FATAL_LEVEL = "FATAL";
 
+    //Variable to get the instance unique
     private static LoggerManager obj;
     private Logger oLog;
 
+    /**
+     * Constructor private to singleton class
+     */
     private LoggerManager(){
-        /*
-         * Config.xml: file path used to configure log4j
-         */
+        // Config.xml: file path used to configure log4j
         final URL log4jFile=LoggerManager.class.getResource("/Config.xml");
         DOMConfigurator.configure(log4jFile);
     }
 
+    /**
+     * Setting the object logger
+     * @param logger
+     */
     public LoggerManager(Logger logger) {
         this();
         setLogger(logger);
     }
 
+    /**
+     * Setting the logger level
+     * @param oLog the obj to setting
+     */
     private void setLogger(Logger oLog)
     {
         this.oLog = oLog;
     }
 
+    /**
+     * Return the object logger
+     * @return object logger structured
+     */
     public static LoggerManager getLogger(){
         if (obj == null)
             obj = new LoggerManager(Logger.getLogger(LoggerManager.class));
@@ -58,6 +70,11 @@ public class LoggerManager {
         return obj;
     }
 
+    /**
+     * Compare the level to put into log
+     * @param msg get the message
+     * @param level define the priority of the logger
+     */
     public void Log(String msg, String level){
         if (DEBUG_LEVEL.equals(level)) {
             oLog.debug(msg);
@@ -76,4 +93,3 @@ public class LoggerManager {
         }
     }
 }
-
