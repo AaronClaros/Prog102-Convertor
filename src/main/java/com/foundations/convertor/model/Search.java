@@ -35,12 +35,14 @@ public class Search {
     private FFprobe ffprobe;
     //Variable to build the path
     private static final String SEPARATOR = System.getProperty("file.separator");
-
+    /**
+     * Search constructor
+     */
     public Search() {
     }
 
     /**
-     *
+     * All the video files in the path directory are added to the video list
      * @param criteria retrieved from GUI with all the search criteria
      * @return list of Video Files
      */
@@ -61,6 +63,13 @@ public class Search {
         fillWithCriteria(criteria,file,videoList);
         return videoList;
     }
+
+    /**
+     * If the file is a video according to the search criteria it is added to the video list
+     * @param criteria Selected on the UI Search panel
+     * @param file inside the file list from the path directory
+     * @param videoList list to be filled with all the files that are videos and have the criteria selected
+     */
     private void fillWithCriteria(Criteria criteria, File file,List<Video> videoList){
         File[] directoryFiles = file.listFiles();
         Video auxVideo;
@@ -150,6 +159,7 @@ public class Search {
          video.setResolution(resolution);
          video.setExt(extFile);
        }
+       //If the file is not a video an exception is send
        catch (Exception ex)
        {
            LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
