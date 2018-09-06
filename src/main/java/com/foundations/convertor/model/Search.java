@@ -47,13 +47,13 @@ public class Search {
     public List<Video> getAllVideoFiles(Criteria criteria) {
         //Check if the path is correct for a file or directory
         if ((criteria.getPath() == null) || criteria.getPath().isEmpty()) {
-            System.out.println("Error message: There is no path selected");
+            LoggerManager.getLogger().Log("Error message: There is no path selected", "INFO");
             return null;
         }
         //Check if the path is for a File type
         File file = new File(criteria.getPath());
         if (!file.exists()) {
-            System.out.println("Error message: Search path is not a directory");
+            LoggerManager.getLogger().Log("Error message: Search path is not a directory", "INFO");
             return null;
         }
         List<Video> videoList = new ArrayList<Video>();
@@ -82,9 +82,9 @@ public class Search {
                 //Check File extension
                 if(!criteria.getExtension().isEmpty()&&!auxVideo.getExt().equals(criteria.getExtension())){
                     continue;
-                }/*
+                }
                 //Check duration
-                if(!criteria.getDurTo()==criteria.getDurFrom()){
+                /*if(){
                     continue;
                 }*/
                 //Check Frame rate
