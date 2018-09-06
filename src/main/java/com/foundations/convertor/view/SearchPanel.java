@@ -132,10 +132,10 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         buttonSearch = new JButton("Search");
         //label file extension instance and text set
         labelFileExt = new JLabel("File Ext.");
-        //suportede extentions array
-        String[] suported_ext = {"","mp4","flv"};
+        //supported extensions array
+        String[] supported_ext = {"","mp4","avi","flv","mkv","mov","3gp"};
         //text field file extension instance
-        boxFileExt = new JComboBox(suported_ext);
+        boxFileExt = new JComboBox(supported_ext);
         //label duration instance and text set
         labelDuration = new JLabel("Duration");
         //label "duration from" instance and text set
@@ -159,25 +159,25 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //label aspect ratio instance and text set
         labelAspectRatio = new JLabel("Aspect Ratio");
         //aspect ratio array
-        String[] asp_ratios = {"","16:9","16:10","4:3"};
+        String[] asp_ratios = {"","16:9","16:10","0:1","4:3","40:23"};
         //combo box aspect ratio instance and content set
         comboxAspectRatio = new JComboBox(asp_ratios);
         //label resolution instance and text set
         labelResolution = new JLabel("Resolution");
         //resolution array
-        String[] resolutions = {"","720x480","1080x720","1440x1080"};
+        String[] resolutions = {"","1920X1080","1280X720","640X480","640X368","480X270","320X240","256X240","176X144"};
         //combo box resolution instance and content set
         comboxResolution = new JComboBox(resolutions);
         //label video code instance and text set
         labelVideoCodec = new JLabel("Video Codec");
         //video codecs array
-        String[] video_codecs = {"","H264","MP4","AVI"};
+        String[] video_codecs = {"","h264","h263","indeo4","mpeg4","flv","avi"};
         //combo box video codec instance and content set
         comboxVideoCodec = new JComboBox(video_codecs);
         //label audio code instance and text set
         labelAudioCodec = new JLabel("Audio Codec");
         //audio codecs array
-        String[] audio_codecs = {"","MP3","WMA","OGG"};
+        String[] audio_codecs = {"","MP3","WMA","OGG","VIDEO"};
         //combo box audio codec instance and content set
         comboxAudioCodec = new JComboBox(audio_codecs);
         //set action listener to button set search path
