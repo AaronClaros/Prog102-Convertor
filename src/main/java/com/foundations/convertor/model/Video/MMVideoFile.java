@@ -18,8 +18,6 @@ package com.foundations.convertor.model.Video;
 public class MMVideoFile {
   //Field to get/set the title
   String title;
-  //Field to get/set the description
-  String description;
   //Field to get/set the duration
   String duration;
   //Field to get/set the path file
@@ -46,14 +44,6 @@ public class MMVideoFile {
   //setting the title
   public void setTitle(String title) {
     this.title = title;
-  }
-  //return the description
-  public String getDescription() {
-    return description;
-  }
-  //setting the description
-  public void setDescription(String description) {
-    this.description = description;
   }
   //return the duration
   public String getDuration() {
