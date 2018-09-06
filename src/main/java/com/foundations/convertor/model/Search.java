@@ -123,7 +123,7 @@ public class Search {
     /**
      * Check if a file is a video by the extension
      * @param file which would be compared to a list of supported extensions
-     * @return
+     * @return Video verified
      */
     private boolean isVideo(File file){
         String[] supportedExtensions = {"mp4", "avi", "flv", "mkv", "mov","3gp"};
