@@ -13,12 +13,11 @@
 package com.foundations.convertor.controller;
 
 import com.foundations.convertor.common.Criteria;
-import com.foundations.convertor.model.Video.MMVideoFile;
+import com.foundations.convertor.model.Video.Video;
 import com.foundations.convertor.utils.ConverterUtils;
 import com.foundations.convertor.view.View;
 import com.foundations.convertor.model.Search;
 
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -39,7 +38,6 @@ public class Controller implements ActionListener, EventListener {
     private Criteria criteria; // reference to object criteria
 
     public Controller(){
-        System.out.println("creating object controller");
         instanceCriteria();
         instanceViewComponent();
         instanceModelComponent();
@@ -80,6 +78,11 @@ public class Controller implements ActionListener, EventListener {
         criteria.setPath(view.getSPanel().getBoxPath().getText());
         criteria.setFileName(view.getSPanel().getBoxFileName().getText());
         criteria.setExtension(view.getSPanel().getBoxFileExt().getSelectedItem().toString());
+        criteria.setAspcRatio(view.getSPanel().getCBAspectRatio().getSelectedItem().toString());
+        criteria.setAudioCodec(view.getSPanel().getCBVAudioCodec().getSelectedItem().toString());
+        criteria.setFrameRate(view.getSPanel().getCBFrameRate().getSelectedItem().toString());
+        criteria.setResolution(view.getSPanel().getCBResolution().getSelectedItem().toString());
+        criteria.setVideoCodec(view.getSPanel().getCBVideoCodec().getSelectedItem().toString());
         durFrom = view.getSPanel().getBoxDurationFrom().getText();
         durTo = view.getSPanel().getBoxDurationTo().getText();
 
@@ -93,22 +96,53 @@ public class Controller implements ActionListener, EventListener {
             timeFrom = timeTo;
             timeTo = timeAux;
         }
-
         // validating the time will be in a range to search
         if (timeFrom.getTime() == timeTo.getTime()){
             timeTo.setTime(timeTo.getTime()+3600000);
         }
-
         criteria.setDurFrom(timeFrom);
         criteria.setDurTo(timeTo);
-        //TODO call a method
+        /**
+         * Calls the method to fill the table using the search methods
+         * Only should need to call method
+         *
+         */
+        List<Video> resultsVideoList =  search.getAllVideoFiles(criteria);
+        fillTableVideos(resultsVideoList);
+        /* not anymore
         if (criteria.getFileName() == ""){
             fillTableData(search.getAllFilesOnPath(criteria.getPath()));
         } else {
             fillTableData(search.getAllFilesByName(criteria.getPath(), criteria.getFileName()));
         }
+        */
     }
 
+    /**
+     * Fill table from View with the list of videos from the search results
+     * @param resultsVideoList List of videos within the search criteria
+     */
+    public void fillTableVideos(List<Video> resultsVideoList){
+        if(resultsVideoList==null){
+            System.out.println("Result list is null");
+            return;
+        }
+        System.out.println("On fillTableVideos list size: "+resultsVideoList.size());
+        view.getSLPanel().getResultsTable().setNumRows(resultsVideoList.size());
+        for (int i=0; i<resultsVideoList.size(); i++){
+            // setting row data of table ("name", "path", Extension", "Resolution","Frame Rate",
+            // "Duration","Aspect Ratio","Dimension","Video Codec","Audio Codec")
+            Object[] d = {resultsVideoList.get(i).getFileName(),resultsVideoList.get(i).getPathFile(),
+                    resultsVideoList.get(i).getExt(),resultsVideoList.get(i).getResolution(),
+                    resultsVideoList.get(i).getFrameRate(),resultsVideoList.get(i).getDuration(),
+                    resultsVideoList.get(i).getAspectRatio(),resultsVideoList.get(i).getVideoCodec(),
+                    resultsVideoList.get(i).getAudioCodec()};
+            // cleaning row data
+            view.getSLPanel().getResultsTable().removeRow(i);
+            // adding new row data
+            view.getSLPanel().getResultsTable().insertRow(i,d);
+        }
+    }
     /**
      * fill table on view with search results
      * @param s_result_list list of results of search
@@ -121,14 +155,14 @@ public class Controller implements ActionListener, EventListener {
         view.getSLPanel().getResultsTable().setNumRows(s_result_list.size());
         for (int i=0; i<s_result_list.size(); i++){
 
-            MMVideoFile videoFile = search.getStreamVideo(criteria,s_result_list.get(i));
+            Video videoFile = search.getStreamVideo(criteria,s_result_list.get(i));
             // setting row data of table ("name", "path", Extension", "Resolution","Frame Rate",
             // "Duration","Aspect Ratio","Dimension","Video Codec","Audio Codec")
             Object[] d = {s_result_list.get(i).getName(),s_result_list.get(i).getAbsolutePath(),
                 videoFile.getExt(),
                 videoFile.getResolution()
-                ,videoFile.getfRate(),videoFile.getDuration(),videoFile.getaRatio(),
-                videoFile.getvCodec(),videoFile.getaCodec()};
+                ,videoFile.getFrameRate(),videoFile.getDuration(),videoFile.getAspectRatio(),
+                videoFile.getVideoCodec(),videoFile.getAudioCodec()};
             // cleaning row data
             view.getSLPanel().getResultsTable().removeRow(i);
             // adding new row data
