@@ -217,6 +217,8 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
     /**
      * This method initialize the tittle
+     * @return it return a JPanel object
+     * to be added in the search panel
      */
     private JPanel initCompTitle(){
         // Setting title section
@@ -235,6 +237,8 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
     /**
      * This method initialize the search fields
+     * @return it return a JPanel object
+     * to be added in the search panel
      */
     private JPanel initCompSearchP(){
         // Setting path section
@@ -252,6 +256,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         return panelPath;
     }
 
+    /**
+     * This method initialize the file name fields
+     * @return it return a JPanel object
+     * to be added in the search panel
+     */
     private JPanel initCompFileName(){
         // Setting File Name section
         // create panel container for file name section
@@ -272,6 +281,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         return  panelFileName;
     }
 
+    /**
+     * This method initialize the duration fields
+     * @return it return a JPanel object
+     * to be added in the search panel
+     */
     private JPanel initCompDuration(){
         // Setting Duration section
         // create panel container for duration section
@@ -291,6 +305,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         return panelDuration;
     }
 
+    /**
+     * This method initialize the extension fields
+     * @return it return a JPanel object
+     * to be added in the search panel
+     */
     private JPanel initCompExtention(){
         // Setting File Extension section
         // create panel container for file extension section
@@ -313,6 +332,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         return panelFileExt;
     }
 
+    /**
+     * This method initialize the Frame rate fields
+     * @return it return a JPanel object
+     * to be added in the search panel
+     */
     private JPanel initCompFrame(){
         // Setting Frame Rate section
         // create panel for frame rate section
@@ -334,6 +358,12 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // add panelFrameRate to search panel
         return panelFrameRate;
     }
+
+    /**
+     * This method initialize the aspect ratio fields
+     * @return it return a JPanel object
+     * to be added in the search panel
+     */
     private JPanel initCompAspect(){
 
         // Setting Aspect Ration section
@@ -357,6 +387,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         return panelAspectRatio;
     }
 
+    /**
+     * This method initialize the resolution fields
+     * @return it return a JPanel object
+     * to be added in the search panel
+     */
     private JPanel initCompResolution(){
         // Setting Resolution section
         // create panel for resolution section
@@ -379,6 +414,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         return panelResolution;
     }
 
+    /**
+     * This method initialize the video codec fields
+     * @return it return a JPanel object
+     * to be added in the search panel
+     */
     private JPanel initCompVideo(){
         // Setting Video Codec Section
         //create panel for video codec section
@@ -400,6 +440,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         return panelVideoCodec;
     }
 
+    /**
+     * This method initialize the audio codec fields
+     * @return it return a JPanel object
+     * to be added in the search panel
+     */
     private JPanel initCompAudio(){
         // Setting Audio Codec section
         // create panel for audio codec section
@@ -422,6 +467,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         return panelAudioCodec;
     }
 
+    /**
+     * This method initialize the search button fields
+     * @return it return a JPanel object
+     * to be added in the search panel
+     */
     private JPanel initCompBtnSearch(){
         // Setting Search Button section
         // create panel for search panel section
