@@ -16,8 +16,6 @@ package com.foundations.convertor.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 
 /**
@@ -44,8 +42,6 @@ public class ConverterPanel extends JPanel {
     private JButton buttonOutPath;
     // label for resolution field
     private JLabel labelResolution;
-    // label for Aspect Ratio field
-    private JLabel labelAspectRatio;
     // label for Frame Rate field
     private JLabel labelFrameRate;
     // label for Video Codec field
@@ -56,8 +52,6 @@ public class ConverterPanel extends JPanel {
     private JLabel labelFormat;
     // comboBox to chose new Resolution
     private JComboBox cmbResolution;
-    // comboBox to chose new Aspect Ratio
-    private JComboBox cmbAspectRation;
     // comboBox to chose new Frame Rate
     private JComboBox cmbFrameRate;
     // comboBox to chose new Video Codec
@@ -159,12 +153,9 @@ public class ConverterPanel extends JPanel {
      * this method create the instance of the fields
      * for the converter panel
      */
-    private void initCompFilds(){
+    private void initCompFields(){
         // instance label resolution and set text
         labelResolution = new JLabel("New Resolution");
-
-        // instance label aspect ratio and set text
-        labelAspectRatio = new JLabel("New Aspec Ratio");
 
         // instance label frame rate and set text
         labelFrameRate = new JLabel("New Frame Ratio");
@@ -179,58 +170,32 @@ public class ConverterPanel extends JPanel {
         labelFormat = new JLabel("New Format");
 
         // addition of options to the resolution selector
-        String[] resolOptions = {"","720x480","1080x720","1440x1080"};
+        String[] resolOptions = {"","1920X1080","1280X720","640X480","640X368","480X270","320X240","256X240","176X144"};
         cmbResolution = new JComboBox(resolOptions);
 
-        // addition of options to the aspect ratio selector
-        String[] aspRatioOptions = {"","16:9","16:10","4:3"};
-        cmbAspectRation = new JComboBox(aspRatioOptions);
-
-        // disable the comboBox of aspect Ratio making it dependent
-        // of resolution comboBox
-        cmbAspectRation.setEnabled(false);
-
         // addition of options to the frame rate selector
-        String[] frameRateOptions = {"","24","29","30","60"};
+        String[] frameRateOptions = {"","25/1","29/1","30/1","60000/1001"};
         cmbFrameRate = new JComboBox(frameRateOptions);
 
         // addition of options to the video codec selector
-        String[] videoCodOptions = {"","H264","MP4","AVI"};
+        String[] videoCodOptions = {"","h264","h263","indeo4","mpeg4","flv","avi"};
         cmbVideoCodec = new JComboBox(videoCodOptions);
 
         // addition of options to the audio codec selector
-        String[] audioCodOptions = {"","MP3","WMA","OGG"};
+        String[] audioCodOptions = {"","MP3","WMA","OGG","VIDEO"};
         cmbAudioCodec = new JComboBox(audioCodOptions);
 
         // addition of options to the format selector
-        String[] formatOptions = {"","mp4","flv"};
+        String[] formatOptions = {"","mp4","avi","flv","mkv","mov","3gp"};
         cmbFormat = new JComboBox(formatOptions);
 
         // set text to the convertor button
         buttonConvert = new JButton("Convert");
-
-        // add a item listener to create the dependency
-        // between resolution and aspect ratio
-        cmbResolution.addItemListener(new ItemListener() {
-            /**
-             * this anonymous method allows to change the content
-             * of  aspect ratio comboBox according resolution
-             * comboBox changes
-             * @param e is the event of the Resolution comboBox
-             * */
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    int index = cmbResolution.getSelectedIndex();
-                    cmbAspectRation.setSelectedIndex(index);
-                }
-            }
-        });
     }
 
     /**
      * this method creates the congigurations to the left panel
-     * including resolution, aspect ratio, frame rate
+     * including resolution, frame rate, video codec
      * @return a Jpanel object to be added to the main panel
      */
     private JPanel initCompLeftPanel(){
@@ -246,18 +211,6 @@ public class ConverterPanel extends JPanel {
         panelResol.add(panelLblRes);
         panelResol.add(panelCmbRes);
 
-        // this is the alignment of the aspect radio fields
-        JPanel panelLblAsp = new JPanel();
-        panelLblAsp.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblAsp.add(labelAspectRatio);
-        JPanel panelCmbAsp = new JPanel();
-        panelCmbAsp.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelCmbAsp.add(cmbAspectRation);
-        JPanel panelAspRatio = new JPanel();
-        panelAspRatio.setLayout(new GridLayout(1,2));
-        panelAspRatio.add(panelLblAsp);
-        panelAspRatio.add(panelCmbAsp);
-
         // this is the alignment of the frame rate's fields
         JPanel panelLblFra = new JPanel();
         panelLblFra.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -270,22 +223,6 @@ public class ConverterPanel extends JPanel {
         panelFrameRate.add(panelLblFra);
         panelFrameRate.add(panelCmbFra);
 
-        // this is the alignment of the fields above
-        JPanel panelLeft = new JPanel();
-        panelLeft.setLayout(new BoxLayout(panelLeft,BoxLayout.Y_AXIS));
-        panelLeft.add(panelResol);
-        panelLeft.add(panelAspRatio);
-        panelLeft.add(panelFrameRate);
-        return panelLeft;
-    }
-
-    /**
-     * this method creates the congigurations to the middle panel
-     * including videcodec, Audio codec, format
-     * @return a Jpanel object to be added to the main panel
-     */
-    private JPanel iniCompMiddlePanel(){
-
         // this is the alignment of the Video codec's fields
         JPanel panelLblVid = new JPanel();
         panelLblVid.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -297,6 +234,22 @@ public class ConverterPanel extends JPanel {
         panelVideoCod.setLayout(new GridLayout(1,2));
         panelVideoCod.add(panelLblVid);
         panelVideoCod.add(panelCmbVid);
+
+        // this is the alignment of the fields above
+        JPanel panelLeft = new JPanel();
+        panelLeft.setLayout(new BoxLayout(panelLeft,BoxLayout.Y_AXIS));
+        panelLeft.add(panelResol);
+        panelLeft.add(panelFrameRate);
+        panelLeft.add(panelVideoCod);
+        return panelLeft;
+    }
+
+    /**
+     * this method creates the congigurations to the middle panel
+     * including videcodec, Audio codec, format
+     * @return a Jpanel object to be added to the main panel
+     */
+    private JPanel iniCompMiddlePanel(){
 
         // this is the alignment of the audio codec's fields
         JPanel panelLblAud = new JPanel();
@@ -325,7 +278,6 @@ public class ConverterPanel extends JPanel {
         // this is the alignment of the fields above
         JPanel panelMiddle = new JPanel();
         panelMiddle.setLayout(new BoxLayout(panelMiddle,BoxLayout.Y_AXIS));
-        panelMiddle.add(panelVideoCod);
         panelMiddle.add(panelAudioCod);
         panelMiddle.add(panelFormat);
         return panelMiddle;
@@ -351,7 +303,7 @@ public class ConverterPanel extends JPanel {
     private void initComp() {
         initCompTitle();
         initCompPaths();
-        initCompFilds();
+        initCompFields();
 
         // this panel allows to manage all fields above and
         // the converter button
@@ -402,14 +354,6 @@ public class ConverterPanel extends JPanel {
     */
     public JComboBox getCmbResolution() {
         return cmbResolution;
-    }
-
-    /**
-     * getter method for comboBox aspect ratio
-     * @return aspect ratio comboBox
-     */
-    public JComboBox getCmbAspectRation() {
-        return cmbAspectRation;
     }
 
     /**
