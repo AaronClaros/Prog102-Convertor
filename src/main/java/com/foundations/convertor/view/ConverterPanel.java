@@ -84,34 +84,42 @@ public class ConverterPanel extends JPanel {
      * configure components
      */
     private void settings() {
-
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-
         this.setBorder(BorderFactory.createLineBorder(Color.black));
-
         this.setBackground(UIManager.getColor("Panel.background"));
     }
 
     /**
-     * Initialize components
+     * This method initialize the tittle
      */
-    private void initComp() {
+    private void initCompTitle(){
         //instance labelPanelTitle and set text
         labelPanelTitle = new JLabel("Conversion parameters");
 
         //create panel container for title section
         JPanel panelTitle = new JPanel();
+
         //set layout for panel title
         panelTitle.setLayout(new FlowLayout(FlowLayout.CENTER));
         panelTitle.setMinimumSize(new Dimension(300, 300));
         panelTitle.setMaximumSize(new Dimension(1000, 300));
+
         //add label labelTitle to panel
         panelTitle.add(labelPanelTitle);
+        this.add(panelTitle);
+    }
 
+    /**
+     * This method initialize the fields of
+     * input path and output path
+     */
+    private void initCompPaths(){
         //instance labelInputPath and set text
         labelInputPath = new JLabel("Input Path");
+
         //instance textField for input path
         tFieldInputPath = new JTextField(15);
+
         //instance button get table selection and set text
         buttonGetTSelection = new JButton("Set Selection");
         JPanel panelInputPath = new JPanel();
@@ -122,8 +130,10 @@ public class ConverterPanel extends JPanel {
 
         //instance label output path and set text
         labelOutPath = new JLabel("Output Path");
+
         //instance textField for OutputPath
         tFieldOutPath = new JTextField(15);
+
         //instance button for output path and set text
         buttonOutPath = new JButton("Path");
         JPanel panelOutputPath = new JPanel();
@@ -138,46 +148,64 @@ public class ConverterPanel extends JPanel {
         panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.X_AXIS));
         panelInputPath.setMinimumSize(new Dimension(300, 300));
         panelInputPath.setMaximumSize(new Dimension(1000, 300));
-
         panelOutputPath.setMinimumSize(new Dimension(300, 300));
         panelOutputPath.setMaximumSize(new Dimension(1000, 300));
-
         panelCenter.add(panelInputPath);
         panelCenter.add(panelOutputPath);
+        this.add(panelCenter);
+    }
 
+    /**
+     * this method create the instance of the fields
+     * for the converter panel
+     */
+    private void initCompFilds(){
         // instance label resolution and set text
         labelResolution = new JLabel("New Resolution");
+
         // instance label aspect ratio and set text
         labelAspectRatio = new JLabel("New Aspec Ratio");
+
         // instance label frame rate and set text
         labelFrameRate = new JLabel("New Frame Ratio");
+
         // instance label video codec and set text
         labelVideoCodec = new JLabel("New Video Codec");
+
         // instance label audio codec and set text
         labelAudioCodec = new JLabel("New Audio Codec");
+
         // instance label format and set text
         labelFormat = new JLabel("New Format");
+
         // addition of options to the resolution selector
         String[] resolOptions = {"","720x480","1080x720","1440x1080"};
         cmbResolution = new JComboBox(resolOptions);
+
         // addition of options to the aspect ratio selector
         String[] aspRatioOptions = {"","16:9","16:10","4:3"};
         cmbAspectRation = new JComboBox(aspRatioOptions);
+
         // disable the comboBox of aspect Ratio making it dependent
         // of resolution comboBox
         cmbAspectRation.setEnabled(false);
+
         // addition of options to the frame rate selector
         String[] frameRateOptions = {"","24","29","30","60"};
         cmbFrameRate = new JComboBox(frameRateOptions);
+
         // addition of options to the video codec selector
         String[] videoCodOptions = {"","H264","MP4","AVI"};
         cmbVideoCodec = new JComboBox(videoCodOptions);
+
         // addition of options to the audio codec selector
         String[] audioCodOptions = {"","MP3","WMA","OGG"};
         cmbAudioCodec = new JComboBox(audioCodOptions);
+
         // addition of options to the format selector
         String[] formatOptions = {"","mp4","flv"};
         cmbFormat = new JComboBox(formatOptions);
+
         // set text to the convertor button
         buttonConvert = new JButton("Convert");
 
@@ -198,44 +226,140 @@ public class ConverterPanel extends JPanel {
                 }
             }
         });
-        // this panel allows to manage the fields of resolution
+    }
+
+    /**
+     * this method creates the congigurations to the left panel
+     * including resolution, aspect ratio, frame rate
+     * @return a Jpanel object to be added to the main panel
+     */
+    private JPanel initCompLeftPanel(){
+        // this is the alignment of the resolution's fields
+        JPanel panelLblRes = new JPanel();
+        panelLblRes.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelLblRes.add(labelResolution);
+        JPanel panelCmbRes = new JPanel();
+        panelCmbRes.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelCmbRes.add(cmbResolution);
         JPanel panelResol = new JPanel();
-        panelResol.add(labelResolution);
-        panelResol.add(cmbResolution);
-        // this panel allows to manage the fields of aspect ratio
+        panelResol.setLayout(new GridLayout(1,2));
+        panelResol.add(panelLblRes);
+        panelResol.add(panelCmbRes);
+
+        // this is the alignment of the aspect radio fields
+        JPanel panelLblAsp = new JPanel();
+        panelLblAsp.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelLblAsp.add(labelAspectRatio);
+        JPanel panelCmbAsp = new JPanel();
+        panelCmbAsp.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelCmbAsp.add(cmbAspectRation);
         JPanel panelAspRatio = new JPanel();
-        panelAspRatio.add(labelAspectRatio);
-        panelAspRatio.add(cmbAspectRation);
-        // this panel allows to manage the fields of frame rate
+        panelAspRatio.setLayout(new GridLayout(1,2));
+        panelAspRatio.add(panelLblAsp);
+        panelAspRatio.add(panelCmbAsp);
+
+        // this is the alignment of the frame rate's fields
+        JPanel panelLblFra = new JPanel();
+        panelLblFra.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelLblFra.add(labelFrameRate);
+        JPanel panelCmbFra = new JPanel();
+        panelCmbFra.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelCmbFra.add(cmbFrameRate);
         JPanel panelFrameRate = new JPanel();
-        panelFrameRate.add(labelFrameRate);
-        panelFrameRate.add(cmbFrameRate);
-        // this panel allows to manage the fields of video codec
+        panelFrameRate.setLayout(new GridLayout(1,2));
+        panelFrameRate.add(panelLblFra);
+        panelFrameRate.add(panelCmbFra);
+
+        // this is the alignment of the fields above
+        JPanel panelLeft = new JPanel();
+        panelLeft.setLayout(new BoxLayout(panelLeft,BoxLayout.Y_AXIS));
+        panelLeft.add(panelResol);
+        panelLeft.add(panelAspRatio);
+        panelLeft.add(panelFrameRate);
+        return panelLeft;
+    }
+
+    /**
+     * this method creates the congigurations to the middle panel
+     * including videcodec, Audio codec, format
+     * @return a Jpanel object to be added to the main panel
+     */
+    private JPanel iniCompMiddlePanel(){
+
+        // this is the alignment of the Video codec's fields
+        JPanel panelLblVid = new JPanel();
+        panelLblVid.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelLblVid.add(labelVideoCodec);
+        JPanel panelCmbVid = new JPanel();
+        panelCmbVid.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelCmbVid.add(cmbVideoCodec);
         JPanel panelVideoCod = new JPanel();
-        panelVideoCod.add(labelVideoCodec);
-        panelVideoCod.add(cmbVideoCodec);
-        // this panel allows to manage the fields of audio codec
+        panelVideoCod.setLayout(new GridLayout(1,2));
+        panelVideoCod.add(panelLblVid);
+        panelVideoCod.add(panelCmbVid);
+
+        // this is the alignment of the audio codec's fields
+        JPanel panelLblAud = new JPanel();
+        panelLblAud.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelLblAud.add(labelAudioCodec);
+        JPanel panelCmbAud = new JPanel();
+        panelCmbAud.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelCmbAud.add(cmbAudioCodec);
         JPanel panelAudioCod = new JPanel();
-        panelAudioCod.add(labelAudioCodec);
-        panelAudioCod.add(cmbAudioCodec);
-        // this panel allows to manage the fields of format()
+        panelAudioCod.setLayout(new GridLayout(1,2));
+        panelAudioCod.add(panelLblAud);
+        panelAudioCod.add(panelCmbAud);
+
+        // this is the alignment of the format's fields
+        JPanel panelLblFor = new JPanel();
+        panelLblFor.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelLblFor.add(labelFormat);
+        JPanel panelCmbFor = new JPanel();
+        panelCmbFor.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelCmbFor.add(cmbFormat);
         JPanel panelFormat = new JPanel();
-        panelFormat.add(labelFormat);
-        panelFormat.add(cmbFormat);
+        panelFormat.setLayout(new GridLayout(1,2));
+        panelFormat.add(panelLblFor);
+        panelFormat.add(panelCmbFor);
+
+        // this is the alignment of the fields above
+        JPanel panelMiddle = new JPanel();
+        panelMiddle.setLayout(new BoxLayout(panelMiddle,BoxLayout.Y_AXIS));
+        panelMiddle.add(panelVideoCod);
+        panelMiddle.add(panelAudioCod);
+        panelMiddle.add(panelFormat);
+        return panelMiddle;
+    }
+
+    /**
+     * this method creates the congigurations to the right panel
+     * including button convert
+     * @return a Jpanel object to be added to the main panel
+     */
+    private JPanel iniCompRightPanel(){
+
+        // this is the alignment of the button convert
+        JPanel panelRight = new JPanel();
+        panelRight.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelRight.add(buttonConvert);
+        return panelRight;
+    }
+
+    /**
+     * Initialize components
+     */
+    private void initComp() {
+        initCompTitle();
+        initCompPaths();
+        initCompFilds();
+
         // this panel allows to manage all fields above and
         // the converter button
         JPanel panelAttrib = new JPanel();
-        panelAttrib.add(panelResol);
-        panelAttrib.add(panelAspRatio);
-        panelAttrib.add(panelFrameRate);
-        panelAttrib.add(panelVideoCod);
-        panelAttrib.add(panelAudioCod);
-        panelAttrib.add(panelFormat);
-        panelAttrib.add(buttonConvert);
-        panelAttrib.setLayout(new BoxLayout(panelAttrib,BoxLayout.Y_AXIS));
-
-        this.add(panelTitle);
-        this.add(panelCenter);
+        panelAttrib.add(initCompLeftPanel());
+        panelAttrib.add(iniCompMiddlePanel());
+        panelAttrib.add(iniCompRightPanel());
+        panelAttrib.setLayout(new BoxLayout(panelAttrib,BoxLayout.X_AXIS));
         this.add(panelAttrib);
         this.setVisible(true);
     }

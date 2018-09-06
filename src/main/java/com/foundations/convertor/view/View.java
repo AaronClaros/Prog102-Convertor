@@ -73,7 +73,7 @@ public class View extends JFrame {  //
         this.setLayout(new BoxLayout(getContentPane(), BoxLayout.LINE_AXIS));
         //set search panel minimum an maximum dimensions
         sPanel.setMinimumSize(new Dimension(300, 600));
-        sPanel.setMaximumSize(new Dimension(350, 600));
+        sPanel.setMaximumSize(new Dimension(350, screenSize.height));
         //add search panel to main frame
         this.add(sPanel);
         //add a rigid area to separe search panel from right container
@@ -84,14 +84,14 @@ public class View extends JFrame {  //
         right_container.setLayout(new BoxLayout(right_container, BoxLayout.Y_AXIS));
         //set search list panel minimum an maximum dimensions
         slPanel.setMinimumSize(new Dimension(300, 300));
-        slPanel.setMaximumSize(new Dimension(1000, 300));
+        slPanel.setMaximumSize(new Dimension(1000, screenSize.height));
         //add search list panel for right_container
         right_container.add(slPanel);
         //set layout for converter panel
         convPanel.setLayout(new BoxLayout(convPanel,BoxLayout.Y_AXIS));
         //set converter panel minimum an maximum dimensions
         convPanel.setMinimumSize(new Dimension(500, 300));
-        convPanel.setMaximumSize(new Dimension(1000, 300));
+        convPanel.setMaximumSize(new Dimension(1000, screenSize.height));
         //add converter panel to right_container
         right_container.add(convPanel);
         //add right_container to main frame
