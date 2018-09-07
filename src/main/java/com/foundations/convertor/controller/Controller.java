@@ -22,6 +22,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.EventListener;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *  Controller for use as pattern MVC, here is instanced the view and model classes
@@ -29,11 +33,12 @@ import java.util.List;
  * @authors Kevin Herrera, Kevin Sanchez - AWT-[01].
  * @version 0.1
  */
-public class Controller implements ActionListener, EventListener {
+public class Controller implements ActionListener, EventListener ,ListSelectionListener{
 
     private View view; // reference to object view
     private Search search; // reference to object search
     private Criteria criteria; // reference to object criteria
+    private String pathSelected;
 
     public Controller(){
         instanceCriteria();
@@ -47,6 +52,7 @@ public class Controller implements ActionListener, EventListener {
     public void instanceViewComponent(){
         view = new View();
         view.getSPanel().getSearchButton().addActionListener(this); // add actionListener for button search
+        view.getSLPanel().getTable().getSelectionModel().addListSelectionListener(this);
     }
 
     /**
@@ -137,5 +143,13 @@ public class Controller implements ActionListener, EventListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         doSearch();
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+      JTable resultsTable = view.getSLPanel().getTable();
+      String pathSelected = resultsTable.getValueAt(resultsTable.getSelectedRow(), 1).toString();
+      LoggerManager.getLogger().Log("SELECTED: "+pathSelected, "INFO");
+      view.getConvPanel().getTFInputPath().setText(pathSelected);
     }
 }

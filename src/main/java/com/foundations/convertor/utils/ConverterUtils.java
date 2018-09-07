@@ -8,17 +8,18 @@
  * disclose such Confidential Information and shall use it only in
  * accordance with the terms of the license agreement you entered into
  * with Jala Foundation.
+ * @author Kevin Sanchez - AWT-[01].
+ * @author Angelica Lopez - AWT-[01].
+ * @version 0.1
  */
 
 package com.foundations.convertor.utils;
 
 import java.sql.Timestamp;
+import org.apache.commons.lang3.math.Fraction;
 
 /**
  *  ConverterUtils class allows to convert data types
- *
- * @author Kevin Sanchez - AWT-[01].
- * @version 0.1
  */
 public class ConverterUtils {
 
@@ -98,4 +99,37 @@ public class ConverterUtils {
         Timestamp dur = new Timestamp(hours + minutes + seconds);
         return dur;
     }
+
+    /**
+     * Convert a double to Time String
+     * @param time receive a double time
+     * @return time string
+     */
+    public  String doubleToTimeString(double time){
+        double timeReal = time * 1000;
+        long longSeconds = (long) timeReal;
+        String res = timeToString(longSeconds);
+        return res;
+    }
+
+    /**
+     * Convert two int number to string format extension
+     * @param x receive a int
+     * @param y receive a int
+     * @return
+     */
+    public String extensionToString(int x, int y){
+
+        return String.valueOf(x) + "X" + String.valueOf(y);
+    }
+
+    /**
+     * Convert a Fraction to String
+     * @param fraction receive
+     * @return string fraction
+     */
+    public String frameRateToString(Fraction fraction){
+        return fraction.toString();
+    }
 }
+
