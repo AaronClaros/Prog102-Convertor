@@ -118,4 +118,10 @@ public class View extends JFrame {  //
     {
         return slPanel;
     }
+
+    /**
+     * Get panel for search components
+     * @return Panel convert
+     */
+    public ConverterPanel getConvPanel() {return convPanel;}
 }
