@@ -16,6 +16,7 @@ import com.foundations.convertor.model.Video.Video;
 import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
 import java.lang.annotation.ElementType;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import net.bramp.ffmpeg.FFprobe;
@@ -59,7 +60,7 @@ public class Search {
             return null;
         }
         List<Video> videoList = new ArrayList<Video>();
-         //Go through every file in the path
+        //Go through every file in the path
         fillWithCriteria(criteria,file,videoList);
         return videoList;
     }
@@ -93,9 +94,9 @@ public class Search {
                     continue;
                 }
                 //Check duration
-                /*if(){
+                if(criteria.getDurFrom()>=auxVideo.getDuration()||criteria.getDurTo()<=auxVideo.getDuration()){
                     continue;
-                }*/
+                }
                 //Check Frame rate
                 if(!criteria.getFrameRate().isEmpty()&&!auxVideo.getFrameRate().equals(criteria.getFrameRate())){
                     continue;
@@ -141,32 +142,32 @@ public class Search {
      */
     public Video getStreamVideo(File file) {
 
-      Video video = new Video();
-      try{
-        String ffProbePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
+        Video video = new Video();
+        try{
+            String ffProbePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
 
-         ffprobe = new FFprobe(ffProbePath);
-         FFmpegStream videoStream = ffprobe.probe(file.getPath()).getStreams().get(0);
-         String extFile = FilenameUtils.getExtension(file.getAbsolutePath());
-         video.setFileName(file.getName());
-         video.setPathFile(file.getAbsolutePath());
-         video.setVideoCodec(videoStream.codec_name);
-         video.setAudioCodec(videoStream.codec_type.name());
-         video.setFrameRate(videoStream.avg_frame_rate.toString());
-         video.setDuration(new Double(videoStream.duration).toString());
-         video.setAspectRatio(videoStream.display_aspect_ratio);
-         String resolution=(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
-         video.setResolution(resolution);
-         video.setExt(extFile);
-       }
-       //If the file is not a video an exception is send
-       catch (Exception ex)
-       {
-           LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
-       }
+            ffprobe = new FFprobe(ffProbePath);
+            FFmpegStream videoStream = ffprobe.probe(file.getPath()).getStreams().get(0);
+            String extFile = FilenameUtils.getExtension(file.getAbsolutePath());
+            video.setFileName(file.getName());
+            video.setPathFile(file.getAbsolutePath());
+            video.setVideoCodec(videoStream.codec_name);
+            video.setAudioCodec(videoStream.codec_type.name());
+            video.setFrameRate(videoStream.avg_frame_rate.toString());
+            video.setDuration(new Double(videoStream.duration+0.01));
+            video.setAspectRatio(videoStream.display_aspect_ratio);
+            String resolution=(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
+            video.setResolution(resolution);
+            video.setExt(extFile);
+        }
+        //If the file is not a video an exception is send
+        catch (Exception ex)
+        {
+            LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
+        }
         return video;
     }
-    
+
 
 }
 

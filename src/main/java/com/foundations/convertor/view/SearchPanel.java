@@ -155,7 +155,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //box "duration to" instance and text format set
         boxDurationTo = new JFormattedTextField(createFormat("##:##:##"));
         //set default duration time for duration to
-        boxDurationTo.setValue("00:00:00");
+        boxDurationTo.setValue("99:99:99");
         //label aspect ratio instance and text set
         labelAspectRatio = new JLabel("Aspect Ratio");
         //aspect ratio array
@@ -425,5 +425,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         }
         //Copy selected path to the text box
         boxPath.setText(fc.getSelectedFile().getAbsolutePath());
+    }
+    public void setDefaultDuration() {
+        //set default duration time for duration from
+        boxDurationFrom.setValue("00:00:00");
+        //set default duration time for duration to
+        boxDurationTo.setValue("99:99:99");
     }
 }

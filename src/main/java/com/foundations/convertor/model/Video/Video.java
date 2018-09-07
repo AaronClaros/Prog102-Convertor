@@ -18,10 +18,8 @@ package com.foundations.convertor.model.Video;
 public class Video {
   //Field to get/set the title
   String title;
-  //Field to get/set the description
-  String description;
   //Field to get/set the duration
-  String duration;
+  Double duration;
   //Field to get/set the path file
   String pathFile;
   //Field to get/set the file name
@@ -47,20 +45,12 @@ public class Video {
   public void setTitle(String title) {
     this.title = title;
   }
-  //return the description
-  public String getDescription() {
-    return description;
-  }
-  //setting the description
-  public void setDescription(String description) {
-    this.description = description;
-  }
   //return the duration
-  public String getDuration() {
+  public Double getDuration() {
     return duration;
   }
   //setting the duration
-  public void setDuration(String duration) {
+  public void setDuration(Double duration) {
     this.duration = duration;
   }
   //return the path file

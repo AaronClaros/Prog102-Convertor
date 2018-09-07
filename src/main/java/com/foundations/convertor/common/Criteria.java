@@ -35,10 +35,10 @@ public class Criteria {
     private String frameRate;
 
     // Initial time to search
-    private Timestamp durFrom;
+    private double durFrom;
 
     // Final time to search
-    private Timestamp durTo;
+    private double durTo;
 
     // aspect ratio to search
     private String aspcRatio;
@@ -82,14 +82,14 @@ public class Criteria {
     /**
      * @return It returns the given initial time to search
      */
-    public Timestamp getDurFrom() {
+    public double getDurFrom() {
         return durFrom;
     }
 
     /**
      * @return It returns the given final time to search
      */
-    public Timestamp getDurTo() {
+    public double getDurTo() {
         return durTo;
     }
 
@@ -159,14 +159,14 @@ public class Criteria {
     /**
      * @param durFrom It will set the initial time to search
      */
-    public void setDurFrom(Timestamp durFrom) {
+    public void setDurFrom(double durFrom) {
         this.durFrom = durFrom;
     }
 
     /**
      * @param durTo It will set the final time to search
      */
-    public void setDurTo(Timestamp durTo) {
+    public void setDurTo(double durTo) {
         this.durTo = durTo;
     }
 
