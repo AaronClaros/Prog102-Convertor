@@ -20,7 +20,6 @@ import com.foundations.convertor.view.View;
 import com.foundations.convertor.model.Search;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Timestamp;
 import java.util.EventListener;
 import java.util.List;
 import javax.swing.JTable;
@@ -76,9 +75,8 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         // this variables help to validate the fields
         String durFrom;
         String durTo;
-        Timestamp timeFrom;
-        Timestamp timeTo;
-        Timestamp timeAux;
+        double secondsFrom = 0;
+        double secondsTo = 0;
 
         criteria.setPath(view.getSPanel().getBoxPath().getText());
         criteria.setFileName(view.getSPanel().getBoxFileName().getText());
@@ -88,26 +86,25 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         criteria.setFrameRate(view.getSPanel().getCBFrameRate().getSelectedItem().toString());
         criteria.setResolution(view.getSPanel().getCBResolution().getSelectedItem().toString());
         criteria.setVideoCodec(view.getSPanel().getCBVideoCodec().getSelectedItem().toString());
+
         durFrom = view.getSPanel().getBoxDurationFrom().getText();
         durTo = view.getSPanel().getBoxDurationTo().getText();
-
-        // converting the given string to search into timestamp
-        timeFrom = converterUtils.stringToTime(durFrom);
-        timeTo = converterUtils.stringToTime(durTo);
-
-        // validating duration from always lower than duration to
-        if (timeFrom.getTime() >timeTo.getTime()){
-            timeAux = timeFrom;
-            timeFrom = timeTo;
-            timeTo = timeAux;
-        }
-        // validating the time will be in a range to search
-        if (timeFrom.getTime() == timeTo.getTime()){
-            timeTo.setTime(timeTo.getTime()+3600000);
-        }
-        criteria.setDurFrom(timeFrom);
-        criteria.setDurTo(timeTo);
-        /**
+        // converting the given strings of Duration to search, into doubles
+        String [] durFromList = durFrom.split(":");
+        secondsFrom = Double.parseDouble(durFromList[0])*3600+ Double.parseDouble(durFromList[1])*60
+                + Double.parseDouble(durFromList[2]);
+        String [] durToList = durTo.split(":");
+        secondsTo = Double.parseDouble(durToList[0])*3600+ Double.parseDouble(durToList[1])*60
+                + Double.parseDouble(durToList[2]);
+        //Set the criteria to the values entered in the view
+        criteria.setDurFrom(secondsFrom);
+        criteria.setDurTo(secondsTo);
+        // validating duration from always lower than duration to Else the duration fields are reset to their default
+        if (criteria.getDurFrom()>criteria.getDurTo()){
+            view.getSPanel().setDefaultDuration();
+            criteria.setDurFrom(0);
+            criteria.setDurTo(362439.0);
+        }       /**
          * Calls the method to fill the table using the search methods
          * Only should need to call method
          *
