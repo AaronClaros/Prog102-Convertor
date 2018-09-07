@@ -17,6 +17,7 @@ package com.foundations.convertor.view;
  * @author Adrian Rojas - AWT-[01].
  * @version 0.1
  */
+import com.foundations.convertor.utils.LoggerManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -73,11 +74,12 @@ public class SearchListPanel extends JPanel {
         resultsTable.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e){
                 if (e.getClickCount() == 2){
-                    System.out.println(" double click" );
+                    LoggerManager.getLogger().Log("Did Double Click to play video", "INFO");
                     playVideo();
                 }
             }
         } );
+
         //set layout of panel as Border Layout
         this.setLayout(new BorderLayout());
         //add components to panel and center to layout
@@ -85,6 +87,12 @@ public class SearchListPanel extends JPanel {
         //make panel components visible
         this.setVisible(true);
     }
+
+    /**
+     * Return the table result
+     * @return result table
+     */
+    public JTable getTable(){return  resultsTable;}
 
     /**
      * Get the search results table as a DefaultTableModel object
@@ -107,16 +115,14 @@ public class SearchListPanel extends JPanel {
 
         //Only creates the video player frame if the path for the cell selection is not null
         if(selectedData!=null) {
-            System.out.println("Selected: " + selectedData);
+            LoggerManager.getLogger().Log( "Selected row to play: " + selectedData, "INFO");
             MoviePlayer player = new MoviePlayer();
             try {
+                //TODO STOP- PAUSE
                 player.start(selectedData);
             } catch (Exception e) {
-                e.printStackTrace();
+                LoggerManager.getLogger().Log( e.getMessage(), "Error");
             }
         }
-
-
     }
-
 }
