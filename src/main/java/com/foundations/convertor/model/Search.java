@@ -84,7 +84,7 @@ public class Search {
             else  if(isVideo(elementFile)) {
                 auxVideo = getStreamVideo(elementFile);
                 //Check File Name
-                if(!criteria.getFileName().isEmpty()&&!auxVideo.getFileName().contains(criteria.getFileName())){
+                if(auxVideo.getFileName()==null||!criteria.getFileName().isEmpty()&&!auxVideo.getFileName().contains(criteria.getFileName())){
                     continue;
                 }
                 //Check File extension
