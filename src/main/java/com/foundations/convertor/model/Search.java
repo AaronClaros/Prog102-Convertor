@@ -92,7 +92,8 @@ public class Search {
                     continue;
                 }
                 //Check duration
-                if(criteria.getDurFrom()>=auxVideo.getDuration()||criteria.getDurTo()<=auxVideo.getDuration()){
+                if(auxVideo.getDuration()==null||criteria.getDurFrom()>=auxVideo.getDuration()||
+                        criteria.getDurTo()<=auxVideo.getDuration()){
                     continue;
                 }
                 //Check Frame rate
@@ -151,7 +152,7 @@ public class Search {
             video.setVideoCodec(videoStream.codec_name);
             video.setAudioCodec(videoStream.codec_type.name());
             video.setFrameRate((videoStream.avg_frame_rate.doubleValue()*100)/100);
-            video.setDuration(videoStream.duration+0.01);
+            video.setDuration(videoStream.duration);
             video.setAspectRatio(videoStream.display_aspect_ratio);
             String resolution=(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
             video.setResolution(resolution);
