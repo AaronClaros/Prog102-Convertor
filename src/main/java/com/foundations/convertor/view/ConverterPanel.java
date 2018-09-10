@@ -98,8 +98,7 @@ public class ConverterPanel extends JPanel {
         bagConstraints.gridy = 0;
         bagConstraints.gridwidth = 6;
         bagConstraints.gridheight = 1;
-        bagConstraints.weighty = 0.5;
-        bagConstraints.insets = new Insets(5,0,5,0);
+        bagConstraints.insets = new Insets(5,0,30,0);
         bagConstraints.fill = GridBagConstraints.BOTH;
         this.add(labelTitle,bagConstraints);
     }
@@ -211,7 +210,7 @@ public class ConverterPanel extends JPanel {
         cmbResolution = new JComboBox(resolOptions);
 
         // addition of options to the frame rate selector
-        String[] frameRateOptions = {"","25/1","29/1","30/1","60000/1001"};
+        String[] frameRateOptions = {"","24","25","29","29.7","30","60"};
         cmbFrameRate = new JComboBox(frameRateOptions);
 
         // addition of options to the video codec selector
@@ -286,6 +285,8 @@ public class ConverterPanel extends JPanel {
         bagConstraints.gridy = 4;
         bagConstraints.gridwidth = 1;
         bagConstraints.gridheight = 1;
+        bagConstraints.weighty = 0.5;
+        bagConstraints.weightx = 0.0;
         bagConstraints.insets = new Insets(5,5,5,5);
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(cmbVideoCodec,bagConstraints);
