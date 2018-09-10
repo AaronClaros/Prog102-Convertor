@@ -204,7 +204,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(tFieldInputPath,bagConstraints);
 
-        // setting constrains of labelOutPath
+        // setting constrains of label OutPath
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 2;
         bagConstraints.gridwidth = 1;

@@ -127,10 +127,7 @@ public class View extends JFrame {  //
      * Get panel for search criteria panel
      * @return Search criteria object
      */
-    public SearchPanel getSPanel ()
-    {
-        return sPanel;
-    }
+    public SearchPanel getSPanel () { return sPanel; }
 
     /**
      * Get panel for search list result panel
