@@ -82,4 +82,15 @@ public class ConverterUtilsTest {
         when(mockedConverter.frameRateToString(fraction)).thenReturn("25/1");
         System.out.println(mockedConverter.frameRateToString(fraction));
     }
+
+    /**
+     * This test verify the split by regex X -> 1920X1080
+     */
+    @Test
+    public void SplitString(){
+        ConverterUtils mockedConverter = mock(ConverterUtils.class);
+        String[]resultExpected = {"1920","1080"};
+        when(mockedConverter.splitString("1920X1080")).thenReturn(resultExpected);
+        System.out.println(mockedConverter.splitString("1920X1080").length);
+    }
 }
