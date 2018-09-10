@@ -151,7 +151,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      */
     public void convertVideo(){
         ConverterUtils converterUtils=new ConverterUtils();
-        conversionCriteria = new ConversionCriteria(getPathToConvert());
+        conversionCriteria = new ConversionCriteria(pathToConvert);
 
         String resolution = view.getConvPanel().getCmbResolution().getSelectedItem().toString();
         conversionCriteria.setResolution(converterUtils.intExtensionWidth(resolution),converterUtils.intExtensionHeight(resolution));
