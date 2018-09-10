@@ -98,7 +98,7 @@ public class ConversionCriteria {
         if (outputFormat.isEmpty()){
             outputFormat = FilenameUtils.getExtension(inputPath);
         }
-        return outputFolder+outputName+"."+outputFormat;
+        return outputFolder+"\\"+outputName+"."+outputFormat;
     }
 
     public void setFramesPerSecond(double framesPerSecond){
