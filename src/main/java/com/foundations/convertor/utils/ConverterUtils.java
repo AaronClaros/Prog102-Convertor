@@ -140,6 +140,9 @@ public class ConverterUtils {
      * @return double
      */
     public double stringToDouble(String frameRate) {
+        if(frameRate.equalsIgnoreCase("")){
+            return 0;
+        }
         return Double.parseDouble(frameRate);
     }
 
@@ -149,6 +152,11 @@ public class ConverterUtils {
      * @return int width
      */
     public int intExtensionWidth(String extension){
+
+        if(extension.equalsIgnoreCase("")){
+            return 0;
+        }
+
         String[] extensions = splitString(extension);
         return Integer.parseInt(extensions[0]);
     }
@@ -159,6 +167,11 @@ public class ConverterUtils {
      * @return int height
      */
     public int intExtensionHeight(String extension){
+
+        if(extension.equalsIgnoreCase("")){
+            return 0;
+        }
+
         String[] extensions = splitString(extension);
         return Integer.parseInt(extensions[1]);
     }
