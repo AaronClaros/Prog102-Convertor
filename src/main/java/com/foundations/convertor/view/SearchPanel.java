@@ -150,7 +150,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         labelFrameRate = new JLabel("Frame Rate", SwingConstants.RIGHT);
 
         //frame rates array
-        String[] frame_rates = {"","24","25","29","29.7","30","60"};
+        String[] frame_rates = {"","24","25","29","29.7","30","59.94"};
 
         //combo box frame rate instance and content set
         comboxFrameRate = new JComboBox(frame_rates);
@@ -165,7 +165,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         boxDurationTo = new JFormattedTextField(createFormat("##:##:##"));
 
         //set default duration time for duration to
-        boxDurationTo.setValue("99:99:99");
+        boxDurationTo.setValue("99:59:59");
 
         //label aspect ratio instance and text set
         labelAspectRatio = new JLabel("Aspect Ratio", SwingConstants.RIGHT);
@@ -627,6 +627,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //set default duration time for duration from
         boxDurationFrom.setValue("00:00:00");
         //set default duration time for duration to
-        boxDurationTo.setValue("99:99:99");
+        boxDurationTo.setValue("99:59:59");
     }
 }

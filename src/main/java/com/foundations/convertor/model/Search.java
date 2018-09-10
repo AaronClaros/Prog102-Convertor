@@ -15,8 +15,6 @@ import com.foundations.convertor.common.Criteria;
 import com.foundations.convertor.model.Video.Video;
 import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
-import java.lang.annotation.ElementType;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import net.bramp.ffmpeg.FFprobe;
@@ -98,7 +96,7 @@ public class Search {
                     continue;
                 }
                 //Check Frame rate
-                if(!criteria.getFrameRate().isEmpty()&&!auxVideo.getFrameRate().equals(criteria.getFrameRate())){
+                if(!criteria.getFrameRate().isEmpty()&&!String.format("%.2f",auxVideo.getFrameRate()).equals(criteria.getFrameRate())){
                     continue;
                 }
                 //Check Aspect ratio
@@ -141,7 +139,6 @@ public class Search {
      * @return a Multi media video File
      */
     public Video getStreamVideo(File file) {
-
         Video video = new Video();
         try{
             String ffProbePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
@@ -153,8 +150,8 @@ public class Search {
             video.setPathFile(file.getAbsolutePath());
             video.setVideoCodec(videoStream.codec_name);
             video.setAudioCodec(videoStream.codec_type.name());
-            video.setFrameRate(videoStream.avg_frame_rate.toString());
-            video.setDuration(new Double(videoStream.duration+0.01));
+            video.setFrameRate(videoStream.avg_frame_rate.doubleValue());
+            video.setDuration(videoStream.duration+0.01);
             video.setAspectRatio(videoStream.display_aspect_ratio);
             String resolution=(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
             video.setResolution(resolution);
