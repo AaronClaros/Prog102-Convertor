@@ -15,7 +15,7 @@ package com.foundations.convertor.view;
 /**
  *  View class for UI
  *
- * @author Adrian Rojas - AWT-[01].
+ * @authors Adrian Rojas, Kevin Sanchez - AWT-[01].
  * @version 0.1
  */
 import javax.swing.*;
@@ -33,6 +33,13 @@ public class View extends JFrame {  //
     private ConverterPanel convPanel;
     // constructor of father class JFrame
     public Dimension screenSize;
+    // this variable helps to set objects of
+    // the frame
+    private GridBagConstraints bagConstraints;
+
+    /**
+     * Constructor method
+     */
     public View() {
         super();
         // set the frame properties
@@ -57,6 +64,9 @@ public class View extends JFrame {  //
         this.setResizable(true);
         // All processes are terminated once the frame is closed
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // type of layout for the frame
+        this.setLayout(new GridBagLayout());
+        bagConstraints = new GridBagConstraints();
     }
 
     /**
@@ -65,37 +75,49 @@ public class View extends JFrame {  //
     private void initComp() {
         //Instance frame with search criteria
         sPanel = new SearchPanel();
+
         //Instance frame with result table panel
         slPanel = new SearchListPanel();
         //Instance frame with converter panel
         convPanel = new ConverterPanel();
-        //set layout for main frame
-        this.setLayout(new BoxLayout(getContentPane(), BoxLayout.LINE_AXIS));
-        //set search panel minimum an maximum dimensions
-        sPanel.setMinimumSize(new Dimension(300, 600));
-        sPanel.setMaximumSize(new Dimension(350, screenSize.height));
-        //add search panel to main frame
-        this.add(sPanel);
-        //add a rigid area to separe search panel from right container
-        this.add(Box.createRigidArea(new Dimension(5,0)));
-        //create a panel to contain SearchListPanel and ConverterPanel
-        JPanel right_container = new JPanel();
-        //set right_container layout
-        right_container.setLayout(new BoxLayout(right_container, BoxLayout.Y_AXIS));
-        //set search list panel minimum an maximum dimensions
-        slPanel.setMinimumSize(new Dimension(300, 300));
-        slPanel.setMaximumSize(new Dimension(1000, screenSize.height));
-        //add search list panel for right_container
-        right_container.add(slPanel);
-        //set layout for converter panel
-        convPanel.setLayout(new BoxLayout(convPanel,BoxLayout.Y_AXIS));
-        //set converter panel minimum an maximum dimensions
-        convPanel.setMinimumSize(new Dimension(500, 300));
-        convPanel.setMaximumSize(new Dimension(1000, screenSize.height));
-        //add converter panel to right_container
-        right_container.add(convPanel);
-        //add right_container to main frame
-        this.add(right_container);
+
+        // setting constrains of spanel
+        // position where it starts
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 0;
+
+        // number of columns and rows used
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 2;
+
+        // stretching values
+        bagConstraints.weightx = 0.0;
+        bagConstraints.weighty = 1.0;
+
+        // way it will change its size
+        bagConstraints.fill = GridBagConstraints.BOTH;
+        this.add(sPanel,bagConstraints);
+
+        // setting constrains of slpanel
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 0;
+        bagConstraints.gridwidth = 3;
+        bagConstraints.gridheight = 1;
+        bagConstraints.weightx = 1.0;
+        bagConstraints.weighty = 0.0;
+        bagConstraints.fill = GridBagConstraints.BOTH;
+        this.add(slPanel,bagConstraints);
+
+        // setting constrrains of convPanel
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 3;
+        bagConstraints.gridheight = 1;
+        bagConstraints.weightx = 1.0;
+        bagConstraints.weighty = 0.0;
+        bagConstraints.fill = GridBagConstraints.BOTH;
+        this.add(convPanel,bagConstraints);
+
         //Display the window
         this.pack();
         this.setVisible(true);

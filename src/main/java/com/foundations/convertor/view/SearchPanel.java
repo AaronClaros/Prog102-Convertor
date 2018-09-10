@@ -15,21 +15,12 @@ package com.foundations.convertor.view;
 /**
  *  Panel for the convertor search criteria
  *
- * @authors Adrian Rojas, Kevin Herrera - AWT-[01].
+ * @authors Adrian Rojas, Kevin Herrera, Kevin Sanchez - AWT-[01].
  * @version 0.1
  */
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.BorderFactory;
+import javax.swing.*;
 import javax.swing.text.MaskFormatter;
-import javax.swing.UIManager;
-import javax.swing.BoxLayout;
-import javax.swing.JFileChooser;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,8 +55,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     private JComboBox comboxFrameRate;
     //Label duration time video
     private JLabel labelDuration;
-    //Label duration from time
-    private JLabel labelDurationFrom;
     //Label duration to time
     private JLabel labelDurationTo;
     // spinner for time duration from
@@ -88,28 +77,33 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     private JLabel labelAudioCodec;
     //Combo Box for frame Video Codec;
     private JComboBox comboxAudioCodec;
+    // this variable helps to set objects of
+    // the search panel
+    private GridBagConstraints bagConstraints;
 
     /**
      * Constructor of father class JPanel
      */
     public SearchPanel() {
         super();
-        // Initialize attributes or components
-        initComp();
         // set the panel
         settings();
+        // Initialize attributes or components
+        initComp();
+
     }
 
     /**
      * Search panel settings
      */
     private void settings() {
-        //set panel layout as Box Layout
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         //set border to panel
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         //set background color of panel
         this.setBackground(UIManager.getColor ( "Panel.background" ));
+        // type of layout for the panel
+        this.setLayout(new GridBagLayout());
+        bagConstraints = new GridBagConstraints();
     }
     /**
      * this method create the instance of the fields
@@ -117,10 +111,10 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      */
     private void initCompFields(){
         //Panel labelTitle
-        labelTitle = new JLabel("Search Criteria");
+        labelTitle = new JLabel("Search Criteria", SwingConstants.CENTER);
 
         //Label for text field path
-        labelPath = new JLabel("Path:");
+        labelPath = new JLabel("Path:", SwingConstants.RIGHT);
 
         //button path instance and labelTitle set
         buttonPath = new JButton("Open");
@@ -132,33 +126,31 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         boxFileName = new JTextField(10);
 
         //label file name instance and text set
-        titleFileName= new JLabel("File Name:");
+        titleFileName= new JLabel("File Name:", SwingConstants.RIGHT);
 
         //button search instance and text set
         buttonSearch = new JButton("Search");
 
         //label file extension instance and text set
-        labelFileExt = new JLabel("File Ext.");
+        labelFileExt = new JLabel("File Ext.", SwingConstants.RIGHT);
 
         //supported extensions array
         String[] supported_ext = {"","mp4","avi","flv","mkv","mov","3gp"};
 
         //text field file extension instance
         boxFileExt = new JComboBox(supported_ext);
-        //label duration instance and text set
-        labelDuration = new JLabel("Duration");
 
-        //label "duration from" instance and text set
-        labelDurationFrom = new JLabel("From");
+        //label duration instance and text set
+        labelDuration = new JLabel("Duration From", SwingConstants.RIGHT);
 
         //label "duration to" instance and text set
-        labelDurationTo = new JLabel("To");
+        labelDurationTo = new JLabel("To", SwingConstants.RIGHT);
 
         //label frame rate instance and text set
-        labelFrameRate = new JLabel("Frame Rate");
+        labelFrameRate = new JLabel("Frame Rate", SwingConstants.RIGHT);
 
         //frame rates array
-        String[] frame_rates = {"","25","29","30","59.94"};
+        String[] frame_rates = {"","24","25","29","29.7","30","59.94"};
 
         //combo box frame rate instance and content set
         comboxFrameRate = new JComboBox(frame_rates);
@@ -176,7 +168,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         boxDurationTo.setValue("99:59:59");
 
         //label aspect ratio instance and text set
-        labelAspectRatio = new JLabel("Aspect Ratio");
+        labelAspectRatio = new JLabel("Aspect Ratio", SwingConstants.RIGHT);
 
         //aspect ratio array
         String[] asp_ratios = {"","16:9","16:10","0:1","4:3","40:23"};
@@ -185,7 +177,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         comboxAspectRatio = new JComboBox(asp_ratios);
 
         //label resolution instance and text set
-        labelResolution = new JLabel("Resolution");
+        labelResolution = new JLabel("Resolution", SwingConstants.RIGHT);
 
         //resolution array
         String[] resolutions = {"","1920X1080","1280X720","640X480","640X368","480X270","320X240","256X240","176X144"};
@@ -194,7 +186,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         comboxResolution = new JComboBox(resolutions);
 
         //label video code instance and text set
-        labelVideoCodec = new JLabel("Video Codec");
+        labelVideoCodec = new JLabel("Video Codec", SwingConstants.RIGHT);
 
         //video codecs array
         String[] video_codecs = {"","h264","h263","indeo4","mpeg4","flv","avi"};
@@ -203,7 +195,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         comboxVideoCodec = new JComboBox(video_codecs);
 
         //label audio code instance and text set
-        labelAudioCodec = new JLabel("Audio Codec");
+        labelAudioCodec = new JLabel("Audio Codec", SwingConstants.RIGHT);
 
         //audio codecs array
         String[] audio_codecs = {"","MP3","WMA","OGG","VIDEO"};
@@ -217,146 +209,163 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
     /**
      * This method initialize the tittle
-     * @return it return a JPanel object
-     * to be added in the search panel
      */
-    private JPanel initCompTitle(){
-        // Setting title section
-        // create panel container for title section
-        JPanel panelTitle = new JPanel();
+    private void initCompTitle(){
 
-        // set layout for panel title
-        panelTitle.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
-
-        // add label labelTitle to panel
-        panelTitle.add(labelTitle);
-
-        // add panel labelTitle to search panel
-        return panelTitle;
+        // setting constrains of title
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 0;
+        bagConstraints.gridwidth = 4;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(10,0,30,0);
+        bagConstraints.fill = GridBagConstraints.BOTH;
+        this.add(labelTitle,bagConstraints);
     }
 
     /**
      * This method initialize the search fields
-     * @return it return a JPanel object
-     * to be added in the search panel
      */
-    private JPanel initCompSearchP(){
-        // Setting path section
-        // create panel container for path section
-        JPanel panelLblPath = new JPanel();
-        JPanel panelPath = new JPanel();
+    private void initCompSearchP(){
 
-        // set layout for panelPath
-        panelPath.setLayout(new FlowLayout(FlowLayout.LEFT));
+        // setting constrains of label path
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelPath,bagConstraints);
 
-        // add components to panelPath
-        panelPath.add(labelPath);
-        panelPath.add(boxPath);
-        panelPath.add(buttonPath);
-        return panelPath;
+        // setting constrains of boxpath
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(boxPath,bagConstraints);
+
+        // setting constrains of button path
+        bagConstraints.gridx = 3;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(buttonPath,bagConstraints);
     }
 
     /**
      * This method initialize the file name fields
-     * @return it return a JPanel object
-     * to be added in the search panel
      */
-    private JPanel initCompFileName(){
-        // Setting File Name section
-        // create panel container for file name section
-        JPanel panelLblFileNa = new JPanel();
-        panelLblFileNa.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblFileNa.add(titleFileName);
-        JPanel panelTxtFileNa = new JPanel();
-        panelTxtFileNa.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelTxtFileNa.add(boxFileName);
-        JPanel panelFileName = new JPanel();
+    private void initCompFileName(){
 
-        // set layout for panelFileName
-        panelFileName.setLayout(new GridLayout(1,2));
+        // setting constrains of titleFileName
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 2;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(titleFileName,bagConstraints);
 
-        // add components to panelFileName
-        panelFileName.add(panelLblFileNa);
-        panelFileName.add(panelTxtFileNa);
-        return  panelFileName;
+        // setting constrains of boxFileName
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 2;
+        bagConstraints.gridwidth = 3;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(boxFileName,bagConstraints);
     }
 
     /**
      * This method initialize the duration fields
-     * @return it return a JPanel object
-     * to be added in the search panel
      */
-    private JPanel initCompDuration(){
-        // Setting Duration section
-        // create panel container for duration section
-        JPanel panelDuration = new JPanel();
+    private void initCompDuration(){
 
-        // set layout for panelDuration
-        panelDuration.setLayout(new FlowLayout(FlowLayout.LEADING));
+        // setting constrains of labelDuration
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 3;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelDuration,bagConstraints);
 
-        // add components to panelDuration
-        panelDuration.add(labelDuration);
-        panelDuration.add(labelDurationFrom);
-        panelDuration.add(boxDurationFrom);
-        panelDuration.add(labelDurationTo);
-        panelDuration.add(boxDurationTo);
+        // setting constrains of boxDurationFrom
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 3;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(boxDurationFrom,bagConstraints);
 
-        // add panelDuration to search panel
-        return panelDuration;
+        // setting constrains of labelDurationTo
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = 3;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelDurationTo,bagConstraints);
+
+        // setting constrains of boxDurationTo
+        bagConstraints.gridx = 3;
+        bagConstraints.gridy = 3;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(boxDurationTo,bagConstraints);
     }
 
     /**
      * This method initialize the extension fields
-     * @return it return a JPanel object
-     * to be added in the search panel
      */
-    private JPanel initCompExtention(){
-        // Setting File Extension section
-        // create panel container for file extension section
-        JPanel panelLblExt = new JPanel();
-        panelLblExt.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblExt.add(labelFileExt);
-        JPanel panelTxrFileNa = new JPanel();
-        panelTxrFileNa.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelTxrFileNa.add(boxFileExt);
-        JPanel panelFileExt = new JPanel();
+    private void initCompExtention(){
 
-        // set layout for panelFileExt
-        panelFileExt.setLayout(new GridLayout(1,2));
+        // setting constrains of labelFileExt
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 4;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelFileExt,bagConstraints);
 
-        // add components to panelFileExt
-        panelFileExt.add(panelLblExt);
-        panelFileExt.add(panelTxrFileNa);
-
-        // add panelFileExt to search panel
-        return panelFileExt;
+        // setting constrains of boxFileExt
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 4;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(boxFileExt,bagConstraints);
     }
 
     /**
      * This method initialize the Frame rate fields
-     * @return it return a JPanel object
-     * to be added in the search panel
      */
-    private JPanel initCompFrame(){
-        // Setting Frame Rate section
-        // create panel for frame rate section
-        JPanel panelLblFrame = new JPanel();
-        panelLblFrame.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblFrame.add(labelFrameRate);
-        JPanel panelTxtFrame = new JPanel();
-        panelTxtFrame.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelTxtFrame.add(comboxFrameRate);
-        JPanel panelFrameRate = new JPanel();
+    private void initCompFrame(){
+        // setting constrains of labelFrameRate
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 5;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelFrameRate,bagConstraints);
 
-        // set layout for panelFrameRate
-        panelFrameRate.setLayout(new GridLayout(1,2));
-
-        // add components to panelFrameRate
-        panelFrameRate.add(panelLblFrame);
-        panelFrameRate.add(panelTxtFrame);
-
-        // add panelFrameRate to search panel
-        return panelFrameRate;
+        // setting constrains of comboxFrameRate
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 5;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(comboxFrameRate,bagConstraints);
     }
 
     /**
@@ -364,27 +373,24 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * @return it return a JPanel object
      * to be added in the search panel
      */
-    private JPanel initCompAspect(){
+    private void initCompAspect(){
 
-        // Setting Aspect Ration section
-        // create panel for aspect ratio section
-        JPanel panelLblAspect = new JPanel();
-        panelLblAspect.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblAspect.add(labelAspectRatio);
-        JPanel panelTxtAspect = new JPanel();
-        panelTxtAspect.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelTxtAspect.add(comboxAspectRatio);
-        JPanel panelAspectRatio = new JPanel();
+        // setting constrains of labelAspectRatio
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 6;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelAspectRatio,bagConstraints);
 
-        // set layout for panelAspectRation
-        panelAspectRatio.setLayout(new GridLayout(1,2));
-
-        // add components to panelAspectRatio
-        panelAspectRatio.add(panelLblAspect);
-        panelAspectRatio.add(panelTxtAspect);
-
-        // add panelAspectRatio to search panel
-        return panelAspectRatio;
+        // setting constrains of comboxAspectRatio
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 6;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(comboxAspectRatio,bagConstraints);
     }
 
     /**
@@ -392,116 +398,105 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * @return it return a JPanel object
      * to be added in the search panel
      */
-    private JPanel initCompResolution(){
-        // Setting Resolution section
-        // create panel for resolution section
-        JPanel panelLblRes = new JPanel();
-        panelLblRes.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblRes.add(labelResolution);
-        JPanel panelTxtRes = new JPanel();
-        panelTxtRes.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelTxtRes.add(comboxResolution);
-        JPanel panelResolution = new JPanel();
+    private void initCompResolution(){
 
-        // set layout for panelResolution
-        panelResolution.setLayout(new GridLayout(1,2));
+        // setting constrains of labelResolution
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 7;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelResolution,bagConstraints);
 
-        // add components to panelResolution
-        panelResolution.add(panelLblRes);
-        panelResolution.add(panelTxtRes);
-
-        // add panelResolution to search panel
-        return panelResolution;
+        // setting constrains of comboxResolution
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 7;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(comboxResolution,bagConstraints);
     }
 
     /**
      * This method initialize the video codec fields
-     * @return it return a JPanel object
-     * to be added in the search panel
      */
-    private JPanel initCompVideo(){
-        // Setting Video Codec Section
-        //create panel for video codec section
-        JPanel panelLblVideo = new JPanel();
-        panelLblVideo.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblVideo.add(labelVideoCodec);
-        JPanel panelTxtVideo = new JPanel();
-        panelTxtVideo.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelTxtVideo.add(comboxVideoCodec);
-        JPanel panelVideoCodec = new JPanel();
+    private void initCompVideo(){
 
-        // set layout for panelVideoCodec
-        panelVideoCodec.setLayout(new GridLayout(1,2));
-        // add components to panelVideoCodec
-        panelVideoCodec.add(panelLblVideo);
-        panelVideoCodec.add(panelTxtVideo);
+        // setting constrains of labelVideoCodec
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 8;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(labelVideoCodec,bagConstraints);
 
-        // add panelVideoCodec to search panel
-        return panelVideoCodec;
+        // setting constrains of comboxVideoCodec
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 8;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(comboxVideoCodec,bagConstraints);
     }
 
     /**
      * This method initialize the audio codec fields
-     * @return it return a JPanel object
-     * to be added in the search panel
      */
-    private JPanel initCompAudio(){
-        // Setting Audio Codec section
-        // create panel for audio codec section
-        JPanel panelLblAudio = new JPanel();
-        panelLblAudio.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblAudio.add(labelAudioCodec);
-        JPanel panelTxtAudio = new JPanel();
-        panelTxtAudio.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelTxtAudio.add(comboxAudioCodec);
-        JPanel panelAudioCodec = new JPanel();
+    private void initCompAudio(){
 
-        // set layout got panelAudioCodec
-        panelAudioCodec.setLayout(new GridLayout(1,2));
+        // setting constrains of labelAudioCodec
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 9;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelAudioCodec,bagConstraints);
 
-        // add components to panelAudioCodec
-        panelAudioCodec.add(panelLblAudio);
-        panelAudioCodec.add(panelTxtAudio);
-
-        // add panelAudioCodec to search panel
-        return panelAudioCodec;
+        // setting constrains of comboxAudioCodec
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 9;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(comboxAudioCodec,bagConstraints);
     }
 
     /**
      * This method initialize the search button fields
-     * @return it return a JPanel object
-     * to be added in the search panel
      */
-    private JPanel initCompBtnSearch(){
-        // Setting Search Button section
-        // create panel for search panel section
-        JPanel panelButtonSearch = new JPanel();
+    private void initCompBtnSearch(){
 
-        // set layout for panelButtonSearch
-        panelButtonSearch.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
-
-        // add components to panelButtonSearch
-        panelButtonSearch.add(buttonSearch);
-
-        // add panelButtonSearch  to search panel
-        return panelButtonSearch;
+        // setting constrains of buttonSearch
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 11;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.weightx = 1.0;
+        bagConstraints.weighty = 0.5;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(buttonSearch,bagConstraints);
     }
     /**
      * Initialize components
      */
     private void initComp() {
         initCompFields();
-        this.add(initCompTitle());
-        this.add(initCompSearchP());
-        this.add(initCompFileName());
-        this.add(initCompDuration());
-        this.add(initCompExtention());
-        this.add(initCompFrame());
-        this.add(initCompAspect());
-        this.add(initCompResolution());
-        this.add(initCompVideo());
-        this.add(initCompAudio());
-        this.add(initCompBtnSearch());
+        initCompTitle();
+        initCompSearchP();
+        initCompFileName();
+        initCompDuration();
+        initCompExtention();
+        initCompFrame();
+        initCompAspect();
+        initCompResolution();
+        initCompVideo();
+        initCompAudio();
+        initCompBtnSearch();
 
         // set visible the search panel
         this.setVisible(true);

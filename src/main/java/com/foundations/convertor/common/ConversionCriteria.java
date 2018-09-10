@@ -31,7 +31,7 @@ public class ConversionCriteria {
     private String outputFolder;
     private String outputName;
     private String outputFormat;
-    private int framesPerSecond;
+    private double framesPerSecond;
     private int resolutionWidth;
     private int resolutionHeight;
     private String videoCodec;
@@ -90,22 +90,22 @@ public class ConversionCriteria {
         }
         if (outputName.isEmpty()) {
             //save current date as date time format
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HHmmss.");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDateTime now = LocalDateTime.now();
             //set current date as default output name
-            outputName = dtf.format(now);
+            outputName = FilenameUtils.getBaseName(inputPath)+"-"+dtf.format(now);
         }
         if (outputFormat.isEmpty()){
             outputFormat = FilenameUtils.getExtension(inputPath);
         }
-        return outputFolder+outputName+"."+outputFormat;
+        return outputFolder+"\\"+outputName+"."+outputFormat;
     }
 
-    public void setFramesPerSecond(int framesPerSecond){
+    public void setFramesPerSecond(double framesPerSecond){
         this.framesPerSecond = framesPerSecond;
     }
 
-    public int getFramesPerSecond(){
+    public double getFramesPerSecond(){
         return  framesPerSecond;
     }
 
