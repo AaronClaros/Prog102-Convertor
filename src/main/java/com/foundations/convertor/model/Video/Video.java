@@ -16,35 +16,25 @@
 package com.foundations.convertor.model.Video;
 
 public class Video {
-  //Field to get/set the title
-  String title;
   //Field to get/set the duration
-  Double duration;
+  private Double duration;
   //Field to get/set the path file
-  String pathFile;
+  private String pathFile;
   //Field to get/set the file name
-  String fileName;
+  private String fileName;
   //Field to get/set the f rate
-  String fRate;
+  private Double fRate;
   //Field to get/set the a ratio
-  String aRatio;
+  private String aRatio;
   //Field to get/set the resolution
-  String resolution;
+  private String resolution;
   //Field to get/set the video codec
-  String vCodec;
+  private String vCodec;
   //Field to get/set the a codec
-  String aCodec;
+  private String aCodec;
   //Field to get/set the extension
-  String ext;
+  private String ext;
 
-  //return the title
-  public String getTitle() {
-    return title;
-  }
-  //setting the title
-  public void setTitle(String title) {
-    this.title = title;
-  }
   //return the duration
   public Double getDuration() {
     return duration;
@@ -70,11 +60,11 @@ public class Video {
     this.fileName = fileName;
   }
   //return the frame rate
-  public String getFrameRate() {
+  public double getFrameRate() {
     return fRate;
   }
   //setting the frame rate
-  public void setFrameRate(String fRate) {
+  public void setFrameRate(double fRate) {
     this.fRate = fRate;
   }
   //return the audio ratio

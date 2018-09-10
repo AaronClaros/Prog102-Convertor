@@ -25,7 +25,6 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *  Controller for use as pattern MVC, here is instanced the view and model classes
@@ -38,7 +37,6 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     private View view; // reference to object view
     private Search search; // reference to object search
     private Criteria criteria; // reference to object criteria
-    private String pathSelected;
 
     public Controller(){
         instanceCriteria();
@@ -70,8 +68,6 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      * execute a search
      */
     public void doSearch(){
-        ConverterUtils converterUtils=new ConverterUtils();
-
         // this variables help to validate the fields
         String durFrom;
         String durTo;
@@ -103,7 +99,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         if (criteria.getDurFrom()>criteria.getDurTo()){
             view.getSPanel().setDefaultDuration();
             criteria.setDurFrom(0);
-            criteria.setDurTo(362439.0);
+            criteria.setDurTo(359999.0);
         }       /**
          * Calls the method to fill the table using the search methods
          * Only should need to call method
@@ -128,7 +124,8 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             // "Duration","Aspect Ratio","Dimension","Video Codec","Audio Codec")
             Object[] d = {resultsVideoList.get(i).getFileName(),resultsVideoList.get(i).getPathFile(),
                     resultsVideoList.get(i).getExt(),resultsVideoList.get(i).getResolution(),
-                    resultsVideoList.get(i).getFrameRate(),resultsVideoList.get(i).getDuration(),
+                    formatFrameRate(resultsVideoList.get(i).getFrameRate()),
+                    resultsVideoList.get(i).getDuration(),
                     resultsVideoList.get(i).getAspectRatio(),resultsVideoList.get(i).getVideoCodec(),
                     resultsVideoList.get(i).getAudioCodec()};
             // cleaning row data
@@ -136,6 +133,17 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             // adding new row data
             view.getSLPanel().getResultsTable().insertRow(i,d);
         }
+    }
+
+    /**
+     *
+     * @param fr the double for frame rate
+     * @return returns a String with the double formatted
+     */
+    private String formatFrameRate(double fr){
+        if((fr*10)%10>0)
+        return String.format("%.2f",fr);
+        else return String.format("%.0f",fr);
     }
     /**
      * override method for event listener for button search when is pressed
