@@ -101,7 +101,7 @@ public class ConversionCriteria {
         return outputFolder+outputName+"."+outputFormat;
     }
 
-    public void setFramesPerSecond(int framesPerSecond){
+    public void setFramesPerSecond(double framesPerSecond){
         this.framesPerSecond = framesPerSecond;
     }
 
