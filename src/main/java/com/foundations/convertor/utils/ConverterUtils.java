@@ -137,10 +137,10 @@ public class ConverterUtils {
     /**
      * Convert string frame rate
      * @param frameRate receive
-     * @return string second
+     * @return double
      */
-    public int stringToIntSecond(String frameRate) {
-        return Integer.parseInt(frameRate);
+    public double stringToDouble(String frameRate) {
+        return Double.parseDouble(frameRate);
     }
 
     /**

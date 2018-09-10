@@ -155,8 +155,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
 
         String resolution = view.getConvPanel().getCmbResolution().getSelectedItem().toString();
         conversionCriteria.setResolution(converterUtils.intExtensionWidth(resolution),converterUtils.intExtensionHeight(resolution));
-        conversionCriteria.setFramesPerSecond(converterUtils.stringToIntSecond(
-                view.getConvPanel().getCmbFrameRate().getSelectedItem().toString()));
+        conversionCriteria.setFramesPerSecond(converterUtils.stringToDouble(view.getConvPanel().getCmbFrameRate().getSelectedItem().toString()));
         conversionCriteria.setVideoCodec(view.getConvPanel().getCmbVideoCodec().getSelectedItem().toString());
         conversionCriteria.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
         conversionCriteria.setOutputFormat(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
