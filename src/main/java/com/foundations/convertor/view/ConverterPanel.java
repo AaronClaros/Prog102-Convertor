@@ -16,16 +16,21 @@ package com.foundations.convertor.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.EventListener;
 
 
 /**
  *  JPanel Object that contains conversion parameters
  *
  * @authors Kevin Herrera, Kevin Sanchez - AWT-[01].
+ * @author Angelica Lopez - AWT-[01].
  * @version 0.1
  */
 
-public class ConverterPanel extends JPanel {
+public class ConverterPanel extends JPanel implements ActionListener, EventListener {
     // label for title panel
     private JLabel labelTitle;
     // label for input path
@@ -363,6 +368,7 @@ public class ConverterPanel extends JPanel {
         iniCompMiddlePanel();
         iniCompRightPanel();
         this.setVisible(true);
+        buttonOutPath.addActionListener(this);
     }
 
     /**
@@ -451,5 +457,33 @@ public class ConverterPanel extends JPanel {
      */
     public JButton getButtonOutPath() {
         return buttonOutPath;
+    }
+
+    /**
+     * Getter of the convert button
+     * @return the search button object
+     */
+    public JButton getConvertButton(){
+        return this.buttonConvert;
+    }
+
+    /**
+     * Obtain path for button out path
+     * @param e event of path button choosing directory
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        //File chooser for path
+        JFileChooser fc = new JFileChooser();
+        // start at application current directory
+        fc.setCurrentDirectory(new java.io.File("."));
+        //Only can select directories
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnVal = fc.showSaveDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            File yourFolder = fc.getSelectedFile();
+        }
+        //Copy selected path to the text box
+        tFieldOutPath.setText(fc.getSelectedFile().getAbsolutePath());
     }
 }
