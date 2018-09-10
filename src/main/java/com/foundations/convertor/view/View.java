@@ -104,7 +104,7 @@ public class View extends JFrame {  //
         bagConstraints.gridwidth = 3;
         bagConstraints.gridheight = 1;
         bagConstraints.weightx = 1.0;
-        bagConstraints.weighty = 0.0;
+        bagConstraints.weighty = 1.0;
         bagConstraints.fill = GridBagConstraints.BOTH;
         this.add(slPanel,bagConstraints);
 
