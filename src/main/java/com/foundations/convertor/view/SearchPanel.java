@@ -132,7 +132,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         buttonSearch = new JButton("Search");
 
         //label file extension instance and text set
-        labelFileExt = new JLabel("File Ext.", SwingConstants.RIGHT);
+        labelFileExt = new JLabel("File Ext.:", SwingConstants.RIGHT);
 
         //supported extensions array
         String[] supported_ext = {"","mp4","avi","flv","mkv","mov","3gp"};
@@ -141,34 +141,36 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         boxFileExt = new JComboBox(supported_ext);
 
         //label duration instance and text set
-        labelDuration = new JLabel("Duration From", SwingConstants.RIGHT);
+        labelDuration = new JLabel("Duration From:", SwingConstants.RIGHT);
 
         //label "duration to" instance and text set
-        labelDurationTo = new JLabel("To", SwingConstants.RIGHT);
+        labelDurationTo = new JLabel("To:", SwingConstants.RIGHT);
 
         //label frame rate instance and text set
-        labelFrameRate = new JLabel("Frame Rate", SwingConstants.RIGHT);
+        labelFrameRate = new JLabel("Frame Rate:", SwingConstants.RIGHT);
 
         //frame rates array
-        String[] frame_rates = {"","24","25","29","29.7","30","59.94"};
+        String[] frame_rates = {"","24","25","29","29.7","30","60"};
 
         //combo box frame rate instance and content set
         comboxFrameRate = new JComboBox(frame_rates);
 
         //box "duration from" instance and text format set
         boxDurationFrom = new JFormattedTextField(createFormat("##:##:##"));
+        boxDurationFrom.setHorizontalAlignment(SwingConstants.CENTER);
 
         //set default duration time for duration from
         boxDurationFrom.setValue("00:00:00");
 
         //box "duration to" instance and text format set
         boxDurationTo = new JFormattedTextField(createFormat("##:##:##"));
+        boxDurationTo.setHorizontalAlignment(SwingConstants.CENTER);
 
         //set default duration time for duration to
-        boxDurationTo.setValue("99:59:59");
+        boxDurationTo.setValue("59:59:59");
 
         //label aspect ratio instance and text set
-        labelAspectRatio = new JLabel("Aspect Ratio", SwingConstants.RIGHT);
+        labelAspectRatio = new JLabel("Aspect Ratio:", SwingConstants.RIGHT);
 
         //aspect ratio array
         String[] asp_ratios = {"","16:9","16:10","0:1","4:3","40:23"};
@@ -177,7 +179,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         comboxAspectRatio = new JComboBox(asp_ratios);
 
         //label resolution instance and text set
-        labelResolution = new JLabel("Resolution", SwingConstants.RIGHT);
+        labelResolution = new JLabel("Resolution:", SwingConstants.RIGHT);
 
         //resolution array
         String[] resolutions = {"","1920X1080","1280X720","640X480","640X368","480X270","320X240","256X240","176X144"};
@@ -186,7 +188,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         comboxResolution = new JComboBox(resolutions);
 
         //label video code instance and text set
-        labelVideoCodec = new JLabel("Video Codec", SwingConstants.RIGHT);
+        labelVideoCodec = new JLabel("Video Codec:", SwingConstants.RIGHT);
 
         //video codecs array
         String[] video_codecs = {"","h264","h263","indeo4","mpeg4","flv","avi"};
@@ -195,7 +197,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         comboxVideoCodec = new JComboBox(video_codecs);
 
         //label audio code instance and text set
-        labelAudioCodec = new JLabel("Audio Codec", SwingConstants.RIGHT);
+        labelAudioCodec = new JLabel("Audio Codec:", SwingConstants.RIGHT);
 
         //audio codecs array
         String[] audio_codecs = {"","MP3","WMA","OGG","VIDEO"};
@@ -215,7 +217,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // setting constrains of title
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 0;
-        bagConstraints.gridwidth = 4;
+        bagConstraints.gridwidth = 7;
         bagConstraints.gridheight = 1;
         bagConstraints.insets = new Insets(10,0,30,0);
         bagConstraints.fill = GridBagConstraints.BOTH;
@@ -230,23 +232,23 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // setting constrains of label path
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 1;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(labelPath,bagConstraints);
 
         // setting constrains of boxpath
-        bagConstraints.gridx = 1;
+        bagConstraints.gridx = 2;
         bagConstraints.gridy = 1;
-        bagConstraints.gridwidth = 2;
+        bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.insets = new Insets(5,5,5,5);
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(boxPath,bagConstraints);
 
         // setting constrains of button path
-        bagConstraints.gridx = 3;
+        bagConstraints.gridx = 6;
         bagConstraints.gridy = 1;
         bagConstraints.gridwidth = 1;
         bagConstraints.gridheight = 1;
@@ -263,16 +265,16 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // setting constrains of titleFileName
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 2;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(titleFileName,bagConstraints);
 
         // setting constrains of boxFileName
-        bagConstraints.gridx = 1;
+        bagConstraints.gridx = 2;
         bagConstraints.gridy = 2;
-        bagConstraints.gridwidth = 3;
+        bagConstraints.gridwidth = 5;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
@@ -287,35 +289,38 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // setting constrains of labelDuration
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 3;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(labelDuration,bagConstraints);
 
         // setting constrains of boxDurationFrom
-        bagConstraints.gridx = 1;
+        bagConstraints.gridx = 2;
         bagConstraints.gridy = 3;
         bagConstraints.gridwidth = 1;
         bagConstraints.gridheight = 1;
+        bagConstraints.weightx = 0.2;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(boxDurationFrom,bagConstraints);
 
         // setting constrains of labelDurationTo
-        bagConstraints.gridx = 2;
+        bagConstraints.gridx = 3;
         bagConstraints.gridy = 3;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
+        bagConstraints.weightx = 1.1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(labelDurationTo,bagConstraints);
 
         // setting constrains of boxDurationTo
-        bagConstraints.gridx = 3;
+        bagConstraints.gridx = 5;
         bagConstraints.gridy = 3;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
+        bagConstraints.weightx = 1.0;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(boxDurationTo,bagConstraints);
@@ -329,16 +334,16 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // setting constrains of labelFileExt
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 4;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(labelFileExt,bagConstraints);
 
         // setting constrains of boxFileExt
-        bagConstraints.gridx = 1;
+        bagConstraints.gridx = 2;
         bagConstraints.gridy = 4;
-        bagConstraints.gridwidth = 2;
+        bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
@@ -352,16 +357,16 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // setting constrains of labelFrameRate
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 5;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(labelFrameRate,bagConstraints);
 
         // setting constrains of comboxFrameRate
-        bagConstraints.gridx = 1;
+        bagConstraints.gridx = 2;
         bagConstraints.gridy = 5;
-        bagConstraints.gridwidth = 2;
+        bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
@@ -378,16 +383,16 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // setting constrains of labelAspectRatio
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 6;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(labelAspectRatio,bagConstraints);
 
         // setting constrains of comboxAspectRatio
-        bagConstraints.gridx = 1;
+        bagConstraints.gridx = 2;
         bagConstraints.gridy = 6;
-        bagConstraints.gridwidth = 2;
+        bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(comboxAspectRatio,bagConstraints);
@@ -403,16 +408,16 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // setting constrains of labelResolution
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 7;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(labelResolution,bagConstraints);
 
         // setting constrains of comboxResolution
-        bagConstraints.gridx = 1;
+        bagConstraints.gridx = 2;
         bagConstraints.gridy = 7;
-        bagConstraints.gridwidth = 2;
+        bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
@@ -427,15 +432,15 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // setting constrains of labelVideoCodec
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 8;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(labelVideoCodec,bagConstraints);
 
         // setting constrains of comboxVideoCodec
-        bagConstraints.gridx = 1;
+        bagConstraints.gridx = 2;
         bagConstraints.gridy = 8;
-        bagConstraints.gridwidth = 2;
+        bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
@@ -450,16 +455,16 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // setting constrains of labelAudioCodec
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 9;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(labelAudioCodec,bagConstraints);
 
         // setting constrains of comboxAudioCodec
-        bagConstraints.gridx = 1;
+        bagConstraints.gridx = 2;
         bagConstraints.gridy = 9;
-        bagConstraints.gridwidth = 2;
+        bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
@@ -472,9 +477,9 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     private void initCompBtnSearch(){
 
         // setting constrains of buttonSearch
-        bagConstraints.gridx = 1;
+        bagConstraints.gridx = 2;
         bagConstraints.gridy = 11;
-        bagConstraints.gridwidth = 2;
+        bagConstraints.gridwidth = 3;
         bagConstraints.gridheight = 1;
         bagConstraints.weightx = 1.0;
         bagConstraints.weighty = 0.5;
@@ -627,6 +632,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //set default duration time for duration from
         boxDurationFrom.setValue("00:00:00");
         //set default duration time for duration to
-        boxDurationTo.setValue("99:59:59");
+        boxDurationTo.setValue("99:99:99");
     }
 }
