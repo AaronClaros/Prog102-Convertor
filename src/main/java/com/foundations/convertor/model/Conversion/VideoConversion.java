@@ -26,6 +26,7 @@ import net.bramp.ffmpeg.FFmpegUtils;
 import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.job.FFmpegJob;
+import net.bramp.ffmpeg.probe.FFmpegError;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import net.bramp.ffmpeg.progress.Progress;
 import net.bramp.ffmpeg.progress.ProgressListener;
@@ -92,12 +93,20 @@ public class VideoConversion {
             FFmpeg fmWrapper = new FFmpeg(ffMpegPath);
 
             FFmpegProbeResult in = fpWrapper.probe(criteria.getInputPath());
+
             String out = criteria.getOutputPath();
-            int fps = criteria.getFramesPerSecond() <=0 ? in.getStreams().get(0).r_frame_rate.getNumerator():criteria.getFramesPerSecond();
+            double fps = criteria.getFramesPerSecond() <=0 ? in.getStreams().get(0).r_frame_rate.getNumerator():criteria.getFramesPerSecond();
             int resWidth = criteria.getResolutionWidth() <=0 ? in.getStreams().get(0).width: criteria.getResolutionWidth();
             int resHeight = criteria.getResolutionHeight() <=0 ? in.getStreams().get(0).height : criteria.getResolutionHeight();
             String vCodec = criteria.getVideoCodec().isEmpty() ? in.getStreams().get(0).codec_name : criteria.getVideoCodec();
-            String aCodec = criteria.getAudioCodec().isEmpty() ? "mp3":criteria.getVideoCodec();
+
+            String auxACodec;
+            if (in.getStreams().size()>=2){
+                auxACodec = in.getStreams().get(1).codec_name;
+            } else {
+                auxACodec = "mp3";
+            }
+            String aCodec = criteria.getAudioCodec().isEmpty() ? auxACodec:criteria.getVideoCodec();
 
             LoggerManager.getLogger().Log("verified criteria, FPS: "+fps+" Resolution:"+resWidth+"x"+resHeight+" VideoCodec: "+vCodec+" AudioCodec: "+aCodec, "INFO");
 
@@ -129,14 +138,15 @@ public class VideoConversion {
             LoggerManager.getLogger().Log("Starting conversion: input: "+criteria.getInputPath(),"INFO");
             conversionJob.run();
             LoggerManager.getLogger().Log("Finishing conversion: output: "+criteria.getOutputPath(),"INFO");
+            conversionJob.wait();
             // Or run a two-pass encode (which is better quality at the cost of being slower)
             // IMPORTANT: Target size, or video bitrate must be specified when using two-pass Job
             //executor.createTwoPassJob(builder).run();
         }catch (Exception e){
-            LoggerManager.getLogger().Log("Error on ffwrapper: "+e.getMessage(), "ERROR");
+            LoggerManager.getLogger().Log("Error: "+ VideoConversion.class.getName()+" "+e.getMessage(), "ERROR");
         }
     }
-    public void setProgressPercentage(double value) {
+    private void setProgressPercentage(double value) {
         progressPercentage.set(value);
     }
     public double getProgressPercentage() {
@@ -146,16 +156,18 @@ public class VideoConversion {
         return progressPercentage;
     }
     public boolean processIsRunning(){
+        if (conversionJob == null)
+            return false;
         return conversionJob.getState().equals(FFmpegJob.State.RUNNING);
     }
 
-    private FFmpegBuilder ffSetBuild(FFmpegProbeResult input, String outputPath, int frameRate,
+    private FFmpegBuilder ffSetBuild(FFmpegProbeResult input, String outputPath, double frameRate,
                                       int resWidth, int resHeight, String videoCodec, String audioCodec){
         FFmpegBuilder builder = new FFmpegBuilder()
                 .setInput(input)     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
                 .addOutput(outputPath)   // Filename for the destination
-                .setVideoFrameRate(frameRate, 1)
+                .setVideoFrameRate(frameRate)
                 .setVideoResolution(resWidth, resHeight)
                 .setVideoCodec(videoCodec)
                 .setAudioCodec(audioCodec)
