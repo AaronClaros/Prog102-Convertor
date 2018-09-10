@@ -16,6 +16,8 @@
 package com.foundations.convertor.utils;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
+
 import org.apache.commons.lang3.math.Fraction;
 
 /**
@@ -131,5 +133,58 @@ public class ConverterUtils {
     public String frameRateToString(Fraction fraction){
         return fraction.toString();
     }
-}
 
+    /**
+     * Convert string frame rate
+     * @param frameRate receive
+     * @return double
+     */
+    public double stringToDouble(String frameRate) {
+        if(frameRate.equalsIgnoreCase("")){
+            return 0;
+        }
+        return Double.parseDouble(frameRate);
+    }
+
+    /**
+     * Convert string extension 1920X1080
+     * @param extension receive
+     * @return int width
+     */
+    public int intExtensionWidth(String extension){
+
+        if(extension.equalsIgnoreCase("")){
+            return 0;
+        }
+
+        String[] extensions = splitString(extension);
+        return Integer.parseInt(extensions[0]);
+    }
+
+    /**
+     * Convert string extension 1920X1080
+     * @param extension
+     * @return int height
+     */
+    public int intExtensionHeight(String extension){
+
+        if(extension.equalsIgnoreCase("")){
+            return 0;
+        }
+
+        String[] extensions = splitString(extension);
+        return Integer.parseInt(extensions[1]);
+    }
+
+    /**
+     * Splitted a content with regex X
+     * @param text
+     * @return
+     */
+    public String[] splitString(String text){
+        String[] split = Arrays.stream(text.split("X"))
+                .map(String::trim)
+                .toArray(String[]::new);
+        return split;
+    }
+}

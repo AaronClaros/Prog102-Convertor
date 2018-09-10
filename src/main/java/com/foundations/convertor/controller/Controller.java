@@ -12,7 +12,9 @@
 
 package com.foundations.convertor.controller;
 
+import com.foundations.convertor.common.ConversionCriteria;
 import com.foundations.convertor.common.Criteria;
+import com.foundations.convertor.model.Conversion.VideoConversion;
 import com.foundations.convertor.model.Video.Video;
 import com.foundations.convertor.utils.ConverterUtils;
 import com.foundations.convertor.utils.LoggerManager;
@@ -25,12 +27,12 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *  Controller for use as pattern MVC, here is instanced the view and model classes
  *
  * @authors Kevin Herrera, Kevin Sanchez - AWT-[01].
+ * @author Angelica Lopez - AWT-[01].
  * @version 0.1
  */
 public class Controller implements ActionListener, EventListener ,ListSelectionListener{
@@ -38,12 +40,14 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     private View view; // reference to object view
     private Search search; // reference to object search
     private Criteria criteria; // reference to object criteria
-    private String pathSelected;
+    private ConversionCriteria conversionCriteria; // reference to object Criteria of conversion
+    private String pathToConvert; // reference path to convert
 
     public Controller(){
         instanceCriteria();
         instanceViewComponent();
         instanceModelComponent();
+        instanceConversionCriteria();
     }
 
     /**
@@ -66,12 +70,14 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         criteria = new Criteria();
     }
 
+    public void instanceConversionCriteria() {
+        view.getConvPanel().getConvertButton().addActionListener(this); // add actionListener for button convert
+    }
+
     /**
      * execute a search
      */
     public void doSearch(){
-        ConverterUtils converterUtils=new ConverterUtils();
-
         // this variables help to validate the fields
         String durFrom;
         String durTo;
@@ -103,7 +109,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         if (criteria.getDurFrom()>criteria.getDurTo()){
             view.getSPanel().setDefaultDuration();
             criteria.setDurFrom(0);
-            criteria.setDurTo(362439.0);
+            criteria.setDurTo(359999.0);
         }       /**
          * Calls the method to fill the table using the search methods
          * Only should need to call method
@@ -128,7 +134,8 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             // "Duration","Aspect Ratio","Dimension","Video Codec","Audio Codec")
             Object[] d = {resultsVideoList.get(i).getFileName(),resultsVideoList.get(i).getPathFile(),
                     resultsVideoList.get(i).getExt(),resultsVideoList.get(i).getResolution(),
-                    resultsVideoList.get(i).getFrameRate(),resultsVideoList.get(i).getDuration(),
+                    formatFrameRate(resultsVideoList.get(i).getFrameRate()),
+                    resultsVideoList.get(i).getDuration(),
                     resultsVideoList.get(i).getAspectRatio(),resultsVideoList.get(i).getVideoCodec(),
                     resultsVideoList.get(i).getAudioCodec()};
             // cleaning row data
@@ -137,18 +144,80 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             view.getSLPanel().getResultsTable().insertRow(i,d);
         }
     }
+
+    /**
+     *
+     * @param fr the double for frame rate
+     * @return returns a String with the double formatted
+     */
+    private String formatFrameRate(double fr){
+        if((fr*10)%10>0)
+        return String.format("%.2f",fr);
+        else return String.format("%.0f",fr);
+    }
+    /**
+     *
+     * Execute a conversion of video
+     */
+    public void convertVideo(){
+        ConverterUtils converterUtils=new ConverterUtils();
+        conversionCriteria = new ConversionCriteria(pathToConvert);
+
+        String resolution = view.getConvPanel().getCmbResolution().getSelectedItem().toString();
+        conversionCriteria.setResolution(converterUtils.intExtensionWidth(resolution),converterUtils.intExtensionHeight(resolution));
+        String frameRatio = view.getConvPanel().getCmbFrameRate().getSelectedItem().toString();
+        conversionCriteria.setFramesPerSecond(converterUtils.stringToDouble(frameRatio));
+        conversionCriteria.setVideoCodec(view.getConvPanel().getCmbVideoCodec().getSelectedItem().toString());
+        conversionCriteria.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
+        conversionCriteria.setOutputFormat(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
+        String textOutPath = view.getConvPanel().getTFOutputPath().getText();
+        conversionCriteria.setOutputDirectory(textOutPath);
+
+        VideoConversion conversion = new VideoConversion();
+        conversion.doConversion(conversionCriteria);
+    }
+
+    /**
+     * Get the path to convert
+     * @return path string
+     */
+    public String getPathToConvert() {
+        return pathToConvert;
+    }
+
+    /**
+     * Setting the path to convert
+     * @param pathToConvert
+     */
+    public void setPathToConvert(String pathToConvert) {
+        this.pathToConvert = pathToConvert;
+    }
+
     /**
      * override method for event listener for button search when is pressed
+     * and for button convert
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        doSearch();
+        Object src = e.getSource();
+
+        if (src == view.getSPanel().getSearchButton()) {
+            doSearch();
+        }
+        else if (src == view.getConvPanel().getConvertButton()) {
+            convertVideo();
+        }
     }
 
+    /**
+     * Override method for event list selected
+     * @param e the event of row selected in the result table
+     */
     @Override
     public void valueChanged(ListSelectionEvent e) {
       JTable resultsTable = view.getSLPanel().getTable();
       String pathSelected = resultsTable.getValueAt(resultsTable.getSelectedRow(), 1).toString();
+      setPathToConvert(pathSelected);
       LoggerManager.getLogger().Log("SELECTED: "+pathSelected, "INFO");
       view.getConvPanel().getTFInputPath().setText(pathSelected);
     }
