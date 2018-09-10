@@ -96,7 +96,7 @@ public class Search {
                     continue;
                 }
                 //Check Frame rate
-                if(!criteria.getFrameRate().isEmpty()&&!String.format("%.2f",auxVideo.getFrameRate()).equals(criteria.getFrameRate())){
+                if(!criteria.getFrameRate().isEmpty()&&Math.round(auxVideo.getFrameRate())!= Math.round(Double.parseDouble(criteria.getFrameRate()))){
                     continue;
                 }
                 //Check Aspect ratio
@@ -150,7 +150,7 @@ public class Search {
             video.setPathFile(file.getAbsolutePath());
             video.setVideoCodec(videoStream.codec_name);
             video.setAudioCodec(videoStream.codec_type.name());
-            video.setFrameRate(videoStream.avg_frame_rate.doubleValue());
+            video.setFrameRate((videoStream.avg_frame_rate.doubleValue()*100)/100);
             video.setDuration(videoStream.duration+0.01);
             video.setAspectRatio(videoStream.display_aspect_ratio);
             String resolution=(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
