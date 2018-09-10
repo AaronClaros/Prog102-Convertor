@@ -27,7 +27,7 @@ import java.awt.*;
 
 public class ConverterPanel extends JPanel {
     // label for title panel
-    private JLabel labelPanelTitle;
+    private JLabel labelTitle;
     // label for input path
     private JLabel labelInputPath;
     // text field for input path
@@ -62,45 +62,45 @@ public class ConverterPanel extends JPanel {
     private JComboBox cmbFormat;
     // button to convert the video
     private JButton buttonConvert;
+    // this variable helps to set objects of
+    // the search panel
+    private GridBagConstraints bagConstraints;
 
     /**
      * constructor of father class JPanel
      */
     public ConverterPanel() {
         super();
-        // Initialize attributes or components
-        initComp();
         // set the panel
         settings();
+        // Initialize attributes or components
+        initComp();
     }
 
     /**
      * configure components
      */
     private void settings() {
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.setBackground(UIManager.getColor("Panel.background"));
+        // type of layout for the panel
+        this.setLayout(new GridBagLayout());
+        bagConstraints = new GridBagConstraints();
     }
 
     /**
      * This method initialize the tittle
      */
     private void initCompTitle(){
-        //instance labelPanelTitle and set text
-        labelPanelTitle = new JLabel("Conversion parameters");
 
-        //create panel container for title section
-        JPanel panelTitle = new JPanel();
-
-        //set layout for panel title
-        panelTitle.setLayout(new FlowLayout(FlowLayout.CENTER));
-        panelTitle.setMinimumSize(new Dimension(300, 300));
-        panelTitle.setMaximumSize(new Dimension(1000, 300));
-
-        //add label labelTitle to panel
-        panelTitle.add(labelPanelTitle);
-        this.add(panelTitle);
+        // setting constrains of title
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 0;
+        bagConstraints.gridwidth = 6;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,0,30,0);
+        bagConstraints.fill = GridBagConstraints.BOTH;
+        this.add(labelTitle,bagConstraints);
     }
 
     /**
@@ -108,45 +108,60 @@ public class ConverterPanel extends JPanel {
      * input path and output path
      */
     private void initCompPaths(){
-        //instance labelInputPath and set text
-        labelInputPath = new JLabel("Input Path");
 
-        //instance textField for input path
-        tFieldInputPath = new JTextField(15);
+        // setting constrains of labelInputPath
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(labelInputPath,bagConstraints);
 
-        //instance button get table selection and set text
-        buttonGetTSelection = new JButton("Set Selection");
-        JPanel panelInputPath = new JPanel();
-        panelInputPath.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelInputPath.add(labelInputPath);
-        panelInputPath.add(tFieldInputPath);
-        panelInputPath.add(buttonGetTSelection);
+        // setting constrains of tFieldInputPath
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(tFieldInputPath,bagConstraints);
 
-        //instance label output path and set text
-        labelOutPath = new JLabel("Output Path");
+        // setting constrains of buttonGetTSelection
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(buttonGetTSelection,bagConstraints);
 
-        //instance textField for OutputPath
-        tFieldOutPath = new JTextField(15);
+        // setting constrains of labelOutPath
+        bagConstraints.gridx = 3;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(labelOutPath,bagConstraints);
 
-        //instance button for output path and set text
-        buttonOutPath = new JButton("Path");
-        JPanel panelOutputPath = new JPanel();
-        panelOutputPath.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelOutputPath.add(labelOutPath);
-        panelOutputPath.add(tFieldOutPath);
-        panelOutputPath.add(buttonOutPath);
+        // setting constrains of tFieldOutPath
+        bagConstraints.gridx = 4;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(tFieldOutPath,bagConstraints);
 
-        // this panel allows to improve the view in the input and output
-        // path selectors
-        JPanel panelCenter = new JPanel();
-        panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.X_AXIS));
-        panelInputPath.setMinimumSize(new Dimension(300, 300));
-        panelInputPath.setMaximumSize(new Dimension(1000, 300));
-        panelOutputPath.setMinimumSize(new Dimension(300, 300));
-        panelOutputPath.setMaximumSize(new Dimension(1000, 300));
-        panelCenter.add(panelInputPath);
-        panelCenter.add(panelOutputPath);
-        this.add(panelCenter);
+        // setting constrains of buttonOutPath
+        bagConstraints.gridx = 5;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(buttonOutPath,bagConstraints);
     }
 
     /**
@@ -154,27 +169,48 @@ public class ConverterPanel extends JPanel {
      * for the converter panel
      */
     private void initCompFields(){
+        // instance label title and set text
+        labelTitle = new JLabel("Conversion parameters", SwingConstants.CENTER);
+
+        //instance labelInputPath and set text
+        labelInputPath = new JLabel("Input Path",SwingConstants.RIGHT);
+
+        //instance textField for input path
+        tFieldInputPath = new JTextField(15);
+
+        //instance button get table selection and set text
+        buttonGetTSelection = new JButton("Set Selection");
+
+        //instance label output path and set text
+        labelOutPath = new JLabel("Output Path",SwingConstants.RIGHT);
+
+        //instance textField for OutputPath
+        tFieldOutPath = new JTextField(15);
+
+        //instance button for output path and set text
+        buttonOutPath = new JButton("Path");
+
         // instance label resolution and set text
-        labelResolution = new JLabel("New Resolution");
+        labelResolution = new JLabel("New Resolution",SwingConstants.RIGHT);
 
         // instance label frame rate and set text
-        labelFrameRate = new JLabel("New Frame Ratio");
+        labelFrameRate = new JLabel("New Frame Ratio",SwingConstants.RIGHT);
 
         // instance label video codec and set text
-        labelVideoCodec = new JLabel("New Video Codec");
+        labelVideoCodec = new JLabel("New Video Codec",SwingConstants.RIGHT);
 
         // instance label audio codec and set text
-        labelAudioCodec = new JLabel("New Audio Codec");
+        labelAudioCodec = new JLabel("New Audio Codec",SwingConstants.RIGHT);
 
         // instance label format and set text
-        labelFormat = new JLabel("New Format");
+        labelFormat = new JLabel("New Format",SwingConstants.RIGHT);
 
         // addition of options to the resolution selector
         String[] resolOptions = {"","1920X1080","1280X720","640X480","640X368","480X270","320X240","256X240","176X144"};
         cmbResolution = new JComboBox(resolOptions);
 
         // addition of options to the frame rate selector
-        String[] frameRateOptions = {"","25/1","29/1","30/1","60000/1001"};
+        String[] frameRateOptions = {"","24","25","29","29.7","30","60"};
         cmbFrameRate = new JComboBox(frameRateOptions);
 
         // addition of options to the video codec selector
@@ -198,50 +234,62 @@ public class ConverterPanel extends JPanel {
      * including resolution, frame rate, video codec
      * @return a Jpanel object to be added to the main panel
      */
-    private JPanel initCompLeftPanel(){
-        // this is the alignment of the resolution's fields
-        JPanel panelLblRes = new JPanel();
-        panelLblRes.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblRes.add(labelResolution);
-        JPanel panelCmbRes = new JPanel();
-        panelCmbRes.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelCmbRes.add(cmbResolution);
-        JPanel panelResol = new JPanel();
-        panelResol.setLayout(new GridLayout(1,2));
-        panelResol.add(panelLblRes);
-        panelResol.add(panelCmbRes);
+    private void initCompLeftPanel(){
+        // setting constrains of labelResolution
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 2;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(labelResolution,bagConstraints);
 
-        // this is the alignment of the frame rate's fields
-        JPanel panelLblFra = new JPanel();
-        panelLblFra.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblFra.add(labelFrameRate);
-        JPanel panelCmbFra = new JPanel();
-        panelCmbFra.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelCmbFra.add(cmbFrameRate);
-        JPanel panelFrameRate = new JPanel();
-        panelFrameRate.setLayout(new GridLayout(1,2));
-        panelFrameRate.add(panelLblFra);
-        panelFrameRate.add(panelCmbFra);
+        // setting constrains of cmbResolution
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 2;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(cmbResolution,bagConstraints);
 
-        // this is the alignment of the Video codec's fields
-        JPanel panelLblVid = new JPanel();
-        panelLblVid.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblVid.add(labelVideoCodec);
-        JPanel panelCmbVid = new JPanel();
-        panelCmbVid.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelCmbVid.add(cmbVideoCodec);
-        JPanel panelVideoCod = new JPanel();
-        panelVideoCod.setLayout(new GridLayout(1,2));
-        panelVideoCod.add(panelLblVid);
-        panelVideoCod.add(panelCmbVid);
+        // setting constrains of labelFrameRate
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 3;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(labelFrameRate,bagConstraints);
 
-        // this is the alignment of the fields above
-        JPanel panelLeft = new JPanel();
-        panelLeft.setLayout(new BoxLayout(panelLeft,BoxLayout.Y_AXIS));
-        panelLeft.add(panelResol);
-        panelLeft.add(panelFrameRate);
-        panelLeft.add(panelVideoCod);
-        return panelLeft;
+        // setting constrains of cmbFrameRate
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 3;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(cmbFrameRate,bagConstraints);
+
+        // setting constrains of labelVideoCodec
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 4;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(labelVideoCodec,bagConstraints);
+
+        // setting constrains of cmbVideoCodec
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 4;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.weighty = 0.5;
+        bagConstraints.weightx = 0.0;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(cmbVideoCodec,bagConstraints);
     }
 
     /**
@@ -249,38 +297,43 @@ public class ConverterPanel extends JPanel {
      * including videcodec, Audio codec, format
      * @return a Jpanel object to be added to the main panel
      */
-    private JPanel iniCompMiddlePanel(){
+    private void iniCompMiddlePanel(){
 
-        // this is the alignment of the audio codec's fields
-        JPanel panelLblAud = new JPanel();
-        panelLblAud.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblAud.add(labelAudioCodec);
-        JPanel panelCmbAud = new JPanel();
-        panelCmbAud.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelCmbAud.add(cmbAudioCodec);
-        JPanel panelAudioCod = new JPanel();
-        panelAudioCod.setLayout(new GridLayout(1,2));
-        panelAudioCod.add(panelLblAud);
-        panelAudioCod.add(panelCmbAud);
+        // setting constrains of labelAudioCodec
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = 2;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(labelAudioCodec,bagConstraints);
 
-        // this is the alignment of the format's fields
-        JPanel panelLblFor = new JPanel();
-        panelLblFor.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        panelLblFor.add(labelFormat);
-        JPanel panelCmbFor = new JPanel();
-        panelCmbFor.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelCmbFor.add(cmbFormat);
-        JPanel panelFormat = new JPanel();
-        panelFormat.setLayout(new GridLayout(1,2));
-        panelFormat.add(panelLblFor);
-        panelFormat.add(panelCmbFor);
+        // setting constrains of cmbAudioCodec
+        bagConstraints.gridx = 3;
+        bagConstraints.gridy = 2;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(cmbAudioCodec,bagConstraints);
 
-        // this is the alignment of the fields above
-        JPanel panelMiddle = new JPanel();
-        panelMiddle.setLayout(new BoxLayout(panelMiddle,BoxLayout.Y_AXIS));
-        panelMiddle.add(panelAudioCod);
-        panelMiddle.add(panelFormat);
-        return panelMiddle;
+        // setting constrains of labelFormat
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = 3;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(labelFormat,bagConstraints);
+
+        // setting constrains of cmbFormat
+        bagConstraints.gridx = 3;
+        bagConstraints.gridy = 3;
+        bagConstraints.gridwidth = 1;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(cmbFormat,bagConstraints);
     }
 
     /**
@@ -288,31 +341,28 @@ public class ConverterPanel extends JPanel {
      * including button convert
      * @return a Jpanel object to be added to the main panel
      */
-    private JPanel iniCompRightPanel(){
+    private void iniCompRightPanel(){
 
-        // this is the alignment of the button convert
-        JPanel panelRight = new JPanel();
-        panelRight.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panelRight.add(buttonConvert);
-        return panelRight;
+        // setting constrains of buttonConvert
+        bagConstraints.gridx = 4;
+        bagConstraints.gridy = 2;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(buttonConvert,bagConstraints);
     }
 
     /**
      * Initialize components
      */
     private void initComp() {
+        initCompFields();
         initCompTitle();
         initCompPaths();
-        initCompFields();
-
-        // this panel allows to manage all fields above and
-        // the converter button
-        JPanel panelAttrib = new JPanel();
-        panelAttrib.add(initCompLeftPanel());
-        panelAttrib.add(iniCompMiddlePanel());
-        panelAttrib.add(iniCompRightPanel());
-        panelAttrib.setLayout(new BoxLayout(panelAttrib,BoxLayout.X_AXIS));
-        this.add(panelAttrib);
+        initCompLeftPanel();
+        iniCompMiddlePanel();
+        iniCompRightPanel();
         this.setVisible(true);
     }
 
