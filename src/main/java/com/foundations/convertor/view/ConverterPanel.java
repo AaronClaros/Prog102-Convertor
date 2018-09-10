@@ -501,4 +501,18 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         //Copy selected path to the text box
         tFieldOutPath.setText(fc.getSelectedFile().getAbsolutePath());
     }
+
+    /**
+     * this method reset the fields for converter
+    */
+    public void cleanFields(){
+        this.tFieldInputPath.setText("");
+        this.tFieldOutPath.setText("");
+        this.txtName.setText("");
+        this.cmbResolution.setSelectedItem("");
+        this.cmbFrameRate.setSelectedItem("");
+        this.cmbVideoCodec.setSelectedItem("");
+        this.cmbAudioCodec.setSelectedItem("");
+        this.cmbFormat.setSelectedItem("");
+    }
 }

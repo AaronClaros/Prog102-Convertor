@@ -175,6 +175,9 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
 
         VideoConversion conversion = new VideoConversion();
         conversion.doConversion(conversionCriteria);
+
+        // this method clean the fields of converter
+        view.getConvPanel().cleanFields();
     }
 
     /**
