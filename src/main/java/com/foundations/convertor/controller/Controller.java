@@ -170,6 +170,8 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         conversionCriteria.setVideoCodec(view.getConvPanel().getCmbVideoCodec().getSelectedItem().toString());
         conversionCriteria.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
         conversionCriteria.setOutputFormat(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
+        String newName = view.getConvPanel().getTxtName().getText();
+        conversionCriteria.setOutputName(newName);
         String textOutPath = view.getConvPanel().getTFOutputPath().getText();
         conversionCriteria.setOutputDirectory(textOutPath);
 
