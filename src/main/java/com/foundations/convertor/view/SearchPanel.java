@@ -638,6 +638,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //set default duration time for duration from
         boxDurationFrom.setValue("00:00:00");
         //set default duration time for duration to
-        boxDurationTo.setValue("99:99:99");
+        boxDurationTo.setValue("99:59:59");
     }
 }
