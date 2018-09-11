@@ -179,8 +179,6 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         conversionCriteria.setPath(pathToConvert);
         String resolution = view.getConvPanel().getCmbResolution().getSelectedItem().toString();
         conversionCriteria.setResolution(resolution);
-        String frameRatio = view.getConvPanel().getCmbFrameRate().getSelectedItem().toString();
-        conversionCriteria.setFrameRate(Double.parseDouble(frameRatio));
         conversionCriteria.setVideoCodec(view.getConvPanel().getCmbVideoCodec().getSelectedItem().toString());
         conversionCriteria.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
         conversionCriteria.setExtension(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
@@ -188,7 +186,9 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         conversionCriteria.setFileName(newName);
         String textOutPath = view.getConvPanel().getTFOutputPath().getText();
         conversionCriteria.setOutputDirectory(textOutPath);
-
+        if(!view.getConvPanel().getCmbFrameRate().getSelectedItem().toString().isEmpty()) {
+            conversionCriteria.setFrameRate(Double.parseDouble(view.getConvPanel().getCmbFrameRate().getSelectedItem().toString()));
+        }
         VideoConversion conversion = new VideoConversion();
         conversion.doConversion(conversionCriteria);
 

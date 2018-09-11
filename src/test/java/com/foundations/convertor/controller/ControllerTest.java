@@ -41,4 +41,27 @@ public class ControllerTest {
 
         //when(mockedController.fillTableData(fileList)).thenReturn();
     }
+
+    @Test
+    public void testFillTableVideos() {
+        // aux variable to verify
+        File file;
+        List<File> fileList = new ArrayList<File>();
+        // mockito creation
+        Controller mockedController = mock(Controller.class);
+
+        // list of files
+        file = new File("C:\\p0\\code.txt");
+        fileList.add(file);
+        file = new File("C:\\p0\\do.txt");
+        fileList.add(file);
+        file = new File("C:\\p0\\p1\\docPrueba.txt");
+        fileList.add(file);
+        file = new File("C:\\p0\\p1\\p2\\p3\\p4\\p5\\file5level.txt");
+        fileList.add(file);
+        file = new File("C:\\p0\\p1\\p2\\p3\\p4\\p5\\Sample.mp4");
+        fileList.add(file);
+
+        //when(mockedController.fillTableData(fileList)).thenReturn();
+    }
 }

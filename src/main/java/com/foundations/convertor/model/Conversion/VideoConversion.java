@@ -88,20 +88,29 @@ public class VideoConversion {
         try{
             String ffProbePath = new File(".").getCanonicalFile() + separator + "src" + separator +"main" + separator +"resources" + separator +"thirdparty"+separator+ "ffprobe.exe";
             String ffMpegPath = new File(".").getCanonicalFile() + separator + "src" + separator +"main" + separator +"resources" + separator +"thirdparty"+separator+ "ffmpeg.exe";
-
             FFprobe fpWrapper = new FFprobe(ffProbePath );
             FFmpeg fmWrapper = new FFmpeg(ffMpegPath);
-
             FFmpegProbeResult in = fpWrapper.probe(criteria.getPath());
-
             String out = criteria.getOutputPath();
-            double fps = criteria.getFrameRate() <=0 ?
-                    in.getStreams().get(0).r_frame_rate.getNumerator(): criteria.getFrameRate();
-            String reso[]=criteria.getResolution().split("X");
-            int resWidth = Integer.parseInt(reso[0]) <=0 ? in.getStreams().get(0).width: Integer.parseInt(reso[0]);
-            int resHeight = Integer.parseInt(reso[1]) <=0 ? in.getStreams().get(0).height : Integer.parseInt(reso[0]);
+            //Validate Frame Rate to convert to
+            double fps;
+            if(criteria.getFrameRate() == null) {
+                fps = in.getStreams().get(0).r_frame_rate.getNumerator();
+            } else {
+                fps = criteria.getFrameRate();
+            }
+            //Validate resolution to convert to
+            int resWidth;
+            int resHeight;
+            if(criteria.getResolution().isEmpty()) {
+                resWidth  = in.getStreams().get(0).width;
+                resHeight = in.getStreams().get(0).height;
+            } else {
+                String resolution[] = criteria.getResolution().split("X");
+                resWidth = Integer.parseInt(resolution[0]);
+                resHeight = Integer.parseInt(resolution[1]);
+            }
             String vCodec = criteria.getVideoCodec().isEmpty() ? in.getStreams().get(0).codec_name : criteria.getVideoCodec();
-
             String auxACodec;
             if (in.getStreams().size()>=2){
                 auxACodec = in.getStreams().get(1).codec_name;
@@ -145,7 +154,8 @@ public class VideoConversion {
             // IMPORTANT: Target size, or video bitrate must be specified when using two-pass Job
             //executor.createTwoPassJob(builder).run();
         }catch (Exception e){
-            LoggerManager.getLogger().Log("Error: "+ VideoConversion.class.getName()+" "+e.getMessage(), "ERROR");
+            LoggerManager.getLogger().Log("Error: "+ VideoConversion.class.getName()+":"+e.getStackTrace()+" "+
+                                        e.getMessage(), "ERROR");
         }
     }
     private void setProgressPercentage(double value) {
