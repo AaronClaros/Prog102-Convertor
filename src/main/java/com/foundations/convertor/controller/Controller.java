@@ -39,7 +39,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
 
     private View view; // reference to object view
     private Search search; // reference to object search
-    private Criteria criteria; // reference to object criteria
+    public static Criteria criteria; // reference to object criteria
     private ConversionCriteria conversionCriteria; // reference to object Criteria of conversion
     private String pathToConvert; // reference path to convert
 
@@ -124,20 +124,20 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      * @param resultsVideoList List of videos within the search criteria
      */
     public void fillTableVideos(List<Video> resultsVideoList){
-        if(resultsVideoList==null){
+        if(resultsVideoList == null){
             LoggerManager.getLogger().Log("fillTable Videos: Result is null", "INFO");
             return;
         }
         view.getSLPanel().getResultsTable().setNumRows(resultsVideoList.size());
         for (int i=0; i<resultsVideoList.size(); i++){
-            // Setting row data of table ("name", "path", Extension", "Resolution","Frame Rate",
-            // "Duration","Aspect Ratio","Dimension","Video Codec","Audio Codec")
-            Object[] d = {resultsVideoList.get(i).getFileName(),resultsVideoList.get(i).getPathFile(),
-                    resultsVideoList.get(i).getExt(),resultsVideoList.get(i).getResolution(),
-                    formatFrameRate(resultsVideoList.get(i).getFrameRate()),
-                    resultsVideoList.get(i).getDuration(),
-                    resultsVideoList.get(i).getAspectRatio(),resultsVideoList.get(i).getVideoCodec(),
-                    resultsVideoList.get(i).getAudioCodec()};
+            // Setting row data of table {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
+            //            "Resolution","Video Codec","Audio Codec","Size"};
+            Object[] d = {
+                    resultsVideoList.get(i).getFileName(),resultsVideoList.get(i).getPathFile(),
+                    resultsVideoList.get(i).getDuration(),resultsVideoList.get(i).getExt(),
+                    formatFrameRate(resultsVideoList.get(i).getFrameRate()),resultsVideoList.get(i).getAspectRatio(),
+                    resultsVideoList.get(i).getResolution(),resultsVideoList.get(i).getVideoCodec(),
+                    resultsVideoList.get(i).getAudioCodec(),formatSize(resultsVideoList.get(i).getSize())};
             // cleaning row data
             view.getSLPanel().getResultsTable().removeRow(i);
             // adding new row data
@@ -155,6 +155,20 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         return String.format("%.2f",fr);
         else return String.format("%.0f",fr);
     }
+
+    /**
+     *
+     * @param size formats Size as long to a String for "MB"
+     * @return
+     */
+    private String formatSize(long size){
+     if(size < 1000000)
+        return (size/1000+" KB");
+     else if(size < 1000000000)
+         return (size/1000000+" MB");
+         return (size/1000000000+" GB");
+    }
+
     /**
      *
      * Execute a conversion of video
@@ -221,9 +235,15 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     @Override
     public void valueChanged(ListSelectionEvent e) {
       JTable resultsTable = view.getSLPanel().getTable();
-      String pathSelected = resultsTable.getValueAt(resultsTable.getSelectedRow(), 1).toString();
-      setPathToConvert(pathSelected);
-      LoggerManager.getLogger().Log("SELECTED: "+pathSelected, "INFO");
-      view.getConvPanel().getTFInputPath().setText(pathSelected);
+
+      try {
+          String pathSelected = resultsTable.getValueAt(resultsTable.getSelectedRow(), 1).toString();
+          setPathToConvert(pathSelected);
+          LoggerManager.getLogger().Log("SELECTED: "+pathSelected, "INFO");
+          view.getConvPanel().getTFInputPath().setText(pathSelected);
+
+      } catch (Exception ex){
+          LoggerManager.getLogger().Log( ex.getMessage(), "Error");
+        }
     }
 }

@@ -19,6 +19,8 @@ package com.foundations.convertor.view;
  * @version 0.1
  */
 
+import com.foundations.convertor.utils.LoggerManager;
+
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
@@ -150,7 +152,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         labelFrameRate = new JLabel("Frame Rate:", SwingConstants.RIGHT);
 
         //frame rates array
-        String[] frame_rates = {"","24","25","29","29.7","30","60"};
+        String[] frame_rates = {"","24","25","29","29.7","30","59.94"};
 
         //combo box frame rate instance and content set
         comboxFrameRate = new JComboBox(frame_rates);
@@ -626,12 +628,16 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
             File yourFolder = fc.getSelectedFile();
         }
         //Copy selected path to the text box
-        boxPath.setText(fc.getSelectedFile().getAbsolutePath());
+        try {
+            boxPath.setText(fc.getSelectedFile().getAbsolutePath());
+        } catch (Exception ex){
+            LoggerManager.getLogger().Log( ex.getMessage(), "Error");
+        }
     }
     public void setDefaultDuration() {
         //set default duration time for duration from
         boxDurationFrom.setValue("00:00:00");
         //set default duration time for duration to
-        boxDurationTo.setValue("99:99:99");
+        boxDurationTo.setValue("99:59:59");
     }
 }

@@ -21,6 +21,8 @@ import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.probe.FFmpegStream;
 import org.apache.commons.io.FilenameUtils;
 
+import static com.foundations.convertor.controller.Controller.criteria;
+
 /**
  *  Search class for java applications, class which search videos
  *
@@ -59,26 +61,23 @@ public class Search {
         }
         List<Video> videoList = new ArrayList<Video>();
         //Go through every file in the path
-        fillWithCriteria(criteria,file,videoList);
+        fillWithCriteria(file,videoList);
         return videoList;
     }
 
     /**
      * If the file is a video according to the search criteria it is added to the video list
-     * @param criteria Selected on the UI Search panel
      * @param file inside the file list from the path directory
      * @param videoList list to be filled with all the files that are videos and have the criteria selected
      */
-    private void fillWithCriteria(Criteria criteria, File file,List<Video> videoList){
+    private void fillWithCriteria(File file,List<Video> videoList){
         File[] directoryFiles = file.listFiles();
         Video auxVideo;
         for (File elementFile : directoryFiles) {
             //if it is not a file get all video files in the directory: Recursively
             if (elementFile.isDirectory()) {
-                Criteria subCriteria;
                 File subFile=new File(elementFile.getAbsolutePath());
-                subCriteria = criteria;
-                fillWithCriteria(subCriteria,subFile,videoList);
+                fillWithCriteria(subFile,videoList);
             }
             //Check if the file is video and convert it to Video object
             else  if(isVideo(elementFile)) {
@@ -92,7 +91,7 @@ public class Search {
                     continue;
                 }
                 //Check duration
-                if(auxVideo.getDuration()==null||criteria.getDurFrom()>=auxVideo.getDuration()||
+                if(auxVideo.getDuration()==null||criteria.getDurFrom()>auxVideo.getDuration()||
                         criteria.getDurTo()<=auxVideo.getDuration()){
                     continue;
                 }
@@ -146,7 +145,7 @@ public class Search {
 
             ffprobe = new FFprobe(ffProbePath);
             FFmpegStream videoStream = ffprobe.probe(file.getPath()).getStreams().get(0);
-            String extFile = FilenameUtils.getExtension(file.getAbsolutePath());
+            video.setExt(FilenameUtils.getExtension(file.getAbsolutePath()));
             video.setFileName(file.getName());
             video.setPathFile(file.getAbsolutePath());
             video.setVideoCodec(videoStream.codec_name);
@@ -154,9 +153,8 @@ public class Search {
             video.setFrameRate((videoStream.avg_frame_rate.doubleValue()*100)/100);
             video.setDuration(videoStream.duration);
             video.setAspectRatio(videoStream.display_aspect_ratio);
-            String resolution=(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
-            video.setResolution(resolution);
-            video.setExt(extFile);
+            video.setResolution(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
+            video.setSize(file.length());
         }
         //If the file is not a video an exception is send
         catch (Exception ex)
