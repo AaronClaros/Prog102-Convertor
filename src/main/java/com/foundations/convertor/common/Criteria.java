@@ -27,7 +27,7 @@ public class Criteria {
     // extension of the file to search
     private String extension;
     // frame Rate to search
-    private String frameRate;
+    private Double frameRate;
     // Initial time to search
     private double durFrom;
     // Final time to search
@@ -64,7 +64,7 @@ public class Criteria {
     /**
      * @return It returns the given frame rate to search
      */
-    public String getFrameRate() {
+    public Double getFrameRate() {
         return frameRate;
     }
 
@@ -141,7 +141,7 @@ public class Criteria {
     /**
      * @param frameRate It will set the frame rate to search
      */
-    public void setFrameRate(String frameRate) {
+    public void setFrameRate(Double frameRate) {
         this.frameRate = frameRate;
     }
 
