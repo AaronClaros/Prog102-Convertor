@@ -31,8 +31,8 @@ public class SearchListPanel extends JPanel {
     // Results table to be displayed based on the search criteria
     private JTable resultsTable;
     private DefaultTableModel model;
-    private String[] columnNames = {"File Name", "File Path", "Extension","Resolution", "Frame Rate", "Duration",
-            "Aspect Ratio","Video Codec","Audio Codec"};
+    private String[] columnNames = {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
+            "Resolution","Video Codec","Audio Codec","Size"};
     private JScrollPane scrollPane;
 
     /**
@@ -114,15 +114,29 @@ public class SearchListPanel extends JPanel {
         selectedData = (String) resultsTable.getValueAt(selectedRow,1);
 
         //Only creates the video player frame if the path for the cell selection is not null
-        if(selectedData!=null) {
+        if(selectedData!=null&&supportedVideo(selectedRow)) {
             LoggerManager.getLogger().Log( "Selected row to play: " + selectedData, "INFO");
             MoviePlayer player = new MoviePlayer();
             try {
-                //TODO STOP- PAUSE
                 player.start(selectedData);
             } catch (Exception e) {
                 LoggerManager.getLogger().Log( e.getMessage(), "Error");
             }
         }
+        else {
+            JOptionPane.showMessageDialog(null, resultsTable.getValueAt(selectedRow,0)+": Extension not supported", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
+
+    /**
+     *
+     * @param selRow Selected row of the video to validate
+     * @return if the video can be played by the video player
+     */
+    private boolean supportedVideo(int selRow){
+        if (resultsTable.getValueAt(selRow,2).equals("flv")|| resultsTable.getValueAt(selRow,2).equals("mp4"))
+        return true;
+        else return false;
+    }
+
 }

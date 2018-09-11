@@ -19,6 +19,8 @@ package com.foundations.convertor.view;
  * @version 0.1
  */
 
+import com.foundations.convertor.utils.LoggerManager;
+
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
@@ -626,7 +628,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
             File yourFolder = fc.getSelectedFile();
         }
         //Copy selected path to the text box
-        boxPath.setText(fc.getSelectedFile().getAbsolutePath());
+        try {
+            boxPath.setText(fc.getSelectedFile().getAbsolutePath());
+        } catch (Exception ex){
+            LoggerManager.getLogger().Log( ex.getMessage(), "Error");
+        }
     }
     public void setDefaultDuration() {
         //set default duration time for duration from
