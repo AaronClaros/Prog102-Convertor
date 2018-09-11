@@ -89,13 +89,14 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         criteria.setExtension(view.getSPanel().getBoxFileExt().getSelectedItem().toString());
         criteria.setAspcRatio(view.getSPanel().getCBAspectRatio().getSelectedItem().toString());
         criteria.setAudioCodec(view.getSPanel().getCBVAudioCodec().getSelectedItem().toString());
-        criteria.setFrameRate(view.getSPanel().getCBFrameRate().getSelectedItem().toString());
         criteria.setResolution(view.getSPanel().getCBResolution().getSelectedItem().toString());
         criteria.setVideoCodec(view.getSPanel().getCBVideoCodec().getSelectedItem().toString());
-
+        //Validates if frame Rate is entered
+        if(!view.getSPanel().getCBFrameRate().getSelectedItem().toString().isEmpty())
+        criteria.setFrameRate(Double.parseDouble(view.getSPanel().getCBFrameRate().getSelectedItem().toString()));
+        // converting the given strings of Duration to search, into doubles
         durFrom = view.getSPanel().getBoxDurationFrom().getText();
         durTo = view.getSPanel().getBoxDurationTo().getText();
-        // converting the given strings of Duration to search, into doubles
         String [] durFromList = durFrom.split(":");
         secondsFrom = Double.parseDouble(durFromList[0])*3600+ Double.parseDouble(durFromList[1])*60
                 + Double.parseDouble(durFromList[2]);
@@ -174,18 +175,17 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      * Execute a conversion of video
      */
     public void convertVideo(){
-        ConverterUtils converterUtils=new ConverterUtils();
-        conversionCriteria = new ConversionCriteria(pathToConvert);
-
+        conversionCriteria = new ConversionCriteria();
+        conversionCriteria.setPath(pathToConvert);
         String resolution = view.getConvPanel().getCmbResolution().getSelectedItem().toString();
-        conversionCriteria.setResolution(converterUtils.intExtensionWidth(resolution),converterUtils.intExtensionHeight(resolution));
+        conversionCriteria.setResolution(resolution);
         String frameRatio = view.getConvPanel().getCmbFrameRate().getSelectedItem().toString();
-        conversionCriteria.setFramesPerSecond(converterUtils.stringToDouble(frameRatio));
+        conversionCriteria.setFrameRate(Double.parseDouble(frameRatio));
         conversionCriteria.setVideoCodec(view.getConvPanel().getCmbVideoCodec().getSelectedItem().toString());
         conversionCriteria.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
-        conversionCriteria.setOutputFormat(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
+        conversionCriteria.setExtension(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
         String newName = view.getConvPanel().getTxtName().getText();
-        conversionCriteria.setOutputName(newName);
+        conversionCriteria.setFileName(newName);
         String textOutPath = view.getConvPanel().getTFOutputPath().getText();
         conversionCriteria.setOutputDirectory(textOutPath);
 

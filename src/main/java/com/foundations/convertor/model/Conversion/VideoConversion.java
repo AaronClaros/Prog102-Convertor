@@ -92,12 +92,14 @@ public class VideoConversion {
             FFprobe fpWrapper = new FFprobe(ffProbePath );
             FFmpeg fmWrapper = new FFmpeg(ffMpegPath);
 
-            FFmpegProbeResult in = fpWrapper.probe(criteria.getInputPath());
+            FFmpegProbeResult in = fpWrapper.probe(criteria.getPath());
 
             String out = criteria.getOutputPath();
-            double fps = criteria.getFramesPerSecond() <=0 ? in.getStreams().get(0).r_frame_rate.getNumerator():criteria.getFramesPerSecond();
-            int resWidth = criteria.getResolutionWidth() <=0 ? in.getStreams().get(0).width: criteria.getResolutionWidth();
-            int resHeight = criteria.getResolutionHeight() <=0 ? in.getStreams().get(0).height : criteria.getResolutionHeight();
+            double fps = criteria.getFrameRate() <=0 ?
+                    in.getStreams().get(0).r_frame_rate.getNumerator(): criteria.getFrameRate();
+            String reso[]=criteria.getResolution().split("X");
+            int resWidth = Integer.parseInt(reso[0]) <=0 ? in.getStreams().get(0).width: Integer.parseInt(reso[0]);
+            int resHeight = Integer.parseInt(reso[1]) <=0 ? in.getStreams().get(0).height : Integer.parseInt(reso[0]);
             String vCodec = criteria.getVideoCodec().isEmpty() ? in.getStreams().get(0).codec_name : criteria.getVideoCodec();
 
             String auxACodec;
@@ -135,7 +137,7 @@ public class VideoConversion {
                     */
                 }
             });
-            LoggerManager.getLogger().Log("Starting conversion: input: "+criteria.getInputPath(),"INFO");
+            LoggerManager.getLogger().Log("Starting conversion: input: "+criteria.getPath(),"INFO");
             conversionJob.run();
             LoggerManager.getLogger().Log("Finishing conversion: output: "+criteria.getOutputPath(),"INFO");
             conversionJob.wait();

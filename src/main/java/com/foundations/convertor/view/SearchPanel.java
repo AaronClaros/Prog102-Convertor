@@ -169,7 +169,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         boxDurationTo.setHorizontalAlignment(SwingConstants.CENTER);
 
         //set default duration time for duration to
-        boxDurationTo.setValue("59:59:59");
+        boxDurationTo.setValue("99:59:59");
 
         //label aspect ratio instance and text set
         labelAspectRatio = new JLabel("Aspect Ratio:", SwingConstants.RIGHT);

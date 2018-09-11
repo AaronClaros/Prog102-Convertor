@@ -96,7 +96,7 @@ public class Search {
                     continue;
                 }
                 //Check Frame rate
-                if(!criteria.getFrameRate().isEmpty()&&Math.round(auxVideo.getFrameRate())!= Math.round(Double.parseDouble(criteria.getFrameRate()))){
+                if(criteria.getFrameRate()!=null&&Math.round(auxVideo.getFrameRate())!= Math.round(criteria.getFrameRate())){
                     continue;
                 }
                 //Check Aspect ratio
