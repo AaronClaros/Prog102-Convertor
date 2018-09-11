@@ -39,7 +39,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
 
     private View view; // reference to object view
     private Search search; // reference to object search
-    private Criteria criteria; // reference to object criteria
+    public static Criteria criteria; // reference to object criteria
     private ConversionCriteria conversionCriteria; // reference to object Criteria of conversion
     private String pathToConvert; // reference path to convert
 
