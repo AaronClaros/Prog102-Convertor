@@ -12,8 +12,6 @@
 
 package com.foundations.convertor.common;
 
-import java.sql.Timestamp;
-
 /**
  *  Criteria class where the search attributes will be passed
  *
@@ -24,31 +22,22 @@ public class Criteria {
 
     // path to search
     private String path;
-
     // file name to search
     private String fileName;
-
     // extension of the file to search
     private String extension;
-
     // frame Rate to search
     private String frameRate;
-
     // Initial time to search
     private double durFrom;
-
     // Final time to search
     private double durTo;
-
     // aspect ratio to search
     private String aspcRatio;
-
     // resolution to search
     private String resolution;
-
     //video codec to search
     private String videoCodec;
-
     // audio codec to search
     private String audioCodec;
 

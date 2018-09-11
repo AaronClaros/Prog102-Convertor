@@ -129,7 +129,9 @@ public class SearchListPanel extends JPanel {
     }
 
     /**
-     * Validates if the video is supported by the player
+     *
+     * @param selRow Selected row of the video to validate
+     * @return if the video can be played by the video player
      */
     private boolean supportedVideo(int selRow){
         if (resultsTable.getValueAt(selRow,2).equals("flv")|| resultsTable.getValueAt(selRow,2).equals("mp4"))

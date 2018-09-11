@@ -162,9 +162,9 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      * @return
      */
     private String formatSize(long size){
-     if(size<1000000)
+     if(size < 1000000)
         return (size/1000+" KB");
-     else if(size<1000000000)
+     else if(size < 1000000000)
          return (size/1000000+" MB");
          return (size/1000000000+" GB");
     }
