@@ -23,7 +23,7 @@ public class ProgressBar extends JFrame {
     public ProgressBar(){
         settings();
         initComp();
-        //iniBar();
+        iniBar();
     }
 
     /**
@@ -40,11 +40,6 @@ public class ProgressBar extends JFrame {
         this.value = value;iniBar();
     }
 
-    public void updateB(int val){
-        progBar.setValue(value);
-        progBar.repaint();
-        System.out.println(value+"----------------");
-    }
     /**
      * setting for the frame
      */
@@ -71,11 +66,12 @@ public class ProgressBar extends JFrame {
         progBar.setStringPainted(true);
 
         JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
 
         // setting constrains of label
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 0;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.insets = new Insets(5,0,5,0);
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -84,7 +80,7 @@ public class ProgressBar extends JFrame {
         // setting constrains of progress bar
         bagConstraints.gridx = 0;
         bagConstraints.gridy = 1;
-        bagConstraints.gridwidth = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.insets = new Insets(5,0,5,0);
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -100,9 +96,15 @@ public class ProgressBar extends JFrame {
     public class MyThreat implements Runnable{
         @Override
         public void run() {
-           updateB(value);
-           if (value==100)
-               dispose();
+            for (int i=0;i<100;i++){
+                progBar.setValue(i);
+                progBar.repaint();
+                try{
+                    Thread.sleep(1000);
+                }catch (Exception e){
+
+                }
+            }
         }
     }
 }
