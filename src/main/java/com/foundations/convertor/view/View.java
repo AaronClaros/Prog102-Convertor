@@ -18,6 +18,8 @@ package com.foundations.convertor.view;
  * @authors Adrian Rojas, Kevin Sanchez - AWT-[01].
  * @version 0.1
  */
+import com.foundations.convertor.utils.LoggerManager;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -46,6 +48,7 @@ public class View extends JFrame {  //
         settings();
         // Initialize attributes or components
         initComp();
+        LoggerManager.getLogger().Log("Starting View","INFO");
     }
 
     /**
@@ -96,6 +99,7 @@ public class View extends JFrame {  //
 
         // way it will change its size
         bagConstraints.fill = GridBagConstraints.BOTH;
+        LoggerManager.getLogger().Log("Starting Search Panel","INFO");
         this.add(sPanel,bagConstraints);
 
         // setting constrains of slpanel
@@ -106,6 +110,7 @@ public class View extends JFrame {  //
         bagConstraints.weightx = 1.0;
         bagConstraints.weighty = 1.0;
         bagConstraints.fill = GridBagConstraints.BOTH;
+        LoggerManager.getLogger().Log("Starting Search List Panel","INFO");
         this.add(slPanel,bagConstraints);
 
         // setting constrrains of convPanel
@@ -116,6 +121,7 @@ public class View extends JFrame {  //
         bagConstraints.weightx = 1.0;
         bagConstraints.weighty = 0.0;
         bagConstraints.fill = GridBagConstraints.BOTH;
+        LoggerManager.getLogger().Log("Starting Convertor Panel","INFO");
         this.add(convPanel,bagConstraints);
 
         //Display the window
