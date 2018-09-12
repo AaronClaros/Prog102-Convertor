@@ -403,6 +403,14 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
     }
 
     /**
+     * Getter method for retrieve the new name
+     * @return text field new name
+     */
+    public JTextField getTxtName(){
+        return txtName;
+    }
+
+    /**
      * getter method for text field input path
      * @return text field input path
      */
