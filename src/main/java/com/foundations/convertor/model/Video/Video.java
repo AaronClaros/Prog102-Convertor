@@ -34,6 +34,8 @@ public class Video {
   private String aCodec;
   //Field to get/set the extension
   private String ext;
+  //Field for Size
+  private long size;
 
   //return the duration
   public Double getDuration() {
@@ -60,9 +62,7 @@ public class Video {
     this.fileName = fileName;
   }
   //return the frame rate
-  public double getFrameRate() {
-    return fRate;
-  }
+  public double getFrameRate() { return fRate; }
   //setting the frame rate
   public void setFrameRate(double fRate) {
     this.fRate = fRate;
@@ -104,7 +104,7 @@ public class Video {
     this.ext = ext;
   }
   //return extension
-  public String getExt() {
-    return ext;
-  }
+  public String getExt() { return ext; }
+  public void setSize(Long size){this.size = size;}
+  public Long getSize (){ return this.size; }
 }

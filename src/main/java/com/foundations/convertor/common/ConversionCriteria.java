@@ -26,120 +26,39 @@ import java.time.format.DateTimeFormatter;
  * @version 0.1
  */
 //TODO make this class heritage from Criteria
-public class ConversionCriteria {
-    private String inputPath;
+public class ConversionCriteria extends Criteria {
     private String outputFolder;
-    private String outputName;
-    private String outputFormat;
-    private double framesPerSecond;
-    private int resolutionWidth;
-    private int resolutionHeight;
-    private String videoCodec;
-    private String audioCodec;
-    //private String outputPath;
-    //private String inputName;
-    //private String inputFormat;
 
     /**
      * Constructor class, set default data
-     * @param input absolute path of input video file
      */
-    public ConversionCriteria(String input){
-        inputPath = input;
+    public void ConversionCriteria(){
         outputFolder = "";
-        outputName = "";
-        outputFormat = "";
-        framesPerSecond = 0;
-        resolutionWidth = -1;
-        resolutionHeight = -1;
-        videoCodec = "";
-        audioCodec = "";
-        /*
-        try {
-            String separator = System.getProperty("file.separator");
-            String ffProbePath = new File(".").getCanonicalFile() + separator + "src" + separator +"main" + separator +"resources" + separator +"thirdparty"+separator+ "ffprobe.exe";
-            String inputDebug = "C:\\Users\\kevinherrera\\Videos\\doll_sample.avi";
-            String outputDebug = "doll_29fps.avi";
-            FFprobe fpWrapper = new FFprobe(ffProbePath );
-            FFmpegProbeResult in = fpWrapper.probe(input);
-
-        }catch (Exception e){
-            LoggerManager.getLogger().Log("ERROR FFPROBE ON CRITERIA: "+e.getMessage(),"ERROR");
-        }
-        */
-    }
-
-    public void setInputPath(String path){
-        inputPath = path;
-    }
-    public String getInputPath(){
-        return  inputPath;
+        setFileName("");
+        setExtension("");
+        setFrameRate(0.0);
+        setResolution("-1X-1");
+        setVideoCodec("");
+        setAudioCodec("");
     }
     public void setOutputDirectory(String folderPath){
         outputFolder = folderPath;
     }
-    public void setOutputName(String path){
-        outputName = path;
-    }
-    public void setOutputFormat(String path){
-        outputFormat = path;
-    }
     public String getOutputPath() {
         if (outputFolder.isEmpty()){
-            outputFolder = FilenameUtils.getFullPath(inputPath);
+            outputFolder = FilenameUtils.getFullPath(getPath());
         }
-        if (outputName.isEmpty()) {
+        if (getFileName().isEmpty()) {
             //save current date as date time format
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDateTime now = LocalDateTime.now();
             //set current date as default output name
-            outputName = FilenameUtils.getBaseName(inputPath)+"-"+dtf.format(now);
+            setFileName(FilenameUtils.getBaseName(getPath())+"-"+dtf.format(now));
         }
-        if (outputFormat.isEmpty()){
-            outputFormat = FilenameUtils.getExtension(inputPath);
+        if (getExtension().isEmpty()){
+            setExtension(FilenameUtils.getExtension(getPath()));
         }
-        return outputFolder+"\\"+outputName+"."+outputFormat;
+        return outputFolder+"\\"+getFileName()+"."+getExtension();
     }
 
-    public void setFramesPerSecond(double framesPerSecond){
-        this.framesPerSecond = framesPerSecond;
-    }
-
-    public double getFramesPerSecond(){
-        return  framesPerSecond;
-    }
-
-    public void setResolution(int width, int height){
-        resolutionWidth = width;
-        resolutionHeight = height;
-    }
-
-    public int getResolutionWidth(){
-        return resolutionWidth;
-    }
-
-    public int getResolutionHeight(){
-        return resolutionHeight;
-    }
-
-    public void setVideoCodec(String codec){
-        videoCodec = codec;
-    }
-
-    public String getVideoCodec(){
-        return videoCodec;
-    }
-
-
-    public void setAudioCodec(String codec){
-        audioCodec = codec;
-    }
-
-    public String getAudioCodec(){
-        return audioCodec;
-    }
-
-    public String getOutputFormat(){
-        return outputFormat;
-    }
 }
