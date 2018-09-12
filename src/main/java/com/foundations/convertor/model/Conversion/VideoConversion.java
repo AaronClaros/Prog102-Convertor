@@ -51,7 +51,7 @@ public class VideoConversion {
         progressPercentage = new SimpleDoubleProperty();
         setProgressPercentage(0);
         //add change listener to progress percentage property
-        getProgressPercentageProperty().addListener(new ChangeListener() {
+        /*getProgressPercentageProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue o, Object oldVal, Object newVal) {
 
@@ -66,7 +66,7 @@ public class VideoConversion {
                         ),"DEBUG");
                 //TODO register new listener with slider value to this property
             }
-        });
+        });*/
     }
     /**
      * Prepare criteria parameters to make a video conversion

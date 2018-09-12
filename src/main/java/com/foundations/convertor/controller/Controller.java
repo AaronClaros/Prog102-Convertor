@@ -18,6 +18,7 @@ import com.foundations.convertor.model.Conversion.VideoConversion;
 import com.foundations.convertor.model.Video.Video;
 import com.foundations.convertor.utils.ConverterUtils;
 import com.foundations.convertor.utils.LoggerManager;
+import com.foundations.convertor.view.ProgressBar;
 import com.foundations.convertor.view.View;
 import com.foundations.convertor.model.Search;
 import java.awt.event.ActionEvent;
@@ -43,11 +44,16 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     private ConversionCriteria conversionCriteria; // reference to object Criteria of conversion
     private String pathToConvert; // reference path to convert
 
+    VideoConversion conversion;
+    ProgressBar pb;
+
     public Controller(){
         instanceCriteria();
         instanceViewComponent();
         instanceModelComponent();
         instanceConversionCriteria();
+
+
     }
 
     /**
@@ -176,6 +182,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      */
     public void convertVideo(){
         conversionCriteria = new ConversionCriteria();
+
         conversionCriteria.setPath(pathToConvert);
         String resolution = view.getConvPanel().getCmbResolution().getSelectedItem().toString();
         conversionCriteria.setResolution(resolution);
@@ -189,8 +196,13 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         if(!view.getConvPanel().getCmbFrameRate().getSelectedItem().toString().isEmpty()) {
             conversionCriteria.setFrameRate(Double.parseDouble(view.getConvPanel().getCmbFrameRate().getSelectedItem().toString()));
         }
-        VideoConversion conversion = new VideoConversion();
+        conversion = new VideoConversion();
+        pb = new ProgressBar();
+        pb.setVisible(true);
+        conversion.getProgressPercentageProperty().addListener(pb);
         conversion.doConversion(conversionCriteria);
+
+
 
         // this method clean the fields of converter
         view.getConvPanel().cleanFields();

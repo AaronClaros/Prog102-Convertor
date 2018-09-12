@@ -1,20 +1,21 @@
 package com.foundations.convertor.view;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 
-public class ProgressBar extends JFrame {
+public class ProgressBar extends JFrame implements ChangeListener {
     private JLabel lblProgres;
     private JProgressBar progBar;
     private JSlider slider;
     private Dimension dimension;
     private GridBagConstraints bagConstraints;
 
-    private MyThreat myThreat;
+    //private MyThreat myThreat;
     private Thread thread;
-    private Timer timer;
-    private int value;
-
 
     /**
      * this method will set the items and time
@@ -31,13 +32,9 @@ public class ProgressBar extends JFrame {
      * progress bar
      */
     public void iniBar() {
-        myThreat = new MyThreat();
-        thread = new Thread(myThreat);
-        thread.start();
-    }
-
-    public void setValue(int value) {
-        this.value = value;iniBar();
+        //myThreat = new MyThreat();
+        //thread = new Thread(myThreat);
+        //thread.start();
     }
 
     /**
@@ -64,7 +61,6 @@ public class ProgressBar extends JFrame {
         progBar = new JProgressBar();
         progBar.setValue(0);
         progBar.setStringPainted(true);
-
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
 
@@ -89,22 +85,35 @@ public class ProgressBar extends JFrame {
         panel.setOpaque(true);
         this.add(panel);
         this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        //this.setVisible(true);
     }
 
+    @Override
+    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+
+        int percentage = (int) Math.round((double)newValue*100);System.out.println(percentage);
+        progBar.setValue((percentage));
+        progBar.repaint();
+        if (percentage == 100){
+            this.setVisible(false);
+        }
+    }
+
+/*
     // manage threats at the same time
     public class MyThreat implements Runnable{
         @Override
         public void run() {
-            for (int i=0;i<100;i++){
-                progBar.setValue(i);
+                progBar.setValue(0);
                 progBar.repaint();
                 try{
                     Thread.sleep(1000);
                 }catch (Exception e){
 
                 }
-            }
         }
-    }
+    }*/
 }
+
+
+
