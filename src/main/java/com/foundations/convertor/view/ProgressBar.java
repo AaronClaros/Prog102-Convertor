@@ -1,21 +1,34 @@
+/*
+ * Copyright (c) 2018 Jala Foundation.
+ * 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Jala Foundation, ("Confidential Information").  You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Jala Foundation.
+ */
 package com.foundations.convertor.view;
 
+import com.foundations.convertor.utils.LoggerManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
 import java.awt.*;
 
+/**
+ *  class for progress bar
+ *
+ * @author Kevin Sanchez - AWT-[01].
+ * @version 0.1
+ */
 public class ProgressBar extends JFrame implements ChangeListener {
     private JLabel lblProgres;
     private JProgressBar progBar;
-    private JSlider slider;
     private Dimension dimension;
     private GridBagConstraints bagConstraints;
-
-    //private MyThreat myThreat;
-    private Thread thread;
+    JPanel panel;
 
     /**
      * this method will set the items and time
@@ -24,17 +37,6 @@ public class ProgressBar extends JFrame implements ChangeListener {
     public ProgressBar(){
         settings();
         initComp();
-        iniBar();
-    }
-
-    /**
-     * this method allows to create a threat for the
-     * progress bar
-     */
-    public void iniBar() {
-        //myThreat = new MyThreat();
-        //thread = new Thread(myThreat);
-        //thread.start();
     }
 
     /**
@@ -50,18 +52,17 @@ public class ProgressBar extends JFrame implements ChangeListener {
         this.setUndecorated(true);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         this.setBackground(new Color(0,0,0,0));
-        //this.setOpacity(0.2f);
     }
 
     /**
      * initialize the components for the frame
      */
     private void initComp(){
+        panel = new JPanel();
         lblProgres = new JLabel("Procesando........",SwingConstants.CENTER);
         progBar = new JProgressBar();
         progBar.setValue(0);
         progBar.setStringPainted(true);
-        JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
 
         // setting constrains of label
@@ -85,34 +86,29 @@ public class ProgressBar extends JFrame implements ChangeListener {
         panel.setOpaque(true);
         this.add(panel);
         this.setLocationRelativeTo(null);
-        //this.setVisible(true);
     }
-
+    /**
+     * this method makes the progress bar update
+     */
     @Override
     public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-
-        int percentage = (int) Math.round((double)newValue*100);System.out.println(percentage);
-        progBar.setValue((percentage));
-        progBar.repaint();
-        if (percentage == 100){
-            this.setVisible(false);
+        try {
+                int percentage;
+                percentage = (int) Math.round((double) newValue * 100);
+                if (percentage == 100 || percentage == 0){
+                    this.setVisible(false);
+                }else{
+                    progBar.setValue(percentage);
+                    this.setVisible(true);
+                }
+                // this allows to display the changes
+                // in the progress bar
+                Thread.sleep(400);
+                this.setVisible(false);
+        }catch (Exception e){
+            LoggerManager.getLogger().Log(e.getMessage(),"ERROR");
         }
     }
-
-/*
-    // manage threats at the same time
-    public class MyThreat implements Runnable{
-        @Override
-        public void run() {
-                progBar.setValue(0);
-                progBar.repaint();
-                try{
-                    Thread.sleep(1000);
-                }catch (Exception e){
-
-                }
-        }
-    }*/
 }
 
 

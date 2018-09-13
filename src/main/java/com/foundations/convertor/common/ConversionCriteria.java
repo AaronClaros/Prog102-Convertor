@@ -25,7 +25,6 @@ import java.time.format.DateTimeFormatter;
  * @author kevinherrera - AWT-[01].
  * @version 0.1
  */
-//TODO make this class heritage from Criteria
 public class ConversionCriteria extends Criteria {
     private String outputFolder;
 
