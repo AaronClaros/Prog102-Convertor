@@ -82,6 +82,10 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     // this variable helps to set objects of
     // the search panel
     private GridBagConstraints bagConstraints;
+    //Label for audio
+    private JLabel labelAudio;
+    //Check box to show the panel audio search
+    private JCheckBox checkBoxAudio;
 
     /**
      * Constructor of father class JPanel
@@ -209,6 +213,14 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         //set action listener to button set search path
         buttonPath.addActionListener(this);
+
+        //label file name instance and text set
+        labelAudio= new JLabel("Audio Search Criteria:", SwingConstants.RIGHT);
+
+        //check box audio
+        checkBoxAudio = new JCheckBox();
+        checkBoxAudio.setSelected(false);
+        checkBoxAudio.addActionListener(this);
     }
 
     /**
@@ -480,14 +492,38 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of buttonSearch
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 11;
+        bagConstraints.gridy = 10;
         bagConstraints.gridwidth = 3;
         bagConstraints.gridheight = 1;
         bagConstraints.weightx = 1.0;
-        bagConstraints.weighty = 0.5;
+        bagConstraints.weighty = 0.1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(buttonSearch,bagConstraints);
     }
+
+    /**
+     * This method initialize the search audio
+     */
+    private void initCompAudioCheck(){
+        // setting constrains of labelAudioCodec
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 12;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelAudio,bagConstraints);
+
+        // setting constrains of comboxAudioCodec
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = 12;
+        bagConstraints.gridwidth = 4;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(checkBoxAudio,bagConstraints);
+    }
+
     /**
      * Initialize components
      */
@@ -504,7 +540,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         initCompVideo();
         initCompAudio();
         initCompBtnSearch();
-
+        initCompAudioCheck();
         // set visible the search panel
         this.setVisible(true);
     }
@@ -617,27 +653,63 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        //File chooser for path
-        JFileChooser fc = new JFileChooser();
-        // start at application current directory
-        fc.setCurrentDirectory(new java.io.File("."));
-        //Only can select directories
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int returnVal = fc.showSaveDialog(this);
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            File yourFolder = fc.getSelectedFile();
+        Object src = e.getSource();
+
+        if (src == buttonPath) {
+            //File chooser for path
+            JFileChooser fc = new JFileChooser();
+            // start at application current directory
+            fc.setCurrentDirectory(new java.io.File("."));
+            //Only can select directories
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int returnVal = fc.showSaveDialog(this);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+                File yourFolder = fc.getSelectedFile();
+            }
+            //Copy selected path to the text box
+            try {
+                boxPath.setText(fc.getSelectedFile().getAbsolutePath());
+            } catch (Exception ex){
+                LoggerManager.getLogger().Log( ex.getMessage(), "Error");
+            }
         }
-        //Copy selected path to the text box
-        try {
-            boxPath.setText(fc.getSelectedFile().getAbsolutePath());
-        } catch (Exception ex){
-            LoggerManager.getLogger().Log( ex.getMessage(), "Error");
+        else{
+            LoggerManager.getLogger().Log( src.getClass().toString(), "INFO");
+            JCheckBox checkBox = (JCheckBox)e.getSource();
+            if(checkBox == checkBoxAudio && checkBox.isSelected())
+            {
+                addNewSearchAudioPanel();
+            }
         }
+
     }
     public void setDefaultDuration() {
         //set default duration time for duration from
         boxDurationFrom.setValue("00:00:00");
         //set default duration time for duration to
         boxDurationTo.setValue("99:59:59");
+    }
+
+    private void addNewSearchAudioPanel(){
+        LoggerManager.getLogger().Log( "Into add new Panel search audio", "INFO");
+        JPanel p = new JPanel();
+        p.setLocation(15, 30);
+        p.setSize(20, 20);
+        p.setBackground(Color.BLACK);
+        //p.revalidate();
+        //p.repaint();
+
+
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 13;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        p.setVisible(true);
+        this.add(p,bagConstraints);
+
+        LoggerManager.getLogger().Log( "New audio panel added", "INFO");
+
     }
 }
