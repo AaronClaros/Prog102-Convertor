@@ -30,6 +30,10 @@ public class SearchCriteria extends Criteria {
     private int audioChannels;
     //Only for audio sample rate
     private int audioSampleRate;
+    //Only for audio sample rate
+    private int audioBitRate;
+    //Only for audio sample rate
+    private int audioBitDepth;
 
     /**
      * Empty constructor
@@ -107,6 +111,9 @@ public class SearchCriteria extends Criteria {
     public void setAudioSampleRate(int audioSampleRate) {
         this.audioSampleRate = audioSampleRate;
     }
-
+    public void setAudioBitRate(int audioBitRate){this.audioBitRate= audioBitRate;}
+    public void setAudioBitDepth(int audioBitDepth){this.audioBitDepth= audioBitDepth;}
+    public int getAudioBitRate(){return audioBitRate;}
+    public int getAudioBitDepth(){return audioBitDepth;}
 
 }

@@ -24,6 +24,7 @@ public class Audio extends Multimedia {
     private String songArtist;
     private String songAlbum;
     private long bitRate;
+    private int bitDepth;
     private int sampleRate;
 
     /**
@@ -105,7 +106,21 @@ public class Audio extends Multimedia {
     public void setBitRate(long bitRate) {
         this.bitRate = bitRate;
     }
+    /**
+     * get song bit rate
+     * @return bit rate
+     */
+    public int getBitDepth() {
+        return bitDepth;
+    }
 
+    /**
+     * Set the song bit rate
+     * @param bitDepth of the audio
+     */
+    public void setBitDepth(int bitDepth) {
+        this.bitDepth = bitDepth;
+    }
     /**
      * get sample rate
      * @return sample rate

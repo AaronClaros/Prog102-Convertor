@@ -23,14 +23,14 @@ import java.awt.*;
 public class SearchAudioPanel extends JPanel {
     // this variable helps to set objects of
     // the search panel for audio
-    private JLabel lbRate;
-    private JLabel lbSize;
+    private JLabel lbSampleRate;
+    private JLabel lbBitDepth;
     private JLabel lbBitrate;
-    private JLabel lbChannel;
-    private JComboBox cbRate;
-    private JComboBox cbSize;
+    private JLabel lbChannels;
+    private JComboBox cbSampleRate;
+    private JComboBox cbBitDepth;
     private JComboBox cbBitRate;
-    private JComboBox cbChannel;
+    private JComboBox cbChannels;
     private GridBagConstraints bagConstraints;
 
     public SearchAudioPanel(){
@@ -44,8 +44,6 @@ public class SearchAudioPanel extends JPanel {
      * Search panel settings
      */
     private void settings() {
-        //set border to panel
-        this.setBorder(BorderFactory.createLineBorder(Color.black));
         //set background color of panel
         this.setBackground(UIManager.getColor ( "Panel.background" ));
         // type of layout for the panel
@@ -59,43 +57,43 @@ public class SearchAudioPanel extends JPanel {
      */
     private void initCompFields(){
         //Label for Sample Rate
-        lbRate = new JLabel("Sample Rate:", SwingConstants.RIGHT);
+        lbSampleRate = new JLabel("Sample Rate (Hz):", SwingConstants.RIGHT);
 
         //Label for Size
-        lbSize = new JLabel("Size:", SwingConstants.RIGHT);
+        lbBitDepth = new JLabel("Bit depth (bits):", SwingConstants.RIGHT);
 
         //Label for Bitrate
-        lbBitrate = new JLabel("Bitrate", SwingConstants.RIGHT);
+        lbBitrate = new JLabel("Bitrate (Kbps)", SwingConstants.RIGHT);
 
         //Label for text field path
-        lbChannel = new JLabel("Channels:", SwingConstants.RIGHT);
+        lbChannels = new JLabel("Channels:", SwingConstants.RIGHT);
 
         //audio codec array
         String[] audio_codec = {"","mp2","mp3"};
 
         //sample rate array
-        String[] sample_rate = {"","48000 Hz"};
+        String[] sample_rate = {"","48000","2600"};
 
         //combo box selection sample rate instance
-        cbRate = new JComboBox(sample_rate);
+        cbSampleRate = new JComboBox(sample_rate);
 
         //size array
-        String[] size = {"","16 bit"};
+        String[] bitDepth = {"","16","32"};
 
         //combo box selection size instance
-        cbSize = new JComboBox(size);
+        cbBitDepth = new JComboBox(bitDepth);
 
         //BitRate array
-        String[] bit_rate = {"","224 kbps"};
+        String[] bit_rate = {"","224"};
 
         //combo box selection bit_rate instance
         cbBitRate = new JComboBox(bit_rate);
 
         //channels array
-        String[] channels = {"","Stereo"};
+        String[] channels = {"","2"};
 
         //combo box selection channels instance
-        cbChannel = new JComboBox(channels);
+        cbChannels = new JComboBox(channels);
     }
 
     /**
@@ -110,7 +108,7 @@ public class SearchAudioPanel extends JPanel {
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(lbRate,bagConstraints);
+        this.add(lbSampleRate,bagConstraints);
 
         // setting constrains of combo rate
         bagConstraints.gridx = 2;
@@ -119,25 +117,30 @@ public class SearchAudioPanel extends JPanel {
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(cbRate,bagConstraints);
+        this.add(cbSampleRate,bagConstraints);
 
-        // setting constrains of label size
-        bagConstraints.gridx = 4;
-        bagConstraints.gridy = 2;
+    }
+    /**
+     * This method initialize the Bit Depth
+     */
+    private void initCompBitDepth(){
+        // setting constrains of label bit Depth
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 3;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(lbSize,bagConstraints);
+        this.add(lbBitDepth,bagConstraints);
 
         // setting constrains of combo size
-        bagConstraints.gridx = 6;
-        bagConstraints.gridy = 2;
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = 3;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(cbSize,bagConstraints);
+        this.add(cbBitDepth,bagConstraints);
 
     }
 
@@ -148,7 +151,7 @@ public class SearchAudioPanel extends JPanel {
 
         // setting constrains of label bit rate
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 3;
+        bagConstraints.gridy = 4;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -157,7 +160,7 @@ public class SearchAudioPanel extends JPanel {
 
         // setting constrains of combo bit rate
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 3;
+        bagConstraints.gridy = 4;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -172,21 +175,21 @@ public class SearchAudioPanel extends JPanel {
 
         // setting constrains of label channel
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 4;
+        bagConstraints.gridy = 5;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(lbChannel,bagConstraints);
+        this.add(lbChannels,bagConstraints);
 
         // setting constrains of combo channel
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 4;
+        bagConstraints.gridy = 5;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(cbChannel,bagConstraints);
+        this.add(cbChannels,bagConstraints);
     }
 
     /**
@@ -195,6 +198,7 @@ public class SearchAudioPanel extends JPanel {
     private void initComp() {
         initCompFields();
         initCompSampleRate();
+        initCompBitDepth();
         initCompBitRate();
         initCompChannels();
     }
@@ -203,8 +207,8 @@ public class SearchAudioPanel extends JPanel {
      * Getter for the file extension box
      * @return filer extension box object
      */
-    public JComboBox getcbRate() {
-        return this.cbRate;
+    public JComboBox getcbSampleRate() {
+        return this.cbSampleRate;
     }
 
     /**
@@ -212,32 +216,39 @@ public class SearchAudioPanel extends JPanel {
      * @return filer extension box object
      */
     public JComboBox getcbSize() {
-        return this.cbSize;
+        return this.cbBitDepth;
     }
 
     /**
      * Getter for the file extension box
-     * @return filer extension box object
+     * @return filer extension cbox object
      */
     public JComboBox getcbBitRate() {
         return this.cbBitRate;
     }
 
     /**
-     * Getter for the file extension box
-     * @return filer extension box object
+     * Getter for the file channels box
+     * @return channels cbox object
      */
-    public JComboBox getcbChannel() {
-        return this.cbChannel;
+    public JComboBox getcbChannels() {
+        return this.cbChannels;
     }
 
+    /**
+     * Getter for the bit depth
+     * @return cb cit depth
+     */
+    public JComboBox getcbBitDepth(){
+        return this.cbBitDepth;
+    }
     /**
      * this method reset the fields for panel Audio Search
      */
     public void cleanFieldsToAudioSearch(){
-      this.cbRate.setSelectedItem("");
-      this.cbSize.setSelectedItem("");
+      this.cbSampleRate.setSelectedItem("");
+      this.cbBitDepth.setSelectedItem("");
       this.cbBitRate.setSelectedItem("");
-      this.cbChannel.setSelectedItem("");
+      this.cbChannels.setSelectedItem("");
     }
 }
