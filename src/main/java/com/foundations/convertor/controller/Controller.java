@@ -120,8 +120,9 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
          * Only should need to call method
          *
          */
-        List<Video> resultsVideoList =  search.getAllVideoFiles(criteria);
+        List<Multimedia> resultsVideoList =  search.searchVideoFiles(criteria);
         fillTable(resultsVideoList);
+        //TODO: different search cases for searchCriteria.SearchType
     }
 
 
@@ -199,7 +200,6 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     }
 
     /**
-     *
      * Execute a conversion of video
      */
     public void convertVideo(){

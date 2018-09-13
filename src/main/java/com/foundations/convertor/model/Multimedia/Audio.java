@@ -19,7 +19,7 @@ package com.foundations.convertor.model.Multimedia;
  */
 public class Audio extends Multimedia {
 
-    private String channels;
+    private int channels;
     private String songName;
     private String songArtist;
     private String songAlbum;
@@ -30,7 +30,7 @@ public class Audio extends Multimedia {
      * get Audio channels
      * @return audio channels
      */
-    public String getChannels() {
+    public int getChannels() {
         return channels;
     }
 
@@ -38,7 +38,7 @@ public class Audio extends Multimedia {
      * Set the audio channels
      * @param channels of the audio
      */
-    public void setChannels(String channels) {
+    public void setChannels(int channels) {
         this.channels = channels;
     }
 
