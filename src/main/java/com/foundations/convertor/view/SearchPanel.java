@@ -15,7 +15,7 @@ package com.foundations.convertor.view;
 /**
  *  Panel for the convertor search criteria
  *
- * @authors Adrian Rojas, Kevin Herrera, Kevin Sanchez - AWT-[01].
+ * @authors Adrian Rojas, Kevin Herrera, Kevin Sanchez, Angelica Lopez - AWT-[01].
  * @version 0.1
  */
 
@@ -87,6 +87,8 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     //Check box to show the panel audio search
     private JCheckBox checkBoxAudio;
 
+    private SearchAudioPanel searchAudioPanel;
+
     /**
      * Constructor of father class JPanel
      */
@@ -97,6 +99,8 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // Initialize attributes or components
         initComp();
 
+        searchAudioPanel = new SearchAudioPanel();
+        addNewSearchAudioPanel();
     }
 
     /**
@@ -492,7 +496,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of buttonSearch
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 10;
+        bagConstraints.gridy = 14;
         bagConstraints.gridwidth = 3;
         bagConstraints.gridheight = 1;
         bagConstraints.weightx = 1.0;
@@ -507,18 +511,18 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     private void initCompAudioCheck(){
         // setting constrains of labelAudioCodec
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 12;
+        bagConstraints.gridy = 10;
         bagConstraints.gridwidth = 2;
-        bagConstraints.gridheight = 1;
+        bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(labelAudio,bagConstraints);
 
         // setting constrains of comboxAudioCodec
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 12;
+        bagConstraints.gridy = 10;
         bagConstraints.gridwidth = 4;
-        bagConstraints.gridheight = 1;
+        bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(checkBoxAudio,bagConstraints);
@@ -678,7 +682,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
             JCheckBox checkBox = (JCheckBox)e.getSource();
             if(checkBox == checkBoxAudio && checkBox.isSelected())
             {
-                addNewSearchAudioPanel();
+                searchAudioPanel.setVisible(true);
             }
         }
 
@@ -692,24 +696,14 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
     private void addNewSearchAudioPanel(){
         LoggerManager.getLogger().Log( "Into add new Panel search audio", "INFO");
-        JPanel p = new JPanel();
-        p.setLocation(15, 30);
-        p.setSize(20, 20);
-        p.setBackground(Color.BLACK);
-        //p.revalidate();
-        //p.repaint();
-
-
-        bagConstraints.gridx = 0;
-        bagConstraints.gridy = 13;
-        bagConstraints.gridwidth = 2;
+        bagConstraints.gridx = 1;
+        bagConstraints.gridy = 11;
+        bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
-        p.setVisible(true);
-        this.add(p,bagConstraints);
-
+        searchAudioPanel.setVisible(true);
+        this.add(searchAudioPanel,bagConstraints);
         LoggerManager.getLogger().Log( "New audio panel added", "INFO");
-
     }
 }

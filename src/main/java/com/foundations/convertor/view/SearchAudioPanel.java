@@ -21,19 +21,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SearchAudioPanel extends JPanel {
-
-    private JLabel lbAudioCodec;
+    // this variable helps to set objects of
+    // the search panel for audio
     private JLabel lbRate;
     private JLabel lbSize;
     private JLabel lbBitrate;
     private JLabel lbChannel;
-    private JComboBox cbAudioCodec;
     private JComboBox cbRate;
     private JComboBox cbSize;
     private JComboBox cbBitRate;
     private JComboBox cbChannel;
-    // this variable helps to set objects of
-    // the search panel
     private GridBagConstraints bagConstraints;
 
     public SearchAudioPanel(){
@@ -41,7 +38,6 @@ public class SearchAudioPanel extends JPanel {
         settings();
         // Initialize attributes or components
         initComp();
-
     }
 
     /**
@@ -62,9 +58,6 @@ public class SearchAudioPanel extends JPanel {
      * for the converter panel
      */
     private void initCompFields(){
-        //Label for Audio Codec
-        lbAudioCodec = new JLabel("Audio Codec:", SwingConstants.RIGHT);
-
         //Label for Sample Rate
         lbRate = new JLabel("Sample Rate:", SwingConstants.RIGHT);
 
@@ -79,9 +72,6 @@ public class SearchAudioPanel extends JPanel {
 
         //audio codec array
         String[] audio_codec = {"","mp2","mp3"};
-
-        //combo box selection audio codec instance
-        cbAudioCodec = new JComboBox(audio_codec);
 
         //sample rate array
         String[] sample_rate = {"","48000 Hz"};
@@ -109,30 +99,6 @@ public class SearchAudioPanel extends JPanel {
     }
 
     /**
-     * This method initialize the Audio codec fields
-     */
-    private void initCompAudioCodec(){
-
-        // setting constrains of label Audio Codec
-        bagConstraints.gridx = 0;
-        bagConstraints.gridy = 1;
-        bagConstraints.gridwidth = 2;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(lbAudioCodec,bagConstraints);
-
-        // setting constrains of combo audio codec
-        bagConstraints.gridx = 2;
-        bagConstraints.gridy = 1;
-        bagConstraints.gridwidth = 4;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(cbAudioCodec,bagConstraints);
-    }
-
-    /**
      * This method initialize the Sample Rate
      */
     private void initCompSampleRate(){
@@ -156,7 +122,7 @@ public class SearchAudioPanel extends JPanel {
         this.add(cbRate,bagConstraints);
 
         // setting constrains of label size
-        bagConstraints.gridx = 3;
+        bagConstraints.gridx = 4;
         bagConstraints.gridy = 2;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
@@ -165,7 +131,7 @@ public class SearchAudioPanel extends JPanel {
         this.add(lbSize,bagConstraints);
 
         // setting constrains of combo size
-        bagConstraints.gridx = 5;
+        bagConstraints.gridx = 6;
         bagConstraints.gridy = 2;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
@@ -223,15 +189,45 @@ public class SearchAudioPanel extends JPanel {
         this.add(cbChannel,bagConstraints);
     }
 
-
     /**
      * Initialize components
      */
     private void initComp() {
         initCompFields();
-        initCompAudioCodec();
         initCompSampleRate();
         initCompBitRate();
         initCompChannels();
+    }
+
+    /**
+     * Getter for the file extension box
+     * @return filer extension box object
+     */
+    public JComboBox getcbRate() {
+        return this.cbRate;
+    }
+
+    /**
+     * Getter for the file extension box
+     * @return filer extension box object
+     */
+    public JComboBox getcbSize() {
+        return this.cbSize;
+    }
+
+    /**
+     * Getter for the file extension box
+     * @return filer extension box object
+     */
+    public JComboBox getcbBitRate() {
+        return this.cbBitRate;
+    }
+
+    /**
+     * Getter for the file extension box
+     * @return filer extension box object
+     */
+    public JComboBox getcbChannel() {
+        return this.cbChannel;
     }
 }
