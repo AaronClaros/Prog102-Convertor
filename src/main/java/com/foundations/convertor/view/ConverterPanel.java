@@ -14,6 +14,7 @@
 
 package com.foundations.convertor.view;
 
+import com.foundations.convertor.utils.LoggerManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -73,6 +74,13 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
     // the search panel
     private GridBagConstraints bagConstraints;
 
+    //Label for audio
+    private JLabel labelAudio;
+    //Check box to show the panel audio search
+    private JCheckBox checkBoxAudio;
+    //The panel to add
+    private SearchAudioPanel searchAudioPanel;
+
     /**
      * constructor of father class JPanel
      */
@@ -82,6 +90,8 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         settings();
         // Initialize attributes or components
         initComp();
+        //Initialize Search Audio Panel
+        searchAudioPanel = new SearchAudioPanel();
     }
 
     /**
@@ -162,6 +172,14 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
 
         // set text to the convertor button
         buttonConvert = new JButton("Convert");
+
+        //label file name instance and text set
+        labelAudio= new JLabel("Audio Search Criteria:", SwingConstants.RIGHT);
+
+        //check box audio
+        checkBoxAudio = new JCheckBox();
+        checkBoxAudio.setSelected(false);
+        checkBoxAudio.addActionListener(this);
     }
     /**
      * This method initialize the tittle
@@ -378,7 +396,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
     private void iniCompButton(){
 
         // setting constrains of buttonConvert
-        bagConstraints.gridx = 4;
+        bagConstraints.gridx = 7;
         bagConstraints.gridy = 6;
         bagConstraints.gridwidth = 3;
         bagConstraints.gridheight = 1;
@@ -386,6 +404,29 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         bagConstraints.insets = new Insets(5,5,5,5);
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(buttonConvert,bagConstraints);
+    }
+
+    /**
+     * This method initialize the search audio
+     */
+    private void initCompAudioCheck(){
+      // setting constrains of labelAudioCodec
+      bagConstraints.gridx = 0;
+      bagConstraints.gridy = 6;
+      bagConstraints.gridwidth = 2;
+      bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
+      bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+      bagConstraints.insets = new Insets(5,5,5,5);
+      this.add(labelAudio,bagConstraints);
+
+      // setting constrains of comboxAudioCodec
+      bagConstraints.gridx = 1;
+      bagConstraints.gridy = 6;
+      bagConstraints.gridwidth = 2;
+      bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
+      bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+      bagConstraints.insets = new Insets(5,5,5,5);
+      this.add(checkBoxAudio,bagConstraints);
     }
 
     /**
@@ -398,6 +439,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         initCompLeft();
         iniCompRight();
         iniCompButton();
+        initCompAudioCheck();
         this.setVisible(true);
         buttonOutPath.addActionListener(this);
     }
@@ -496,6 +538,10 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
+      Object src = e.getSource();
+
+      if (src == buttonOutPath) {
         //File chooser for path
         JFileChooser fc = new JFileChooser();
         // start at application current directory
@@ -504,10 +550,29 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int returnVal = fc.showSaveDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
-            File yourFolder = fc.getSelectedFile();
+          File yourFolder = fc.getSelectedFile();
+          //Copy selected path to the text box
+          tFieldOutPath.setText(fc.getSelectedFile().getAbsolutePath());
         }
-        //Copy selected path to the text box
-        tFieldOutPath.setText(fc.getSelectedFile().getAbsolutePath());
+      }
+      else{
+        JCheckBox checkBox = (JCheckBox)e.getSource();
+        if(checkBox == checkBoxAudio && checkBox.isSelected())
+        {
+          searchAudioPanel.setVisible(true);
+          addNewSearchAudioPanel();
+          searchAudioPanel.revalidate();
+          searchAudioPanel.repaint();
+          LoggerManager.getLogger().Log( "Audio panel visible", "INFO");
+        }
+        else{
+          searchAudioPanel.setVisible(false);
+          searchAudioPanel.revalidate();
+          searchAudioPanel.repaint();
+          searchAudioPanel.cleanFieldsToAudioSearch();
+          LoggerManager.getLogger().Log( "Disabled the check box audio", "INFO");
+        }
+      }
     }
 
     /**
@@ -522,5 +587,21 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         this.cmbVideoCodec.setSelectedItem("");
         this.cmbAudioCodec.setSelectedItem("");
         this.cmbFormat.setSelectedItem("");
+    }
+
+    /**
+     *  Add the option visible of audio panel.
+     */
+    private void addNewSearchAudioPanel(){
+      LoggerManager.getLogger().Log( "Into add new Panel search audio", "INFO");
+      bagConstraints.gridx = 3;
+      bagConstraints.gridy = 6;
+      bagConstraints.gridwidth = 4;
+      bagConstraints.gridheight = 1;
+      bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+      bagConstraints.insets = new Insets(5,5,5,5);
+      searchAudioPanel.setVisible(true);
+      this.add(searchAudioPanel,bagConstraints);
+      LoggerManager.getLogger().Log( "New audio panel added", "INFO");
     }
 }
