@@ -230,4 +230,14 @@ public class SearchAudioPanel extends JPanel {
     public JComboBox getcbChannel() {
         return this.cbChannel;
     }
+
+    /**
+     * this method reset the fields for panel Audio Search
+     */
+    public void cleanFieldsToAudioSearch(){
+      this.cbRate.setSelectedItem("");
+      this.cbSize.setSelectedItem("");
+      this.cbBitRate.setSelectedItem("");
+      this.cbChannel.setSelectedItem("");
+    }
 }

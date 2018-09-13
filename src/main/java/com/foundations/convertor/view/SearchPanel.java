@@ -98,9 +98,8 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         settings();
         // Initialize attributes or components
         initComp();
-
+        //Initialize the panel to Audio Search
         searchAudioPanel = new SearchAudioPanel();
-        addNewSearchAudioPanel();
     }
 
     /**
@@ -678,32 +677,48 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
             }
         }
         else{
-            LoggerManager.getLogger().Log( src.getClass().toString(), "INFO");
             JCheckBox checkBox = (JCheckBox)e.getSource();
             if(checkBox == checkBoxAudio && checkBox.isSelected())
             {
                 searchAudioPanel.setVisible(true);
+                addNewSearchAudioPanel();
+                searchAudioPanel.revalidate();
+                searchAudioPanel.repaint();
+                LoggerManager.getLogger().Log( "Audio panel visible", "INFO");
+            }
+            else{
+                searchAudioPanel.setVisible(false);
+                searchAudioPanel.revalidate();
+                searchAudioPanel.repaint();
+                searchAudioPanel.cleanFieldsToAudioSearch();
+                LoggerManager.getLogger().Log( "Disabled the check box audio", "INFO");
             }
         }
-
     }
+
+    /**
+     * Setting to duration field by default.
+     */
     public void setDefaultDuration() {
-        //set default duration time for duration from
-        boxDurationFrom.setValue("00:00:00");
-        //set default duration time for duration to
-        boxDurationTo.setValue("99:59:59");
-    }
+          //set default duration time for duration from
+          boxDurationFrom.setValue("00:00:00");
+          //set default duration time for duration to
+          boxDurationTo.setValue("99:59:59");
+      }
 
+    /**
+     *  Add the option visible of audio panel.
+     */
     private void addNewSearchAudioPanel(){
-        LoggerManager.getLogger().Log( "Into add new Panel search audio", "INFO");
-        bagConstraints.gridx = 1;
-        bagConstraints.gridy = 11;
-        bagConstraints.gridwidth = 4;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        searchAudioPanel.setVisible(true);
-        this.add(searchAudioPanel,bagConstraints);
-        LoggerManager.getLogger().Log( "New audio panel added", "INFO");
-    }
+          LoggerManager.getLogger().Log( "Into add new Panel search audio", "INFO");
+          bagConstraints.gridx = 1;
+          bagConstraints.gridy = 11;
+          bagConstraints.gridwidth = 4;
+          bagConstraints.gridheight = 1;
+          bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+          bagConstraints.insets = new Insets(5,5,5,5);
+          searchAudioPanel.setVisible(true);
+          this.add(searchAudioPanel,bagConstraints);
+          LoggerManager.getLogger().Log( "New audio panel added", "INFO");
+      }
 }
