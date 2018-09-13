@@ -49,7 +49,7 @@ public class ConversionCriteria extends Criteria {
         }
         if (getFileName().isEmpty()) {
             //save current date as date time format
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-Multimedia-dd");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDateTime now = LocalDateTime.now();
             //set current date as default output name
             setFileName(FilenameUtils.getBaseName(getPath())+"-"+dtf.format(now));

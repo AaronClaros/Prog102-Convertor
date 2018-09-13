@@ -167,7 +167,7 @@ public class MoviePlayer {
                     @Override
                     public void run() {
                         playerFrame.setSize(w,h);
-                        System.out.println("Multimedia size "+w+","+h);
+                        System.out.println("Video size "+w+","+h);
                     }
                 });
 
