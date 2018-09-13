@@ -12,7 +12,7 @@
 package com.foundations.convertor.model;
 
 import com.foundations.convertor.common.Criteria;
-import com.foundations.convertor.model.Video.Video;
+import com.foundations.convertor.model.Multimedia.Video;
 import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class Search {
     /**
      * All the video files in the path directory are added to the video list
      * @param criteria retrieved from GUI with all the search criteria
-     * @return list of Video Files
+     * @return list of Multimedia Files
      */
     public List<Video> getAllVideoFiles(Criteria criteria) {
         //Check if the path is correct for a file or directory
@@ -100,7 +100,7 @@ public class Search {
                     continue;
                 }
                 //Check Aspect ratio
-                if(!criteria.getAspcRatio().isEmpty()&&!auxVideo.getAspectRatio().equals(criteria.getAspcRatio())){
+                if(!criteria.getAspectRatio().isEmpty()&&!auxVideo.getAspectRatio().equals(criteria.getAspectRatio())){
                     continue;
                 }
                 //Check Resolution

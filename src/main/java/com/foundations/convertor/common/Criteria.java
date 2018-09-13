@@ -28,12 +28,6 @@ public class Criteria {
     private String extension;
     // frame Rate to search
     private Double frameRate;
-    // Initial time to search
-    private double durFrom;
-    // Final time to search
-    private double durTo;
-    // aspect ratio to search
-    private String aspcRatio;
     // resolution to search
     private String resolution;
     //video codec to search
@@ -66,27 +60,6 @@ public class Criteria {
      */
     public Double getFrameRate() {
         return frameRate;
-    }
-
-    /**
-     * @return It returns the given initial time to search
-     */
-    public double getDurFrom() {
-        return durFrom;
-    }
-
-    /**
-     * @return It returns the given final time to search
-     */
-    public double getDurTo() {
-        return durTo;
-    }
-
-    /**
-     * @return It returns the given aspect ratio to search
-     */
-    public String getAspcRatio() {
-        return aspcRatio;
     }
 
     /**
@@ -143,27 +116,6 @@ public class Criteria {
      */
     public void setFrameRate(Double frameRate) {
         this.frameRate = frameRate;
-    }
-
-    /**
-     * @param durFrom It will set the initial time to search
-     */
-    public void setDurFrom(double durFrom) {
-        this.durFrom = durFrom;
-    }
-
-    /**
-     * @param durTo It will set the final time to search
-     */
-    public void setDurTo(double durTo) {
-        this.durTo = durTo;
-    }
-
-    /**
-     * @param aspcRatio It will set the aspect ratio to search
-     */
-    public void setAspcRatio(String aspcRatio) {
-        this.aspcRatio = aspcRatio;
     }
 
     /**

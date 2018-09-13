@@ -49,7 +49,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
     private JLabel labelResolution;
     // label for Frame Rate field
     private JLabel labelFrameRate;
-    // label for Video Codec field
+    // label for video Codec field
     private JLabel labelVideoCodec;
     // label for Audio Codec field
     private JLabel labelAudioCodec;
@@ -61,7 +61,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
     private JComboBox cmbResolution;
     // comboBox to chose new Frame Rate
     private JComboBox cmbFrameRate;
-    // comboBox to chose new Video Codec
+    // comboBox to chose new video Codec
     private JComboBox cmbVideoCodec;
     // comboBox to chose new Audio Codec
     private JComboBox cmbAudioCodec;

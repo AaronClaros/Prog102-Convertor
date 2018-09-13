@@ -13,10 +13,11 @@
 package com.foundations.convertor.controller;
 
 import com.foundations.convertor.common.ConversionCriteria;
-import com.foundations.convertor.common.Criteria;
+import com.foundations.convertor.common.SearchCriteria;
 import com.foundations.convertor.model.Conversion.VideoConversion;
-import com.foundations.convertor.model.Video.Video;
-import com.foundations.convertor.utils.ConverterUtils;
+import com.foundations.convertor.model.Multimedia.Audio;
+import com.foundations.convertor.model.Multimedia.Multimedia;
+import com.foundations.convertor.model.Multimedia.Video;
 import com.foundations.convertor.utils.LoggerManager;
 import com.foundations.convertor.view.ProgressBar;
 import com.foundations.convertor.view.View;
@@ -25,7 +26,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.EventListener;
 import java.util.List;
-import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -40,7 +40,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
 
     private View view; // reference to object view
     private Search search; // reference to object search
-    public static Criteria criteria; // reference to object criteria
+    public static SearchCriteria criteria; // reference to object criteria
     private ConversionCriteria conversionCriteria; // reference to object Criteria of conversion
     private String pathToConvert; // reference path to convert
 
@@ -48,7 +48,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     ProgressBar progressBar;
 
     public Controller(){
-        instanceCriteria();
+        instanceSearchCriteria();
         instanceViewComponent();
         instanceModelComponent();
         instanceConversionCriteria();
@@ -70,8 +70,8 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         search = new Search();
     }
 
-    public void instanceCriteria(){
-        criteria = new Criteria();
+    public void instanceSearchCriteria(){
+        criteria = new SearchCriteria();
     }
 
     public void instanceConversionCriteria() {
@@ -91,7 +91,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         criteria.setPath(view.getSPanel().getBoxPath().getText());
         criteria.setFileName(view.getSPanel().getBoxFileName().getText());
         criteria.setExtension(view.getSPanel().getBoxFileExt().getSelectedItem().toString());
-        criteria.setAspcRatio(view.getSPanel().getCBAspectRatio().getSelectedItem().toString());
+        criteria.setAspectRatio(view.getSPanel().getCBAspectRatio().getSelectedItem().toString());
         criteria.setAudioCodec(view.getSPanel().getCBVAudioCodec().getSelectedItem().toString());
         criteria.setResolution(view.getSPanel().getCBResolution().getSelectedItem().toString());
         criteria.setVideoCodec(view.getSPanel().getCBVideoCodec().getSelectedItem().toString());
@@ -121,28 +121,52 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
          *
          */
         List<Video> resultsVideoList =  search.getAllVideoFiles(criteria);
-        fillTableVideos(resultsVideoList);
+        fillTable(resultsVideoList);
+    }
+
+
+    public Object[] fillRowVideo(Video video){
+            // Setting row data of table {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
+            //            "Resolution","Video Codec","Audio Codec","Size"};
+            Object[] d = {
+                    video.getFileName(),video.getPathFile(),
+                    video.getDuration(),video.getExt(),
+                    formatFrameRate(video.getFrameRate()),video.getAspectRatio(),
+                    video.getResolution(),video.getVideoCodec(),
+                    video.getAudioCodec(),formatSize(video.getSize())};
+            return d;
+    }
+    public Object[] fillRowAudio(Audio audio){
+        // Setting row data of table {"File Name","File Path","Duration","Extension","Audio Codec","Size"};
+        Object[] d = {
+                audio.getFileName(),audio.getPathFile(),
+                audio.getDuration(),audio.getExt(),
+                audio.getAudioCodec(),formatSize(audio.getSize())};
+        return d;
     }
 
     /**
      * Fill table from View with the list of videos from the search results
-     * @param resultsVideoList List of videos within the search criteria
+     * @param resultsList List of videos within the search criteria
      */
-    public void fillTableVideos(List<Video> resultsVideoList){
-        if(resultsVideoList == null){
-            LoggerManager.getLogger().Log("fillTable Videos: Result is null", "INFO");
+    public void fillTable(List<? extends Multimedia> resultsList){
+        if(resultsList == null){
+            LoggerManager.getLogger().Log("Table Multimedia: Result is null", "INFO");
             return;
         }
-        view.getSLPanel().getResultsTable().setNumRows(resultsVideoList.size());
-        for (int i=0; i<resultsVideoList.size(); i++){
-            // Setting row data of table {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
-            //            "Resolution","Video Codec","Audio Codec","Size"};
-            Object[] d = {
-                    resultsVideoList.get(i).getFileName(),resultsVideoList.get(i).getPathFile(),
-                    resultsVideoList.get(i).getDuration(),resultsVideoList.get(i).getExt(),
-                    formatFrameRate(resultsVideoList.get(i).getFrameRate()),resultsVideoList.get(i).getAspectRatio(),
-                    resultsVideoList.get(i).getResolution(),resultsVideoList.get(i).getVideoCodec(),
-                    resultsVideoList.get(i).getAudioCodec(),formatSize(resultsVideoList.get(i).getSize())};
+        view.getSLPanel().getResultsTable().setNumRows(resultsList.size());
+        for (int i=0; i<resultsList.size(); i++){
+
+            Object[] d;
+            //TODO
+            if(resultsList.get(i) instanceof Video)
+            {
+                Video v = (Video) resultsList.get(i);
+                d = fillRowVideo(v);
+            } else {
+                Audio a = (Audio) resultsList.get(i);
+                d = fillRowAudio(a);
+            }
             // cleaning row data
             view.getSLPanel().getResultsTable().removeRow(i);
             // adding new row data
@@ -179,38 +203,27 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      * Execute a conversion of video
      */
     public void convertVideo(){
+        //Instance conversion criteria
         conversionCriteria = new ConversionCriteria();
-
+        //Set conversion criteria fields with converter panel
         conversionCriteria.setPath(pathToConvert);
-        String resolution = view.getConvPanel().getCmbResolution().getSelectedItem().toString();
-        conversionCriteria.setResolution(resolution);
+        conversionCriteria.setResolution(view.getConvPanel().getCmbResolution().getSelectedItem().toString());
         conversionCriteria.setVideoCodec(view.getConvPanel().getCmbVideoCodec().getSelectedItem().toString());
         conversionCriteria.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
         conversionCriteria.setExtension(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
-        String newName = view.getConvPanel().getTxtName().getText();
-        conversionCriteria.setFileName(newName);
-        String textOutPath = view.getConvPanel().getTFOutputPath().getText();
-        conversionCriteria.setOutputDirectory(textOutPath);
+        conversionCriteria.setFileName(view.getConvPanel().getTxtName().getText());
+        conversionCriteria.setOutputDirectory(view.getConvPanel().getTFOutputPath().getText());
         if(!view.getConvPanel().getCmbFrameRate().getSelectedItem().toString().isEmpty()) {
             conversionCriteria.setFrameRate(Double.parseDouble(view.getConvPanel().getCmbFrameRate().getSelectedItem().toString()));
         }
+
         conversion = new VideoConversion();
         progressBar = new ProgressBar();
         conversion.getProgressPercentageProperty().addListener(progressBar);
         conversion.doConversion(conversionCriteria);
-
         // this method clean the fields of converter
         view.getConvPanel().cleanFields();
     }
-
-    /**
-     * Get the path to convert
-     * @return path string
-     */
-    public String getPathToConvert() {
-        return pathToConvert;
-    }
-
     /**
      * Setting the path to convert
      * @param pathToConvert
@@ -236,15 +249,13 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     }
 
     /**
-     * Override method for event list selected
+     * Override method for event list: selected a field in the table setting the path of the file on the converter panel
      * @param e the event of row selected in the result table
      */
     @Override
     public void valueChanged(ListSelectionEvent e) {
-      JTable resultsTable = view.getSLPanel().getTable();
-
       try {
-          String pathSelected = resultsTable.getValueAt(resultsTable.getSelectedRow(), 1).toString();
+          String pathSelected = view.getSLPanel().getTable().getValueAt(view.getSLPanel().getTable().getSelectedRow(), 1).toString();
           setPathToConvert(pathSelected);
           LoggerManager.getLogger().Log("SELECTED: "+pathSelected, "INFO");
           view.getConvPanel().getTFInputPath().setText(pathSelected);

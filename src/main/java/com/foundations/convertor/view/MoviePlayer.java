@@ -37,7 +37,7 @@ import java.io.File;
 
 
 /**
- *  Video player using JavaFx
+ *  Multimedia player using JavaFx
  *
  * @author Adrian Rojas - AWT-[01].
  * @version 0.1
