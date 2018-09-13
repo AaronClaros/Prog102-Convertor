@@ -114,7 +114,7 @@ public class Search implements ISearchVideo, ISearchAudio{
         File[] directoryFiles = file.listFiles();
         Audio auxAudio;
         for (File elementFile : directoryFiles) {
-            //if it is not a file get all video files in the directory: Recursively
+            //if it is not a file get all audio files in the directory: Recursively
             if (elementFile.isDirectory()) {
                 File subFile=new File(elementFile.getAbsolutePath());
                 fillWithAudios(subFile,audioList);
