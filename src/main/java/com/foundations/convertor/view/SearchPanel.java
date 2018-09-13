@@ -15,7 +15,7 @@ package com.foundations.convertor.view;
 /**
  *  Panel for the convertor search criteria
  *
- * @authors Adrian Rojas, Kevin Herrera, Kevin Sanchez - AWT-[01].
+ * @authors Adrian Rojas, Kevin Herrera, Kevin Sanchez, Angelica Lopez - AWT-[01].
  * @version 0.1
  */
 
@@ -82,6 +82,12 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     // this variable helps to set objects of
     // the search panel
     private GridBagConstraints bagConstraints;
+    //Label for audio
+    private JLabel labelAudio;
+    //Check box to show the panel audio search
+    private JCheckBox checkBoxAudio;
+
+    private SearchAudioPanel searchAudioPanel;
 
     /**
      * Constructor of father class JPanel
@@ -92,7 +98,8 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         settings();
         // Initialize attributes or components
         initComp();
-
+        //Initialize the panel to Audio Search
+        searchAudioPanel = new SearchAudioPanel();
     }
 
     /**
@@ -209,6 +216,14 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         //set action listener to button set search path
         buttonPath.addActionListener(this);
+
+        //label file name instance and text set
+        labelAudio= new JLabel("Audio Search Criteria:", SwingConstants.RIGHT);
+
+        //check box audio
+        checkBoxAudio = new JCheckBox();
+        checkBoxAudio.setSelected(false);
+        checkBoxAudio.addActionListener(this);
     }
 
     /**
@@ -480,14 +495,38 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of buttonSearch
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 11;
+        bagConstraints.gridy = 14;
         bagConstraints.gridwidth = 3;
         bagConstraints.gridheight = 1;
         bagConstraints.weightx = 1.0;
-        bagConstraints.weighty = 0.5;
+        bagConstraints.weighty = 0.1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(buttonSearch,bagConstraints);
     }
+
+    /**
+     * This method initialize the search audio
+     */
+    private void initCompAudioCheck(){
+        // setting constrains of labelAudioCodec
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 10;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelAudio,bagConstraints);
+
+        // setting constrains of comboxAudioCodec
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = 10;
+        bagConstraints.gridwidth = 4;
+        bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(checkBoxAudio,bagConstraints);
+    }
+
     /**
      * Initialize components
      */
@@ -504,7 +543,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         initCompVideo();
         initCompAudio();
         initCompBtnSearch();
-
+        initCompAudioCheck();
         // set visible the search panel
         this.setVisible(true);
     }
@@ -617,27 +656,69 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        //File chooser for path
-        JFileChooser fc = new JFileChooser();
-        // start at application current directory
-        fc.setCurrentDirectory(new java.io.File("."));
-        //Only can select directories
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int returnVal = fc.showSaveDialog(this);
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            File yourFolder = fc.getSelectedFile();
+        Object src = e.getSource();
+
+        if (src == buttonPath) {
+            //File chooser for path
+            JFileChooser fc = new JFileChooser();
+            // start at application current directory
+            fc.setCurrentDirectory(new java.io.File("."));
+            //Only can select directories
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int returnVal = fc.showSaveDialog(this);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+                File yourFolder = fc.getSelectedFile();
+            }
+            //Copy selected path to the text box
+            try {
+                boxPath.setText(fc.getSelectedFile().getAbsolutePath());
+            } catch (Exception ex){
+                LoggerManager.getLogger().Log( ex.getMessage(), "Error");
+            }
         }
-        //Copy selected path to the text box
-        try {
-            boxPath.setText(fc.getSelectedFile().getAbsolutePath());
-        } catch (Exception ex){
-            LoggerManager.getLogger().Log( ex.getMessage(), "Error");
+        else{
+            JCheckBox checkBox = (JCheckBox)e.getSource();
+            if(checkBox == checkBoxAudio && checkBox.isSelected())
+            {
+                searchAudioPanel.setVisible(true);
+                addNewSearchAudioPanel();
+                searchAudioPanel.revalidate();
+                searchAudioPanel.repaint();
+                LoggerManager.getLogger().Log( "Audio panel visible", "INFO");
+            }
+            else{
+                searchAudioPanel.setVisible(false);
+                searchAudioPanel.revalidate();
+                searchAudioPanel.repaint();
+                searchAudioPanel.cleanFieldsToAudioSearch();
+                LoggerManager.getLogger().Log( "Disabled the check box audio", "INFO");
+            }
         }
     }
+
+    /**
+     * Setting to duration field by default.
+     */
     public void setDefaultDuration() {
-        //set default duration time for duration from
-        boxDurationFrom.setValue("00:00:00");
-        //set default duration time for duration to
-        boxDurationTo.setValue("99:59:59");
-    }
+          //set default duration time for duration from
+          boxDurationFrom.setValue("00:00:00");
+          //set default duration time for duration to
+          boxDurationTo.setValue("99:59:59");
+      }
+
+    /**
+     *  Add the option visible of audio panel.
+     */
+    private void addNewSearchAudioPanel(){
+          LoggerManager.getLogger().Log( "Into add new Panel search audio", "INFO");
+          bagConstraints.gridx = 1;
+          bagConstraints.gridy = 11;
+          bagConstraints.gridwidth = 4;
+          bagConstraints.gridheight = 1;
+          bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+          bagConstraints.insets = new Insets(5,5,5,5);
+          searchAudioPanel.setVisible(true);
+          this.add(searchAudioPanel,bagConstraints);
+          LoggerManager.getLogger().Log( "New audio panel added", "INFO");
+      }
 }
