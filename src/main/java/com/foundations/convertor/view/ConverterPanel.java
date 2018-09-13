@@ -15,6 +15,7 @@
 package com.foundations.convertor.view;
 
 import com.foundations.convertor.utils.LoggerManager;
+import com.foundations.convertor.utils.StyleUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -128,7 +129,9 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         tFieldOutPath.setEnabled(false);
 
         //instance button for output path and set text
-        buttonOutPath = new JButton("Path");
+        //Added Icon to button
+        ImageIcon openIcon = StyleUtils.getInstance().createImageIcon("Open_16.png");
+        buttonOutPath = new JButton(openIcon);
 
         // instance label resolution and set text
         labelResolution = new JLabel("New Resolution:",SwingConstants.RIGHT);
@@ -171,7 +174,9 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         cmbFormat = new JComboBox(formatOptions);
 
         // set text to the convertor button
-        buttonConvert = new JButton("Convert");
+        //Added Icon to button
+        ImageIcon convertIcon = StyleUtils.getInstance().createImageIcon("Grasshopper_32.png");
+        buttonConvert = new JButton("Convert",convertIcon);
 
         //label file name instance and text set
         labelAudio= new JLabel("Audio Convert Criteria:", SwingConstants.RIGHT);

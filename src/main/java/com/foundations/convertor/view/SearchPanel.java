@@ -21,6 +21,7 @@ package com.foundations.convertor.view;
 
 import com.foundations.convertor.utils.LoggerManager;
 
+import com.foundations.convertor.utils.StyleUtils;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
@@ -126,7 +127,9 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         labelPath = new JLabel("Path:", SwingConstants.RIGHT);
 
         //button path instance and labelTitle set
-        buttonPath = new JButton("Open");
+        //Added Icon to button
+        ImageIcon openIcon = StyleUtils.getInstance().createImageIcon("Open_16.png");
+        buttonPath = new JButton(openIcon);
 
         //text field path instance
         boxPath = new JTextField(15);
@@ -137,8 +140,9 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //label file name instance and text set
         titleFileName= new JLabel("File Name:", SwingConstants.RIGHT);
 
-        //button search instance and text set
-        buttonSearch = new JButton("Search");
+        //Added Icon to button
+        ImageIcon searchIcon = StyleUtils.getInstance().createImageIcon("Search.png");
+        buttonSearch = new JButton(searchIcon);
 
         //label file extension instance and text set
         labelFileExt = new JLabel("File Ext.:", SwingConstants.RIGHT);

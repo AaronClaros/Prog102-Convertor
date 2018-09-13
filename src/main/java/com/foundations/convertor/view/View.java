@@ -20,8 +20,12 @@ package com.foundations.convertor.view;
  */
 import com.foundations.convertor.utils.LoggerManager;
 
+import com.foundations.convertor.utils.StyleUtils;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.plaf.FontUIResource;
 
 /**
  * main Frame for UI Convertor project
@@ -49,6 +53,9 @@ public class View extends JFrame {  //
         // Initialize attributes or components
         initComp();
         LoggerManager.getLogger().Log("Starting View","INFO");
+        //Added Icon to button
+        ImageIcon openIcon = StyleUtils.getInstance().createImageIcon("Grasshopper_32.png");
+        this.setIconImage(openIcon.getImage());
     }
 
     /**
@@ -94,7 +101,7 @@ public class View extends JFrame {  //
         bagConstraints.gridheight = 2;
 
         // stretching values
-        bagConstraints.weightx = 0.5;
+        bagConstraints.weightx = 0.8;
         bagConstraints.weighty = 1.0;
 
         // way it will change its size
