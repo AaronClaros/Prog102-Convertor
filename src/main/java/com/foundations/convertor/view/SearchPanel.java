@@ -152,7 +152,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         labelFrameRate = new JLabel("Frame Rate:", SwingConstants.RIGHT);
 
         //frame rates array
-        String[] frame_rates = {"","24","25","29","29.7","30","59.94"};
+        String[] frame_rates = {"","24","25","29","29.7","30","60"};
 
         //combo box frame rate instance and content set
         comboxFrameRate = new JComboBox(frame_rates);

@@ -26,11 +26,9 @@ import net.bramp.ffmpeg.FFmpegUtils;
 import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.job.FFmpegJob;
-import net.bramp.ffmpeg.probe.FFmpegError;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import net.bramp.ffmpeg.progress.Progress;
 import net.bramp.ffmpeg.progress.ProgressListener;
-
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -39,50 +37,24 @@ import java.util.concurrent.TimeUnit;
  * @version 0.1
  */
 public class VideoConversion {
-
-    //private FFmpeg fmWrapper;
-    //private FFprobe fpWrapper;
-
+    //double property to save progress percentage and add listeners to this value
     private DoubleProperty progressPercentage;
+    //reference to ffmpegjob
     private FFmpegJob conversionJob;
+    //reference to progress property from progress listener
     private Progress progress;
 
+    /**
+     *  Constructor of class
+     */
     public VideoConversion(){
         progressPercentage = new SimpleDoubleProperty();
         setProgressPercentage(0);
-        getProgressPercentageProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue o, Object oldVal, Object newVal) {
-
-                LoggerManager.getLogger().Log(
-                        String.format("Conversion Progress:[%.0f%%] status:%s frame:%d time:%s ms fps:%.0f speed:%.2fx",
-                            getProgressPercentage() * 100,
-                            progress.status,
-                            progress.frame,
-                            FFmpegUtils.toTimecode(progress.out_time_ns, TimeUnit.NANOSECONDS),
-                            progress.fps.doubleValue(),
-                            progress.speed
-                        ),"DEBUG");
-                //TODO register new listener with slider value to this property
-            }
-        });
-        //Usage example, test this code on main method to convert at app execution start
-        /*
-        ConversionCriteria con = new ConversionCriteria("C:\\Users\\kevinherrera\\Videos\\doll_sample.avi");
-        //con.setOutputDirectory("C:\\Users\\kevinherrera\\Videos\\");
-        con.setOutputName("test_50fps");
-        con.setOutputFormat("mp4");
-        con.setFramesPerSecond(50);
-        //con.setResolution(1280,720);
-        //con.setVideoCodec("vp9");
-        //con.setAudioCodec("acc");
-        VideoConversion conversion = new VideoConversion();
-        LoggerManager.getLogger().Log("Raw criteria: fps:"+con.getFramesPerSecond()+" Format: "+con.getOutputFormat()+" resolution:"+con.getResolutionWidth()+"x"+con.getResolutionHeight()
-                            +" VideoCodec: "+con.getVideoCodec()+" AudioCodec: "+con.getAudioCodec(),"INFO");
-        conversion.doConversion(con);
-        */
     }
-
+    /**
+     * Prepare criteria parameters to make a video conversion
+     * @param criteria conversion criteria parameters
+     */
     public void doConversion(ConversionCriteria criteria){
         String separator = System.getProperty("file.separator");
         try{
@@ -90,6 +62,7 @@ public class VideoConversion {
             String ffMpegPath = new File(".").getCanonicalFile() + separator + "src" + separator +"main" + separator +"resources" + separator +"thirdparty"+separator+ "ffmpeg.exe";
             FFprobe fpWrapper = new FFprobe(ffProbePath );
             FFmpeg fmWrapper = new FFmpeg(ffMpegPath);
+            //convert input path into FFmpeg result
             FFmpegProbeResult in = fpWrapper.probe(criteria.getPath());
             String out = criteria.getOutputPath();
             //Validate Frame Rate to convert to
@@ -110,7 +83,9 @@ public class VideoConversion {
                 resWidth = Integer.parseInt(resolution[0]);
                 resHeight = Integer.parseInt(resolution[1]);
             }
+            //validate video codec
             String vCodec = criteria.getVideoCodec().isEmpty() ? in.getStreams().get(0).codec_name : criteria.getVideoCodec();
+            //validate audio codec
             String auxACodec;
             if (in.getStreams().size()>=2){
                 auxACodec = in.getStreams().get(1).codec_name;
@@ -118,11 +93,9 @@ public class VideoConversion {
                 auxACodec = "mp3";
             }
             String aCodec = criteria.getAudioCodec().isEmpty() ? auxACodec:criteria.getVideoCodec();
-
             LoggerManager.getLogger().Log("verified criteria, FPS: "+fps+" Resolution:"+resWidth+"x"+resHeight+" VideoCodec: "+vCodec+" AudioCodec: "+aCodec, "INFO");
-
+            //execute method to run conversion
             FFmpegBuilder builder = ffSetBuild(in, out, fps, resWidth, resHeight, vCodec, aCodec);
-
             FFmpegExecutor executor = new FFmpegExecutor(fmWrapper, fpWrapper);
             // Run a one-pass encode
             conversionJob = executor.createJob(builder, new ProgressListener() {
@@ -132,24 +105,13 @@ public class VideoConversion {
                 public void progress(Progress prog) {
                     progress = prog;
                     setProgressPercentage(prog.out_time_ns / duration_ns);
-                    /*
-                    // Print out interesting information about the progress
-                    System.out.println(String.format(
-                            "[%.0f%%] status:%s frame:%d time:%s ms fps:%.0f speed:%.2fx",
-                            getProgressPercentage() * 100,
-                            progress.status,
-                            progress.frame,
-                            FFmpegUtils.toTimecode(progress.out_time_ns, TimeUnit.NANOSECONDS),
-                            progress.fps.doubleValue(),
-                            progress.speed
-                    ));
-                    */
                 }
             });
             LoggerManager.getLogger().Log("Starting conversion: input: "+criteria.getPath(),"INFO");
             conversionJob.run();
             LoggerManager.getLogger().Log("Finishing conversion: output: "+criteria.getOutputPath(),"INFO");
-            conversionJob.wait();
+            //set progress percentage to 0 after finish conversion
+            setProgressPercentage(0);
             // Or run a two-pass encode (which is better quality at the cost of being slower)
             // IMPORTANT: Target size, or video bitrate must be specified when using two-pass Job
             //executor.createTwoPassJob(builder).run();
@@ -158,33 +120,69 @@ public class VideoConversion {
                                         e.getMessage(), "ERROR");
         }
     }
-    private void setProgressPercentage(double value) {
-        progressPercentage.set(value);
-    }
-    public double getProgressPercentage() {
-        return progressPercentage.get();
-    }
-    public DoubleProperty getProgressPercentageProperty() {
-        return progressPercentage;
-    }
-    public boolean processIsRunning(){
-        if (conversionJob == null)
-            return false;
-        return conversionJob.getState().equals(FFmpegJob.State.RUNNING);
-    }
-
+    /**
+     * Instance a FFmpegBuilder using a parameters of conversion
+     * @param input FFmpegProbeResult created with video input path
+     * @param outputPath output path for video to converted
+     * @param frameRate frame rate for video to converted
+     * @param resWidth resolution width for video to convert
+     * @param resHeight resolution height for video to convert
+     * @param videoCodec video codec for video to convert
+     * @param audioCodec audio codec for video to coer
+     * @return object FFmpegBuilder
+     */
     private FFmpegBuilder ffSetBuild(FFmpegProbeResult input, String outputPath, double frameRate,
-                                      int resWidth, int resHeight, String videoCodec, String audioCodec){
+                                     int resWidth, int resHeight, String videoCodec, String audioCodec){
         FFmpegBuilder builder = new FFmpegBuilder()
-                .setInput(input)     // Filename, or a FFmpegProbeResult
-                .overrideOutputFiles(true) // Override the output if it exists
-                .addOutput(outputPath)   // Filename for the destination
+                //input video ffprobe
+                .setInput(input)
+                //set override outpath file if exists
+                .overrideOutputFiles(true)
+                //set output path
+                .addOutput(outputPath)
+                //set output video frame rate
                 .setVideoFrameRate(frameRate)
+                //set output video resolution
                 .setVideoResolution(resWidth, resHeight)
+                //set output video codec
                 .setVideoCodec(videoCodec)
+                //set output audio code
                 .setAudioCodec(audioCodec)
                 .done();
         return builder;
     }
 
+    /**
+     *  setter value for progress percentage
+     * @param value new double value for progress
+     */
+    private void setProgressPercentage(double value) {
+        progressPercentage.set(value);
+    }
+
+    /**
+     * getter for progress percentage value
+     * @return percentage value as double
+     */
+    public double getProgressPercentage() {
+        return progressPercentage.get();
+    }
+
+    /**
+     *  getter for progress percentage property
+     * @return object DoubleProperty
+     */
+    public DoubleProperty getProgressPercentageProperty() {
+        return progressPercentage;
+    }
+
+    /**
+     *  check if conversion job is running task
+     * @return true if conversion job state is equal to RUNNING
+     */
+    public boolean processIsRunning(){
+        if (conversionJob == null)
+            return false;
+        return conversionJob.getState().equals(FFmpegJob.State.RUNNING);
+    }
 }
