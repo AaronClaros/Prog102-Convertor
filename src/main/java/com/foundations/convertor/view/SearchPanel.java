@@ -222,7 +222,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         buttonPath.addActionListener(this);
 
         //label file name instance and text set
-        labelAudio= new JLabel("Audio Search Criteria:", SwingConstants.RIGHT);
+        labelAudio= new JLabel("Search for audio:", SwingConstants.RIGHT);
 
         //check box audio
         checkBoxAudio = new JCheckBox();
@@ -639,6 +639,14 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     }
 
     /**
+     * Getter for the Search music check box
+     * @return check box to do audio search
+     */
+    public JCheckBox getCheckBoxAudio() {
+        return this.checkBoxAudio;
+    }
+
+    /**
      * try to create a masked text format
      * @param s desired format
      * @return text maskformat
@@ -725,4 +733,23 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
           this.add(searchAudioPanel,bagConstraints);
           LoggerManager.getLogger().Log( "New audio panel added", "INFO");
       }
+
+    /**
+     * Set path red: As a mandatory field
+     */
+    public void setPathRequiredRed(){
+        this.labelPath.setForeground(Color.red);
+        this.add(labelPath);
+    }
+
+    /**
+     * Set path to default once the search starts
+     */
+    public void setPathRequiredDefault(){
+        this.labelPath.setForeground(Color.darkGray);
+    }
+
+    public SearchAudioPanel getSearchAudioPanel(){
+        return searchAudioPanel;
+    }
 }

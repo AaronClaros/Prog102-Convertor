@@ -27,6 +27,8 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.plaf.FontUIResource;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 /**
  * main Frame for UI Convertor project
  */
@@ -64,7 +66,7 @@ public class View extends JFrame {  //
     private void settings() {
         // Project tittle
         this.setTitle("Convertor V 0.1");
-        //Set screensize dimensions
+        //Set screen size dimensions
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         // Frame size and Screen dimensions
         this.setSize(1080, 780-50);
@@ -120,7 +122,7 @@ public class View extends JFrame {  //
         LoggerManager.getLogger().Log("Starting Search List Panel","INFO");
         this.add(slPanel,bagConstraints);
 
-        // setting constrrains of convPanel
+        // setting constrains of convPanel
         bagConstraints.gridx = 1;
         bagConstraints.gridy = 1;
         bagConstraints.gridwidth = 3;
@@ -156,4 +158,12 @@ public class View extends JFrame {  //
      * @return Panel convert
      */
     public ConverterPanel getConvPanel() {return convPanel;}
+    /**
+     * Method to display message box with error message
+     * @param error String with the error to be displayed
+     */
+    public void errorMessage(String error){
+        showMessageDialog(null, error, "Error", JOptionPane.INFORMATION_MESSAGE);
+        LoggerManager.getLogger().Log( error, "INFO");
+    }
 }

@@ -19,18 +19,19 @@ package com.foundations.convertor.model.Multimedia;
  */
 public class Audio extends Multimedia {
 
-    private String channels;
+    private int channels;
     private String songName;
     private String songArtist;
     private String songAlbum;
     private long bitRate;
+    private int bitDepth;
     private int sampleRate;
 
     /**
      * get Audio channels
      * @return audio channels
      */
-    public String getChannels() {
+    public int getChannels() {
         return channels;
     }
 
@@ -38,7 +39,7 @@ public class Audio extends Multimedia {
      * Set the audio channels
      * @param channels of the audio
      */
-    public void setChannels(String channels) {
+    public void setChannels(int channels) {
         this.channels = channels;
     }
 
@@ -105,7 +106,21 @@ public class Audio extends Multimedia {
     public void setBitRate(long bitRate) {
         this.bitRate = bitRate;
     }
+    /**
+     * get song bit rate
+     * @return bit rate
+     */
+    public int getBitDepth() {
+        return bitDepth;
+    }
 
+    /**
+     * Set the song bit rate
+     * @param bitDepth of the audio
+     */
+    public void setBitDepth(int bitDepth) {
+        this.bitDepth = bitDepth;
+    }
     /**
      * get sample rate
      * @return sample rate

@@ -26,6 +26,15 @@ public class SearchCriteria extends Criteria {
     private Double durTo;
     //Only for video* aspect ratio
     private String aspectRatio;
+    //Only for audio channels
+    private int audioChannels;
+    //Only for audio sample rate
+    private int audioSampleRate;
+    //Only for audio sample rate
+    private int audioBitRate;
+    //Only for audio sample rate
+    private int audioBitDepth;
+
     /**
      * Empty constructor
      */
@@ -72,4 +81,39 @@ public class SearchCriteria extends Criteria {
     public void setAspectRatio(String aspectRatio) {
         this.aspectRatio = aspectRatio;
     }
+
+    /**
+     * @return number of audio channels
+     */
+    public int getAudioChannels() {
+        return audioChannels;
+    }
+
+    /**
+     * @param audioChannels number of audio channels
+     */
+    public void setAudioChannels(int audioChannels) {
+        this.audioChannels = audioChannels;
+    }
+
+    /**
+     *
+     * @return value of audio sample rate
+     */
+    public int getAudioSampleRate() {
+        return audioSampleRate;
+    }
+
+    /**
+     *
+     * @param audioSampleRate value of audio sample rate
+     */
+    public void setAudioSampleRate(int audioSampleRate) {
+        this.audioSampleRate = audioSampleRate;
+    }
+    public void setAudioBitRate(int audioBitRate){this.audioBitRate= audioBitRate;}
+    public void setAudioBitDepth(int audioBitDepth){this.audioBitDepth= audioBitDepth;}
+    public int getAudioBitRate(){return audioBitRate;}
+    public int getAudioBitDepth(){return audioBitDepth;}
+
 }
