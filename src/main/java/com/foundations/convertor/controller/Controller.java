@@ -19,6 +19,7 @@ import com.foundations.convertor.model.MM.Audio;
 import com.foundations.convertor.model.MM.MM;
 import com.foundations.convertor.model.MM.Video;
 import com.foundations.convertor.utils.LoggerManager;
+import com.foundations.convertor.view.ProgressBar;
 import com.foundations.convertor.view.View;
 import com.foundations.convertor.model.Search;
 import java.awt.event.ActionEvent;
@@ -42,6 +43,9 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     public static SearchCriteria criteria; // reference to object criteria
     private ConversionCriteria conversionCriteria; // reference to object Criteria of conversion
     private String pathToConvert; // reference path to convert
+
+    VideoConversion conversion;
+    ProgressBar progressBar;
 
     public Controller(){
         instanceSearchCriteria();
@@ -212,8 +216,10 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         if(!view.getConvPanel().getCmbFrameRate().getSelectedItem().toString().isEmpty()) {
             conversionCriteria.setFrameRate(Double.parseDouble(view.getConvPanel().getCmbFrameRate().getSelectedItem().toString()));
         }
-        //Instance a conversion object
-        VideoConversion conversion = new VideoConversion();
+
+        conversion = new VideoConversion();
+        progressBar = new ProgressBar();
+        conversion.getProgressPercentageProperty().addListener(progressBar);
         conversion.doConversion(conversionCriteria);
         // this method clean the fields of converter
         view.getConvPanel().cleanFields();
