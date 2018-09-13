@@ -49,7 +49,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
     private JLabel labelResolution;
     // label for Frame Rate field
     private JLabel labelFrameRate;
-    // label for MM Codec field
+    // label for Multimedia Codec field
     private JLabel labelVideoCodec;
     // label for Audio Codec field
     private JLabel labelAudioCodec;
@@ -61,7 +61,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
     private JComboBox cmbResolution;
     // comboBox to chose new Frame Rate
     private JComboBox cmbFrameRate;
-    // comboBox to chose new MM Codec
+    // comboBox to chose new Multimedia Codec
     private JComboBox cmbVideoCodec;
     // comboBox to chose new Audio Codec
     private JComboBox cmbAudioCodec;
@@ -127,7 +127,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         labelFrameRate = new JLabel("New Frame Ratio:",SwingConstants.RIGHT);
 
         // instance label video codec and set text
-        labelVideoCodec = new JLabel("New MM Codec:",SwingConstants.RIGHT);
+        labelVideoCodec = new JLabel("New Multimedia Codec:",SwingConstants.RIGHT);
 
         // instance label audio codec and set text
         labelAudioCodec = new JLabel("New Audio Codec:",SwingConstants.RIGHT);

@@ -32,7 +32,7 @@ public class SearchListPanel extends JPanel {
     private JTable resultsTable;
     private DefaultTableModel model;
     private String[] columnNames = {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
-            "Resolution","MM Codec","Audio Codec","Size"};
+            "Resolution","Multimedia Codec","Audio Codec","Size"};
     private JScrollPane scrollPane;
 
     /**

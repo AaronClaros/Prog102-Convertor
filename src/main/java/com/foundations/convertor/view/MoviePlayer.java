@@ -37,7 +37,7 @@ import java.io.File;
 
 
 /**
- *  MM player using JavaFx
+ *  Multimedia player using JavaFx
  *
  * @author Adrian Rojas - AWT-[01].
  * @version 0.1
@@ -167,7 +167,7 @@ public class MoviePlayer {
                     @Override
                     public void run() {
                         playerFrame.setSize(w,h);
-                        System.out.println("MM size "+w+","+h);
+                        System.out.println("Multimedia size "+w+","+h);
                     }
                 });
 

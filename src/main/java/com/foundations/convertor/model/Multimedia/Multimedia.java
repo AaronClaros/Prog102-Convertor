@@ -10,14 +10,14 @@
  * with Jala Foundation.
  *
  */
-package com.foundations.convertor.model.MM;
+package com.foundations.convertor.model.Multimedia;
 /**
  *  Generic multimedia class
  *
  * @author Adrian Rojas - AWT-[01].
  * @version 0.1
  */
-public class MM {
+public class Multimedia {
     //Field to get/set the duration
     private Double duration;
     //Field to get/set the path file
@@ -77,7 +77,7 @@ public class MM {
     public void setSize(Long size){this.size = size;}
 
     /**
-     * get the MM file size
+     * get the Multimedia file size
      * @return size on Bytes
      */
     public Long getSize (){ return this.size; }

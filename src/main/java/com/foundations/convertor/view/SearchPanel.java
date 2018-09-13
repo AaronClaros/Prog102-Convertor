@@ -71,13 +71,13 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     private JLabel labelResolution;
     //Combo Box for frame rate selection;
     private JComboBox comboxResolution;
-    //Label for combo box MM Codec
+    //Label for combo box Multimedia Codec
     private JLabel labelVideoCodec;
-    //Combo Box for frame MM Codec;
+    //Combo Box for frame Multimedia Codec;
     private JComboBox comboxVideoCodec;
     //Label for combo box Audio Codec
     private JLabel labelAudioCodec;
-    //Combo Box for frame MM Codec;
+    //Combo Box for frame Multimedia Codec;
     private JComboBox comboxAudioCodec;
     // this variable helps to set objects of
     // the search panel
@@ -198,7 +198,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         comboxResolution = new JComboBox(resolutions);
 
         //label video code instance and text set
-        labelVideoCodec = new JLabel("MM Codec:", SwingConstants.RIGHT);
+        labelVideoCodec = new JLabel("Multimedia Codec:", SwingConstants.RIGHT);
 
         //video codecs array
         String[] video_codecs = {"","h264","h263","indeo4","mpeg4","flv","avi"};
@@ -620,7 +620,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     }
 
     /**
-     * Getter for the MM Codec combo box
+     * Getter for the Multimedia Codec combo box
      * @return video codec combo box object
      */
     public JComboBox getCBVideoCodec() {

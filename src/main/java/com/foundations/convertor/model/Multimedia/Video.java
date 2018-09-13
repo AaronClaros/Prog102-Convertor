@@ -10,14 +10,14 @@
  * with Jala Foundation.
  *
  */
-package com.foundations.convertor.model.MM;
+package com.foundations.convertor.model.Multimedia;
 /**
  *  Video type class
  *
  * @author Angelica Lopez, Adrian Rojas - AWT-[01].
  * @version 0.1
  */
-public class Video extends MM{
+public class Video extends Multimedia {
   //Field to get/set the f rate
   private Double fRate;
   //Field to get/set the a ratio
