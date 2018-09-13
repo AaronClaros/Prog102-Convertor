@@ -79,7 +79,7 @@ public class Search {
                 File subFile=new File(elementFile.getAbsolutePath());
                 fillWithCriteria(subFile,videoList);
             }
-            //Check if the file is video and convert it to Multimedia object
+            //Check if the file is video and convert it to Video object
             else  if(isVideo(elementFile)) {
                 auxVideo = getStreamVideo(elementFile);
                 //Check File Name
@@ -107,7 +107,7 @@ public class Search {
                 if(!criteria.getResolution().isEmpty()&&!auxVideo.getResolution().equals(criteria.getResolution())){
                     continue;
                 }
-                //Check Multimedia Codec
+                //Check Video Codec
                 if(!criteria.getVideoCodec().isEmpty()&&!auxVideo.getVideoCodec().equals(criteria.getVideoCodec())){
                     continue;
                 }
@@ -122,7 +122,7 @@ public class Search {
     /**
      * Check if a file is a video by the extension
      * @param file which would be compared to a list of supported extensions
-     * @return Multimedia verified
+     * @return Video verified
      */
     private boolean isVideo(File file){
         String[] supportedExtensions = {"mp4", "avi", "flv", "mkv", "mov","3gp"};
@@ -159,7 +159,7 @@ public class Search {
         //If the file is not a video an exception is send
         catch (Exception ex)
         {
-            LoggerManager.getLogger().Log("Error into get stream Multimedia", "ERROR");
+            LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
         }
         return video;
     }
