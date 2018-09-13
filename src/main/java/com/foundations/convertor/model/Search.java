@@ -12,7 +12,7 @@
 package com.foundations.convertor.model;
 
 import com.foundations.convertor.common.Criteria;
-import com.foundations.convertor.model.Video.Video;
+import com.foundations.convertor.model.MM.Video;
 import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class Search {
     /**
      * All the video files in the path directory are added to the video list
      * @param criteria retrieved from GUI with all the search criteria
-     * @return list of Video Files
+     * @return list of MM Files
      */
     public List<Video> getAllVideoFiles(Criteria criteria) {
         //Check if the path is correct for a file or directory
@@ -79,7 +79,7 @@ public class Search {
                 File subFile=new File(elementFile.getAbsolutePath());
                 fillWithCriteria(subFile,videoList);
             }
-            //Check if the file is video and convert it to Video object
+            //Check if the file is video and convert it to MM object
             else  if(isVideo(elementFile)) {
                 auxVideo = getStreamVideo(elementFile);
                 //Check File Name
@@ -100,14 +100,14 @@ public class Search {
                     continue;
                 }
                 //Check Aspect ratio
-                if(!criteria.getAspcRatio().isEmpty()&&!auxVideo.getAspectRatio().equals(criteria.getAspcRatio())){
+                if(!criteria.getAspectRatio().isEmpty()&&!auxVideo.getAspectRatio().equals(criteria.getAspectRatio())){
                     continue;
                 }
                 //Check Resolution
                 if(!criteria.getResolution().isEmpty()&&!auxVideo.getResolution().equals(criteria.getResolution())){
                     continue;
                 }
-                //Check Video Codec
+                //Check MM Codec
                 if(!criteria.getVideoCodec().isEmpty()&&!auxVideo.getVideoCodec().equals(criteria.getVideoCodec())){
                     continue;
                 }
@@ -122,7 +122,7 @@ public class Search {
     /**
      * Check if a file is a video by the extension
      * @param file which would be compared to a list of supported extensions
-     * @return Video verified
+     * @return MM verified
      */
     private boolean isVideo(File file){
         String[] supportedExtensions = {"mp4", "avi", "flv", "mkv", "mov","3gp"};
@@ -159,7 +159,7 @@ public class Search {
         //If the file is not a video an exception is send
         catch (Exception ex)
         {
-            LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
+            LoggerManager.getLogger().Log("Error into get stream MM", "ERROR");
         }
         return video;
     }
