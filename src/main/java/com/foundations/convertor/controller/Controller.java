@@ -45,15 +45,13 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     private String pathToConvert; // reference path to convert
 
     VideoConversion conversion;
-    ProgressBar pb;
+    ProgressBar progressBar;
 
     public Controller(){
         instanceCriteria();
         instanceViewComponent();
         instanceModelComponent();
         instanceConversionCriteria();
-
-
     }
 
     /**
@@ -197,12 +195,9 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             conversionCriteria.setFrameRate(Double.parseDouble(view.getConvPanel().getCmbFrameRate().getSelectedItem().toString()));
         }
         conversion = new VideoConversion();
-        pb = new ProgressBar();
-        pb.setVisible(true);
-        conversion.getProgressPercentageProperty().addListener(pb);
+        progressBar = new ProgressBar();
+        conversion.getProgressPercentageProperty().addListener(progressBar);
         conversion.doConversion(conversionCriteria);
-
-
 
         // this method clean the fields of converter
         view.getConvPanel().cleanFields();

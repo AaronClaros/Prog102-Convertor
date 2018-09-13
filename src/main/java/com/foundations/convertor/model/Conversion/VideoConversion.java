@@ -50,23 +50,6 @@ public class VideoConversion {
     public VideoConversion(){
         progressPercentage = new SimpleDoubleProperty();
         setProgressPercentage(0);
-        //add change listener to progress percentage property
-        /*getProgressPercentageProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue o, Object oldVal, Object newVal) {
-
-                LoggerManager.getLogger().Log(
-                        String.format("Conversion Progress:[%.0f%%] status:%s frame:%d time:%s ms fps:%.0f speed:%.2fx",
-                                (Double)newVal * 100,
-                            progress.status,
-                            progress.frame,
-                            FFmpegUtils.toTimecode(progress.out_time_ns, TimeUnit.NANOSECONDS),
-                            progress.fps.doubleValue(),
-                            progress.speed
-                        ),"DEBUG");
-                //TODO register new listener with slider value to this property
-            }
-        });*/
     }
     /**
      * Prepare criteria parameters to make a video conversion
