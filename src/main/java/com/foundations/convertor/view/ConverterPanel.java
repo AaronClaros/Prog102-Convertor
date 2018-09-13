@@ -174,7 +174,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         buttonConvert = new JButton("Convert");
 
         //label file name instance and text set
-        labelAudio= new JLabel("Audio Search Criteria:", SwingConstants.RIGHT);
+        labelAudio= new JLabel("Audio Convert Criteria:", SwingConstants.RIGHT);
 
         //check box audio
         checkBoxAudio = new JCheckBox();

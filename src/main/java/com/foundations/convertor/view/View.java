@@ -94,7 +94,7 @@ public class View extends JFrame {  //
         bagConstraints.gridheight = 2;
 
         // stretching values
-        bagConstraints.weightx = 0.0;
+        bagConstraints.weightx = 0.5;
         bagConstraints.weighty = 1.0;
 
         // way it will change its size
