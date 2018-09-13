@@ -15,9 +15,9 @@ package com.foundations.convertor.controller;
 import com.foundations.convertor.common.ConversionCriteria;
 import com.foundations.convertor.common.SearchCriteria;
 import com.foundations.convertor.model.Conversion.VideoConversion;
-import com.foundations.convertor.model.MM.Audio;
-import com.foundations.convertor.model.MM.MM;
-import com.foundations.convertor.model.MM.Video;
+import com.foundations.convertor.model.Multimedia.Audio;
+import com.foundations.convertor.model.Multimedia.Multimedia;
+import com.foundations.convertor.model.Multimedia.Video;
 import com.foundations.convertor.utils.LoggerManager;
 import com.foundations.convertor.view.View;
 import com.foundations.convertor.model.Search;
@@ -145,9 +145,9 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      * Fill table from View with the list of videos from the search results
      * @param resultsList List of videos within the search criteria
      */
-    public void fillTable(List<? extends MM> resultsList){
+    public void fillTable(List<? extends Multimedia> resultsList){
         if(resultsList == null){
-            LoggerManager.getLogger().Log("Table MM: Result is null", "INFO");
+            LoggerManager.getLogger().Log("Table Multimedia: Result is null", "INFO");
             return;
         }
         view.getSLPanel().getResultsTable().setNumRows(resultsList.size());

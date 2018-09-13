@@ -12,7 +12,7 @@
 package com.foundations.convertor.model;
 
 import com.foundations.convertor.common.Criteria;
-import com.foundations.convertor.model.MM.Video;
+import com.foundations.convertor.model.Multimedia.Video;
 import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class Search {
     /**
      * All the video files in the path directory are added to the video list
      * @param criteria retrieved from GUI with all the search criteria
-     * @return list of MM Files
+     * @return list of Multimedia Files
      */
     public List<Video> getAllVideoFiles(Criteria criteria) {
         //Check if the path is correct for a file or directory
@@ -79,7 +79,7 @@ public class Search {
                 File subFile=new File(elementFile.getAbsolutePath());
                 fillWithCriteria(subFile,videoList);
             }
-            //Check if the file is video and convert it to MM object
+            //Check if the file is video and convert it to Multimedia object
             else  if(isVideo(elementFile)) {
                 auxVideo = getStreamVideo(elementFile);
                 //Check File Name
@@ -107,7 +107,7 @@ public class Search {
                 if(!criteria.getResolution().isEmpty()&&!auxVideo.getResolution().equals(criteria.getResolution())){
                     continue;
                 }
-                //Check MM Codec
+                //Check Multimedia Codec
                 if(!criteria.getVideoCodec().isEmpty()&&!auxVideo.getVideoCodec().equals(criteria.getVideoCodec())){
                     continue;
                 }
@@ -122,7 +122,7 @@ public class Search {
     /**
      * Check if a file is a video by the extension
      * @param file which would be compared to a list of supported extensions
-     * @return MM verified
+     * @return Multimedia verified
      */
     private boolean isVideo(File file){
         String[] supportedExtensions = {"mp4", "avi", "flv", "mkv", "mov","3gp"};
@@ -159,7 +159,7 @@ public class Search {
         //If the file is not a video an exception is send
         catch (Exception ex)
         {
-            LoggerManager.getLogger().Log("Error into get stream MM", "ERROR");
+            LoggerManager.getLogger().Log("Error into get stream Multimedia", "ERROR");
         }
         return video;
     }

@@ -10,21 +10,21 @@
  * with Jala Foundation.
  *
  */
-package com.foundations.convertor.model.MM;
+package com.foundations.convertor.model.Multimedia;
 /**
  *  Audio type class
  *
  * @author Adrian Rojas - AWT-[01].
  * @version 0.1
  */
-public class Audio extends MM{
+public class Audio extends Multimedia {
 
     private String channels;
     private String songName;
     private String songArtist;
     private String songAlbum;
-    private int bitRate;
-    private long sampleRate;
+    private long bitRate;
+    private int sampleRate;
 
     /**
      * get Audio channels
@@ -94,7 +94,7 @@ public class Audio extends MM{
      * get song bit rate
      * @return bit rate
      */
-    public int getBitRate() {
+    public long getBitRate() {
         return bitRate;
     }
 
@@ -102,7 +102,7 @@ public class Audio extends MM{
      * Set the song bit rate
      * @param bitRate of the audio
      */
-    public void setBitRate(int bitRate) {
+    public void setBitRate(long bitRate) {
         this.bitRate = bitRate;
     }
 
@@ -110,7 +110,7 @@ public class Audio extends MM{
      * get sample rate
      * @return sample rate
      */
-    public long getSampleRate() {
+    public int getSampleRate() {
         return sampleRate;
     }
 
@@ -118,7 +118,7 @@ public class Audio extends MM{
      * Set the sample rate
      * @param sampleRate of audio
      */
-    public void setSampleRate(long sampleRate) {
+    public void setSampleRate(int sampleRate) {
         this.sampleRate = sampleRate;
     }
 }
