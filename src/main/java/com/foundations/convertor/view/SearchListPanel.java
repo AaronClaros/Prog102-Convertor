@@ -68,6 +68,8 @@ public class SearchListPanel extends JPanel {
         };
         //instance results table
         resultsTable = new JTable(model);
+        resultsTable.setBackground(new java.awt.Color(233, 233, 233));
+
         //instance scroll panel container for results table
         scrollPane = new JScrollPane(resultsTable);
         //Add action listener for double click over table

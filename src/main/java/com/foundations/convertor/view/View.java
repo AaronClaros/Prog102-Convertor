@@ -87,11 +87,14 @@ public class View extends JFrame {  //
     private void initComp() {
         //Instance frame with search criteria
         sPanel = new SearchPanel();
+        sPanel.setBackground(new java.awt.Color(184, 187, 192));
 
         //Instance frame with result table panel
         slPanel = new SearchListPanel();
+
         //Instance frame with converter panel
         convPanel = new ConverterPanel();
+        convPanel.setBackground(new java.awt.Color(229, 208, 47));
 
         // setting constrains of spanel
         // position where it starts

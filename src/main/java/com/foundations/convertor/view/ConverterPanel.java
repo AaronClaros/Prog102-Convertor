@@ -93,6 +93,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         initComp();
         //Initialize Search Audio Panel
         searchAudioPanel = new SearchAudioPanel();
+        searchAudioPanel.setBackground(new java.awt.Color(254, 233, 52));
     }
 
     /**
@@ -113,9 +114,11 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
     private void initCompFields(){
         // instance label title and set text
         labelTitle = new JLabel("Conversion parameters", SwingConstants.CENTER);
+        setColorLabel(labelTitle);
 
         //instance labelInputPath and set text
         labelInputPath = new JLabel("File to Convert:",SwingConstants.RIGHT);
+        setColorLabel(labelInputPath);
 
         //instance textField for input path
         tFieldInputPath = new JTextField(15);
@@ -123,6 +126,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
 
         //instance label output path and set text
         labelOutPath = new JLabel("Output Path:",SwingConstants.RIGHT);
+        setColorLabel(labelOutPath);
 
         //instance textField for OutputPath
         tFieldOutPath = new JTextField(15);
@@ -135,21 +139,27 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
 
         // instance label resolution and set text
         labelResolution = new JLabel("New Resolution:",SwingConstants.RIGHT);
+        setColorLabel(labelResolution);
 
         // instance label frame rate and set text
         labelFrameRate = new JLabel("New Frame Ratio:",SwingConstants.RIGHT);
+        setColorLabel(labelFrameRate);
 
         // instance label video codec and set text
         labelVideoCodec = new JLabel("New Video Codec:",SwingConstants.RIGHT);
+        setColorLabel(labelVideoCodec);
 
         // instance label audio codec and set text
         labelAudioCodec = new JLabel("New Audio Codec:",SwingConstants.RIGHT);
+        setColorLabel(labelAudioCodec);
 
         // instance label format and set text
         labelFormat = new JLabel("New Format:",SwingConstants.RIGHT);
+        setColorLabel(labelFormat);
 
         // instance label new name
         labelName = new JLabel("New Name:",SwingConstants.RIGHT);
+        setColorLabel(labelName);
 
         txtName = new JTextField(15);
 
@@ -180,6 +190,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
 
         //label file name instance and text set
         labelAudio= new JLabel("Audio Convert Criteria:", SwingConstants.RIGHT);
+        setColorLabel(labelAudio);
 
         //check box audio
         checkBoxAudio = new JCheckBox();
@@ -608,5 +619,13 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
       searchAudioPanel.setVisible(true);
       this.add(searchAudioPanel,bagConstraints);
       LoggerManager.getLogger().Log( "New audio panel added", "INFO");
+    }
+
+    /**
+     * Setting Color to label
+     * @param jLabel
+     */
+    private void setColorLabel(JLabel jLabel){
+        jLabel.setBackground(new java.awt.Color(91, 78, 21));
     }
 }
