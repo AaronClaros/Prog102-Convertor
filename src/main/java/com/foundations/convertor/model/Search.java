@@ -110,7 +110,6 @@ public class Search implements ISearchVideo, ISearchAudio{
      * @param file inside the file list from the path directory
      * @param audioList list to be filled with all the files that are audios and have the criteria selected
      */
-    //TODO search by bitrate and bit depth
     private void fillWithAudios(File file,List<Multimedia> audioList){
         File[] directoryFiles = file.listFiles();
         Audio auxAudio;
