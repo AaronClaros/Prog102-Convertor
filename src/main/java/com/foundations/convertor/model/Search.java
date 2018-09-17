@@ -152,7 +152,7 @@ public class Search implements ISearchVideo, ISearchAudio{
                     continue;
                 }
                 //Check bit depth rate
-                if(criteria.getAudioBitDepth() != -1 && criteria.getAudioBitDepth()!=auxAudio.getBitDepth()){
+                if(criteria.getAudioBitDepth().isEmpty() && auxAudio.getBitDepth().equals(criteria.getAudioBitDepth())){
                     continue;
                 }
                 if (auxAudio!=null)
@@ -303,7 +303,7 @@ public class Search implements ISearchVideo, ISearchAudio{
             audio.setChannels(audioStream.channels);
             audio.setSampleRate(audioStream.sample_rate);
             audio.setBitRate(audioFormat.bit_rate);
-            audio.setBitDepth(audioStream.bits_per_sample);
+            audio.setBitDepth(audioStream.sample_fmt);
             audio.setSongArtist(audioFormat.tags.get("ARTIST"));
             audio.setSongAlbum(audioFormat.tags.get("ALBUM"));
             audio.setSongName(audioFormat.tags.get("TITLE"));
@@ -313,6 +313,15 @@ public class Search implements ISearchVideo, ISearchAudio{
         {
             LoggerManager.getLogger().Log("Error into get stream Audio", "ERROR");
         }
+        if (audio!=null)
+            System.out.println(String.format(
+                    "New Audio: %s, sample rate: %d, channels: %d, bit rate: %d, bit depth: %s",
+                    audio.getFileName(),
+                    audio.getSampleRate(),
+                    audio.getChannels(),
+                    audio.getBitRate(),
+                    audio.getBitDepth()
+            ));
         return audio;
     }
 }

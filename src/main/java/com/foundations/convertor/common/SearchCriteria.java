@@ -32,8 +32,8 @@ public class SearchCriteria extends Criteria {
     private int audioSampleRate;
     //Only for audio sample rate
     private int audioBitRate;
-    //Only for audio bit depth, default value must be -1 or less
-    private int audioBitDepth = -1;
+    //Only for audio bit depth
+    private String audioBitDepth;
 
     /**
      * Empty constructor
@@ -112,8 +112,8 @@ public class SearchCriteria extends Criteria {
         this.audioSampleRate = audioSampleRate;
     }
     public void setAudioBitRate(int audioBitRate){this.audioBitRate= audioBitRate;}
-    public void setAudioBitDepth(int audioBitDepth){this.audioBitDepth= audioBitDepth;}
+    public void setAudioBitDepth(String audioBitDepth){this.audioBitDepth= audioBitDepth;}
     public int getAudioBitRate(){return audioBitRate;}
-    public int getAudioBitDepth(){return audioBitDepth;}
+    public String getAudioBitDepth(){return audioBitDepth;}
 
 }
