@@ -101,6 +101,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         initComp();
         //Initialize the panel to Audio Search
         searchAudioPanel = new SearchAudioPanel();
+        searchAudioPanel.setBackground(new java.awt.Color(233, 233, 233));
     }
 
     /**
@@ -122,9 +123,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     private void initCompFields(){
         //Panel labelTitle
         labelTitle = new JLabel("Search Criteria", SwingConstants.CENTER);
+        setColorLabel(labelTitle);
 
         //Label for text field path
         labelPath = new JLabel("Path:", SwingConstants.RIGHT);
+        setColorLabel(labelPath);
 
         //button path instance and labelTitle set
         //Added Icon to button
@@ -139,6 +142,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         //label file name instance and text set
         titleFileName= new JLabel("File Name:", SwingConstants.RIGHT);
+        setColorLabel(titleFileName);
 
         //Added Icon to button
         ImageIcon searchIcon = StyleUtils.getInstance().createImageIcon("Search.png");
@@ -146,6 +150,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         //label file extension instance and text set
         labelFileExt = new JLabel("File Ext.:", SwingConstants.RIGHT);
+        setColorLabel(labelFileExt);
 
         //supported extensions array
         String[] supported_ext = {"","mp4","avi","flv","mkv","mov","3gp"};
@@ -155,12 +160,15 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         //label duration instance and text set
         labelDuration = new JLabel("Duration From:", SwingConstants.RIGHT);
+        setColorLabel(labelDuration);
 
         //label "duration to" instance and text set
         labelDurationTo = new JLabel("To:", SwingConstants.RIGHT);
+        setColorLabel(labelDurationTo);
 
         //label frame rate instance and text set
         labelFrameRate = new JLabel("Frame Rate:", SwingConstants.RIGHT);
+        setColorLabel(labelFrameRate);
 
         //frame rates array
         String[] frame_rates = {"","24","25","29","29.7","30","60"};
@@ -184,6 +192,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         //label aspect ratio instance and text set
         labelAspectRatio = new JLabel("Aspect Ratio:", SwingConstants.RIGHT);
+        setColorLabel(labelAspectRatio);
 
         //aspect ratio array
         String[] asp_ratios = {"","16:9","16:10","0:1","4:3","40:23"};
@@ -193,6 +202,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         //label resolution instance and text set
         labelResolution = new JLabel("Resolution:", SwingConstants.RIGHT);
+        setColorLabel(labelResolution);
 
         //resolution array
         String[] resolutions = {"","1920X1080","1280X720","640X480","640X368","480X270","320X240","256X240","176X144"};
@@ -202,6 +212,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         //label video code instance and text set
         labelVideoCodec = new JLabel("Video Codec:", SwingConstants.RIGHT);
+        setColorLabel(labelVideoCodec);
 
         //video codecs array
         String[] video_codecs = {"","h264","h263","indeo4","mpeg4","flv","avi"};
@@ -211,6 +222,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         //label audio code instance and text set
         labelAudioCodec = new JLabel("Audio Codec:", SwingConstants.RIGHT);
+        setColorLabel(labelAudioCodec);
 
         //audio codecs array
         String[] audio_codecs = {"","MP3","WMA","OGG","VIDEO"};
@@ -223,6 +235,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         //label file name instance and text set
         labelAudio= new JLabel("Search for audio:", SwingConstants.RIGHT);
+        setColorLabel(labelAudio);
 
         //check box audio
         checkBoxAudio = new JCheckBox();
@@ -751,5 +764,13 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
     public SearchAudioPanel getSearchAudioPanel(){
         return searchAudioPanel;
+    }
+
+    /**
+     * Setting Color to label
+     * @param jLabel
+     */
+    private void setColorLabel(JLabel jLabel){
+        jLabel.setBackground(new java.awt.Color(59, 59, 61));
     }
 }
