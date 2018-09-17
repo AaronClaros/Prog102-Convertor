@@ -152,10 +152,9 @@ public class Search implements ISearchVideo, ISearchAudio{
                     continue;
                 }
                 //Check bit depth rate
-                if(criteria.getAudioBitDepth().isEmpty() && auxAudio.getBitDepth().equals(criteria.getAudioBitDepth())){
+                if(!criteria.getAudioBitDepth().isEmpty() && !auxAudio.getBitDepth().equals(criteria.getAudioBitDepth())){
                     continue;
                 }
-                if (auxAudio!=null)
                 audioList.add(auxAudio);
 
             }

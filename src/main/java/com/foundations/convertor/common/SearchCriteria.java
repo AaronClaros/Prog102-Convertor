@@ -33,7 +33,7 @@ public class SearchCriteria extends Criteria {
     //Only for audio sample rate
     private int audioBitRate;
     //Only for audio bit depth
-    private String audioBitDepth;
+    private String audioBitDepth = "";
 
     /**
      * Empty constructor
