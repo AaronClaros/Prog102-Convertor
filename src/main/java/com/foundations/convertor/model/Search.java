@@ -106,10 +106,11 @@ public class Search implements ISearchVideo, ISearchAudio{
 
     /**
      * If the file is a Audio according to the search criteria it is added to the audio list
-     * search criteria allowed (file name, extension, duration, audio codec, channels sample rate)
+     * search criteria allowed (file name, extension, duration, audio codec, channels, sample rate)
      * @param file inside the file list from the path directory
      * @param audioList list to be filled with all the files that are audios and have the criteria selected
      */
+    //TODO search by bitrate and bit depth
     private void fillWithAudios(File file,List<Multimedia> audioList){
         File[] directoryFiles = file.listFiles();
         Audio auxAudio;
@@ -140,14 +141,22 @@ public class Search implements ISearchVideo, ISearchAudio{
                     continue;
                 }
                 //Check channel count
-                if(auxAudio.getChannels() == 0 || criteria.getAudioChannels()==auxAudio.getChannels()){
+                if(criteria.getAudioChannels() != 0 &&criteria.getAudioChannels()!=auxAudio.getChannels()){
                     continue;
                 }
                 //Check sample rate
-                if(auxAudio.getSampleRate() == 0 || criteria.getAudioSampleRate()==auxAudio.getSampleRate()){
+                if(criteria.getAudioSampleRate() != 0 && criteria.getAudioSampleRate()!=auxAudio.getSampleRate()){
                     continue;
                 }
-
+                //Check bit rate
+                if(criteria.getAudioBitRate() != 0 && criteria.getAudioBitRate()!=auxAudio.getBitRate()){
+                    continue;
+                }
+                //Check bit depth rate
+                if(criteria.getAudioBitDepth() != -1 && criteria.getAudioBitDepth()!=auxAudio.getBitDepth()){
+                    continue;
+                }
+                if (auxAudio!=null)
                 audioList.add(auxAudio);
 
             }
@@ -295,6 +304,7 @@ public class Search implements ISearchVideo, ISearchAudio{
             audio.setChannels(audioStream.channels);
             audio.setSampleRate(audioStream.sample_rate);
             audio.setBitRate(audioFormat.bit_rate);
+            audio.setBitDepth(audioStream.bits_per_sample);
             audio.setSongArtist(audioFormat.tags.get("ARTIST"));
             audio.setSongAlbum(audioFormat.tags.get("ALBUM"));
             audio.setSongName(audioFormat.tags.get("TITLE"));

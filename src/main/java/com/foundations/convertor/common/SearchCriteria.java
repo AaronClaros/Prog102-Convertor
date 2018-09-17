@@ -32,8 +32,8 @@ public class SearchCriteria extends Criteria {
     private int audioSampleRate;
     //Only for audio sample rate
     private int audioBitRate;
-    //Only for audio sample rate
-    private int audioBitDepth;
+    //Only for audio bit depth, default value must be -1 or less
+    private int audioBitDepth = -1;
 
     /**
      * Empty constructor
