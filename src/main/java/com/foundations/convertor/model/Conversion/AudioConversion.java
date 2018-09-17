@@ -144,7 +144,6 @@ public class AudioConversion {
                     .setAudioChannels(channels)
                     .setAudioSampleRate(sampleRate)
                     .setAudioSampleFormat(bitDepth)
-
                     .done();
             return builder;
         }
