@@ -14,6 +14,7 @@
 
 package com.foundations.convertor.model.Conversion;
 
+import com.foundations.convertor.common.ConAudioCrit;
 import com.foundations.convertor.common.ConversionCriteria;
 import com.foundations.convertor.utils.LoggerManager;
 import javafx.beans.property.DoubleProperty;
@@ -56,7 +57,7 @@ public class AudioConversion {
          * Prepare criteria parameters to make audio conversion
          * @param criteria conversion criteria parameters
          */
-        public void doConversion(ConversionCriteria criteria){
+        public void doConversion(ConAudioCrit criteria){
             String separator = System.getProperty("file.separator");
             FFmpegProbeResult in;
             String out;
@@ -72,13 +73,33 @@ public class AudioConversion {
                 //convert input path into FFmpeg result
                 in = fpWrapper.probe(criteria.getPath());
                 out = criteria.getOutputPath();
-                bitRate = in.getStreams().get(0).bit_rate;
-                channels = in.getStreams().get(0).channels;
-                sampleRate = in.getStreams().get(0).sample_rate;
-                audioCodec = in.getStreams().get(0).codec_name;
+                if (criteria.getBitRate()== 0){
+                    bitRate = in.getStreams().get(0).bit_rate;
+                }else{
+                    bitRate = criteria.getBitRate();
+                }
+
+                if (criteria.getChannels() == 0){
+                    channels = in.getStreams().get(0).channels;
+                }else{
+                    channels = criteria.getChannels();
+                }
+
+                if (criteria.getSampleRate() == 0){
+                    sampleRate = in.getStreams().get(0).sample_rate;
+                }else{
+                    sampleRate = criteria.getSampleRate();
+                }
+
+                if (criteria.getAudioCodec() == null){
+                    audioCodec = in.getStreams().get(0).codec_name;
+                }else{
+                    audioCodec = criteria.getAudioCodec();
+                }
+
                 LoggerManager.getLogger().Log("verified criteria, BitRate: "+bitRate+" Channels: "+channels+" Sample Rate: "+sampleRate+" AudioCodec: "+audioCodec, "INFO");
                 //execute method to run conversion
-                FFmpegBuilder builder = ffSetBuild(in, out, 200, 2, FFmpeg.AUDIO_SAMPLE_48000,"pcm_s16le");
+                FFmpegBuilder builder = ffSetBuild(in, out, bitRate, channels, sampleRate,audioCodec);
                 FFmpegExecutor executor = new FFmpegExecutor(fmWrapper, fpWrapper);
                 // Run a one-pass encode
                 conversionJob = executor.createJob(builder, new ProgressListener() {
@@ -160,25 +181,4 @@ public class AudioConversion {
                 return false;
             return conversionJob.getState().equals(FFmpegJob.State.RUNNING);
         }
-        /*
-        *  //Instance conversion criteria
-        conversionCriteria = new ConversionCriteria();
-        //Set conversion criteria fields with converter panel
-        conversionCriteria.setPath("C:\\Users\\KEVIN\\Downloads\\pruebas\\mc.mp3");
-        conversionCriteria.setResolution(view.getConvPanel().getCmbResolution().getSelectedItem().toString());
-        conversionCriteria.setVideoCodec(view.getConvPanel().getCmbVideoCodec().getSelectedItem().toString());
-        conversionCriteria.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
-        conversionCriteria.setExtension("wav");
-        conversionCriteria.setFileName(view.getConvPanel().getTxtName().getText());
-        conversionCriteria.setOutputDirectory(view.getConvPanel().getTFOutputPath().getText());
-        if (!view.getConvPanel().getCmbFrameRate().getSelectedItem().toString().isEmpty()) {
-            conversionCriteria.setFrameRate(Double.parseDouble(view.getConvPanel().getCmbFrameRate().getSelectedItem().toString()));
-        }
-
-        conversion = new AudioConversion();
-        progressBar = new ProgressBar();
-        conversion.getProgressPercentageProperty().addListener(progressBar);
-        conversion.doConversion(conversionCriteria);
-        // this method clean the fields of converter
-        view.getConvPanel().cleanFields();*/
 }
