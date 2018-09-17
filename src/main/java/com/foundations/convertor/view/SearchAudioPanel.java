@@ -17,6 +17,7 @@ package com.foundations.convertor.view;
  * @version 0.1
  */
 
+import com.foundations.convertor.utils.LoggerManager;
 import javax.swing.*;
 import java.awt.*;
 
@@ -32,8 +33,15 @@ public class SearchAudioPanel extends JPanel {
     private JComboBox cbBitRate;
     private JComboBox cbChannels;
     private GridBagConstraints bagConstraints;
+    private SearchPanel searchPanel;
+    private ButtonSearchPanel btnSearchPanel;
+    //Title File name
+    private JLabel labelFileExt;
+    //Box for file name criteria
+    private JComboBox boxFileExt;
 
     public SearchAudioPanel(){
+        super();
         // set the panel
         settings();
         // Initialize attributes or components
@@ -56,6 +64,14 @@ public class SearchAudioPanel extends JPanel {
      * for the converter panel
      */
     private void initCompFields(){
+
+        //label extension and text set
+        labelFileExt = new JLabel("Extensión:", SwingConstants.RIGHT);
+        //supported extensions array
+        String[] supported_ext = {"","mp3","wav","wma2","mpeg audio"};
+        //text field file extension instance
+        boxFileExt = new JComboBox(supported_ext);
+
         //Label for Sample Rate
         lbSampleRate = new JLabel("Sample Rate (Hz):", SwingConstants.RIGHT);
 
@@ -97,13 +113,58 @@ public class SearchAudioPanel extends JPanel {
     }
 
     /**
+     *  Add the option visible of search panel.
+     */
+    private void initNewSearchPanel(){
+
+        searchPanel = new SearchPanel();
+        LoggerManager.getLogger().Log( "Into add new Panel search", "INFO");
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 0;
+        bagConstraints.gridwidth = 4;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(searchPanel,bagConstraints);
+        searchPanel.setVisible(true);
+
+        LoggerManager.getLogger().Log( "New panel added", "INFO");
+        searchPanel.revalidate();
+        searchPanel.repaint();
+    }
+
+    /**
+     * This method initialize the extension fields
+     */
+    private void initCompExtention(){
+
+        // setting constrains of labelFileExt
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = 4;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelFileExt,bagConstraints);
+
+        // setting constrains of boxFileExt
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = 4;
+        bagConstraints.gridwidth = 4;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(boxFileExt,bagConstraints);
+    }
+
+    /**
      * This method initialize the Sample Rate
      */
     private void initCompSampleRate(){
 
         // setting constrains of label sample rate
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 2;
+        bagConstraints.gridy = 5;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -112,7 +173,7 @@ public class SearchAudioPanel extends JPanel {
 
         // setting constrains of combo rate
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 2;
+        bagConstraints.gridy = 5;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -126,7 +187,7 @@ public class SearchAudioPanel extends JPanel {
     private void initCompBitDepth(){
         // setting constrains of label bit Depth
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 3;
+        bagConstraints.gridy = 6;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -135,7 +196,7 @@ public class SearchAudioPanel extends JPanel {
 
         // setting constrains of combo size
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 3;
+        bagConstraints.gridy = 6;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -151,7 +212,7 @@ public class SearchAudioPanel extends JPanel {
 
         // setting constrains of label bit rate
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 4;
+        bagConstraints.gridy = 7;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -160,7 +221,7 @@ public class SearchAudioPanel extends JPanel {
 
         // setting constrains of combo bit rate
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 4;
+        bagConstraints.gridy = 7;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -175,7 +236,7 @@ public class SearchAudioPanel extends JPanel {
 
         // setting constrains of label channel
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 5;
+        bagConstraints.gridy = 8;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -184,7 +245,7 @@ public class SearchAudioPanel extends JPanel {
 
         // setting constrains of combo channel
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 5;
+        bagConstraints.gridy = 8;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -192,15 +253,38 @@ public class SearchAudioPanel extends JPanel {
         this.add(cbChannels,bagConstraints);
     }
 
+    private void initCompButtonSearch(){
+        btnSearchPanel = new ButtonSearchPanel();
+        LoggerManager.getLogger().Log( "Into add button search", "INFO");
+        // setting constrains of label channel
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = 9;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(btnSearchPanel,bagConstraints);
+
+        btnSearchPanel.setVisible(true);
+
+        LoggerManager.getLogger().Log( "Button search added", "INFO");
+        btnSearchPanel.revalidate();
+        btnSearchPanel.repaint();
+    }
+
+
     /**
      * Initialize components
      */
     private void initComp() {
+        initNewSearchPanel();
         initCompFields();
+        initCompExtention();
         initCompSampleRate();
         initCompBitDepth();
         initCompBitRate();
         initCompChannels();
+        initCompButtonSearch();
     }
 
     /**
@@ -242,6 +326,11 @@ public class SearchAudioPanel extends JPanel {
     public JComboBox getcbBitDepth(){
         return this.cbBitDepth;
     }
+
+    public JComboBox getBoxFileExt() {
+        return boxFileExt;
+    }
+
     /**
      * this method reset the fields for panel Audio Search
      */

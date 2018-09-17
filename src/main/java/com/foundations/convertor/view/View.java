@@ -39,6 +39,12 @@ public class View extends JFrame {  //
     private SearchListPanel slPanel;
     // conversion parameters panel
     private ConverterPanel convPanel;
+    // Util class helper to button search
+    private ButtonSearchPanel btnSearch;
+    //search criteria audio panel
+    private SearchAudioPanel sAudioPanel;
+    //search criteria video panel
+    private SearchVideoPanel sVideoPanel;
     // constructor of father class JFrame
     public Dimension screenSize;
     // this variable helps to set objects of
@@ -89,6 +95,14 @@ public class View extends JFrame {  //
         sPanel = new SearchPanel();
         sPanel.setBackground(new java.awt.Color(184, 187, 192));
 
+        //Instance frame with search criteria
+        sAudioPanel = new SearchAudioPanel();
+        sAudioPanel.setBackground(new java.awt.Color(184, 187, 192));
+
+        //Instance panel with search video criteria
+        sVideoPanel = new SearchVideoPanel();
+        sVideoPanel.setBackground(new java.awt.Color(184, 187, 192));
+
         //Instance frame with result table panel
         slPanel = new SearchListPanel();
 
@@ -112,7 +126,18 @@ public class View extends JFrame {  //
         // way it will change its size
         bagConstraints.fill = GridBagConstraints.BOTH;
         LoggerManager.getLogger().Log("Starting Search Panel","INFO");
-        this.add(sPanel,bagConstraints);
+        //Added Icon to button
+        ImageIcon audioIcon = StyleUtils.getInstance().createImageIcon("Music_16px.png");
+        //Added Icon to button
+        ImageIcon videoIcon = StyleUtils.getInstance().createImageIcon("Movie_16px.png");
+        JTabbedPane tab = new JTabbedPane();
+        //Adding
+        this.add(tab);
+        //Add Tabs
+        tab.addTab("Audio",audioIcon, sAudioPanel);
+        tab.addTab("Video",videoIcon, sVideoPanel);
+        //this.add(sPanel,bagConstraints);
+        this.add(tab,bagConstraints);
 
         // setting constrains of slpanel
         bagConstraints.gridx = 1;
@@ -161,6 +186,25 @@ public class View extends JFrame {  //
      * @return Panel convert
      */
     public ConverterPanel getConvPanel() {return convPanel;}
+
+    /**
+     * Get panel for button search component
+     * @return Panel button caontains
+     */
+    public ButtonSearchPanel getBtnSearchPanel() {return btnSearch;}
+
+    /**
+     * Get panel for audio panel
+     * @return Panel
+     */
+    public SearchAudioPanel getAudioSearchPanel() {return sAudioPanel;}
+
+    /**
+     * Get panel for video search panel
+     * @return Panel
+     */
+    public SearchVideoPanel getVideoSearchPanel() {return sVideoPanel;}
+
     /**
      * Method to display message box with error message
      * @param error String with the error to be displayed

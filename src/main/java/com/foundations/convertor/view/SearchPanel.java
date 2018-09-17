@@ -46,16 +46,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     private JLabel titleFileName;
     // box for file name criteria
     private JTextField boxFileName;
-    // button with search action
-    private JButton buttonSearch;
-    //Title File name
-    private JLabel labelFileExt;
-    //Box for file name criteria
-    private JComboBox boxFileExt;
-    //Label for combo box frame rate
-    private JLabel labelFrameRate;
-    //Combo Box for frame rate selection;
-    private JComboBox comboxFrameRate;
     //Label duration time video
     private JLabel labelDuration;
     //Label duration to time
@@ -64,31 +54,9 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     private JFormattedTextField boxDurationFrom;
     // spinner for time duration to
     private JFormattedTextField boxDurationTo;
-    //Label for combo box frame rate
-    private JLabel labelAspectRatio;
-    //Combo Box for frame rate selection;
-    private JComboBox comboxAspectRatio;
-    //Label for combo box frame rate
-    private JLabel labelResolution;
-    //Combo Box for frame rate selection;
-    private JComboBox comboxResolution;
-    //Label for combo box Video Codec
-    private JLabel labelVideoCodec;
-    //Combo Box for frame Video Codec;
-    private JComboBox comboxVideoCodec;
-    //Label for combo box Audio Codec
-    private JLabel labelAudioCodec;
-    //Combo Box for frame Video Codec;
-    private JComboBox comboxAudioCodec;
     // this variable helps to set objects of
     // the search panel
     private GridBagConstraints bagConstraints;
-    //Label for audio
-    private JLabel labelAudio;
-    //Check box to show the panel audio search
-    private JCheckBox checkBoxAudio;
-
-    private SearchAudioPanel searchAudioPanel;
 
     /**
      * Constructor of father class JPanel
@@ -99,19 +67,14 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         settings();
         // Initialize attributes or components
         initComp();
-        //Initialize the panel to Audio Search
-        searchAudioPanel = new SearchAudioPanel();
-        searchAudioPanel.setBackground(new java.awt.Color(233, 233, 233));
     }
 
     /**
      * Search panel settings
      */
     private void settings() {
-        //set border to panel
-        this.setBorder(BorderFactory.createLineBorder(Color.black));
         //set background color of panel
-        this.setBackground(UIManager.getColor ( "Panel.background" ));
+        this.setBackground(new java.awt.Color(184, 187, 192));
         // type of layout for the panel
         this.setLayout(new GridBagLayout());
         bagConstraints = new GridBagConstraints();
@@ -144,20 +107,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         titleFileName= new JLabel("File Name:", SwingConstants.RIGHT);
         setColorLabel(titleFileName);
 
-        //Added Icon to button
-        ImageIcon searchIcon = StyleUtils.getInstance().createImageIcon("Search.png");
-        buttonSearch = new JButton(searchIcon);
-
-        //label file extension instance and text set
-        labelFileExt = new JLabel("File Ext.:", SwingConstants.RIGHT);
-        setColorLabel(labelFileExt);
-
-        //supported extensions array
-        String[] supported_ext = {"","mp4","avi","flv","mkv","mov","3gp"};
-
-        //text field file extension instance
-        boxFileExt = new JComboBox(supported_ext);
-
         //label duration instance and text set
         labelDuration = new JLabel("Duration From:", SwingConstants.RIGHT);
         setColorLabel(labelDuration);
@@ -165,16 +114,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //label "duration to" instance and text set
         labelDurationTo = new JLabel("To:", SwingConstants.RIGHT);
         setColorLabel(labelDurationTo);
-
-        //label frame rate instance and text set
-        labelFrameRate = new JLabel("Frame Rate:", SwingConstants.RIGHT);
-        setColorLabel(labelFrameRate);
-
-        //frame rates array
-        String[] frame_rates = {"","24","25","29","29.7","30","60"};
-
-        //combo box frame rate instance and content set
-        comboxFrameRate = new JComboBox(frame_rates);
 
         //box "duration from" instance and text format set
         boxDurationFrom = new JFormattedTextField(createFormat("##:##:##"));
@@ -190,57 +129,8 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //set default duration time for duration to
         boxDurationTo.setValue("99:59:59");
 
-        //label aspect ratio instance and text set
-        labelAspectRatio = new JLabel("Aspect Ratio:", SwingConstants.RIGHT);
-        setColorLabel(labelAspectRatio);
-
-        //aspect ratio array
-        String[] asp_ratios = {"","16:9","16:10","0:1","4:3","40:23"};
-
-        //combo box aspect ratio instance and content set
-        comboxAspectRatio = new JComboBox(asp_ratios);
-
-        //label resolution instance and text set
-        labelResolution = new JLabel("Resolution:", SwingConstants.RIGHT);
-        setColorLabel(labelResolution);
-
-        //resolution array
-        String[] resolutions = {"","1920X1080","1280X720","640X480","640X368","480X270","320X240","256X240","176X144"};
-
-        //combo box resolution instance and content set
-        comboxResolution = new JComboBox(resolutions);
-
-        //label video code instance and text set
-        labelVideoCodec = new JLabel("Video Codec:", SwingConstants.RIGHT);
-        setColorLabel(labelVideoCodec);
-
-        //video codecs array
-        String[] video_codecs = {"","h264","h263","indeo4","mpeg4","flv","avi"};
-
-        //combo box video codec instance and content set
-        comboxVideoCodec = new JComboBox(video_codecs);
-
-        //label audio code instance and text set
-        labelAudioCodec = new JLabel("Audio Codec:", SwingConstants.RIGHT);
-        setColorLabel(labelAudioCodec);
-
-        //audio codecs array
-        String[] audio_codecs = {"","MP3","WMA","OGG","VIDEO"};
-
-        //combo box audio codec instance and content set
-        comboxAudioCodec = new JComboBox(audio_codecs);
-
         //set action listener to button set search path
         buttonPath.addActionListener(this);
-
-        //label file name instance and text set
-        labelAudio= new JLabel("Search for audio:", SwingConstants.RIGHT);
-        setColorLabel(labelAudio);
-
-        //check box audio
-        checkBoxAudio = new JCheckBox();
-        checkBoxAudio.setSelected(false);
-        checkBoxAudio.addActionListener(this);
     }
 
     /**
@@ -361,190 +251,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     }
 
     /**
-     * This method initialize the extension fields
-     */
-    private void initCompExtention(){
-
-        // setting constrains of labelFileExt
-        bagConstraints.gridx = 0;
-        bagConstraints.gridy = 4;
-        bagConstraints.gridwidth = 2;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(labelFileExt,bagConstraints);
-
-        // setting constrains of boxFileExt
-        bagConstraints.gridx = 2;
-        bagConstraints.gridy = 4;
-        bagConstraints.gridwidth = 4;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(boxFileExt,bagConstraints);
-    }
-
-    /**
-     * This method initialize the Frame rate fields
-     */
-    private void initCompFrame(){
-        // setting constrains of labelFrameRate
-        bagConstraints.gridx = 0;
-        bagConstraints.gridy = 5;
-        bagConstraints.gridwidth = 2;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(labelFrameRate,bagConstraints);
-
-        // setting constrains of comboxFrameRate
-        bagConstraints.gridx = 2;
-        bagConstraints.gridy = 5;
-        bagConstraints.gridwidth = 4;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(comboxFrameRate,bagConstraints);
-    }
-
-    /**
-     * This method initialize the aspect ratio fields
-     * @return it return a JPanel object
-     * to be added in the search panel
-     */
-    private void initCompAspect(){
-
-        // setting constrains of labelAspectRatio
-        bagConstraints.gridx = 0;
-        bagConstraints.gridy = 6;
-        bagConstraints.gridwidth = 2;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(labelAspectRatio,bagConstraints);
-
-        // setting constrains of comboxAspectRatio
-        bagConstraints.gridx = 2;
-        bagConstraints.gridy = 6;
-        bagConstraints.gridwidth = 4;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        this.add(comboxAspectRatio,bagConstraints);
-    }
-
-    /**
-     * This method initialize the resolution fields
-     * @return it return a JPanel object
-     * to be added in the search panel
-     */
-    private void initCompResolution(){
-
-        // setting constrains of labelResolution
-        bagConstraints.gridx = 0;
-        bagConstraints.gridy = 7;
-        bagConstraints.gridwidth = 2;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(labelResolution,bagConstraints);
-
-        // setting constrains of comboxResolution
-        bagConstraints.gridx = 2;
-        bagConstraints.gridy = 7;
-        bagConstraints.gridwidth = 4;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(comboxResolution,bagConstraints);
-    }
-
-    /**
-     * This method initialize the video codec fields
-     */
-    private void initCompVideo(){
-
-        // setting constrains of labelVideoCodec
-        bagConstraints.gridx = 0;
-        bagConstraints.gridy = 8;
-        bagConstraints.gridwidth = 2;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        this.add(labelVideoCodec,bagConstraints);
-
-        // setting constrains of comboxVideoCodec
-        bagConstraints.gridx = 2;
-        bagConstraints.gridy = 8;
-        bagConstraints.gridwidth = 4;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(comboxVideoCodec,bagConstraints);
-    }
-
-    /**
-     * This method initialize the audio codec fields
-     */
-    private void initCompAudio(){
-
-        // setting constrains of labelAudioCodec
-        bagConstraints.gridx = 0;
-        bagConstraints.gridy = 9;
-        bagConstraints.gridwidth = 2;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(labelAudioCodec,bagConstraints);
-
-        // setting constrains of comboxAudioCodec
-        bagConstraints.gridx = 2;
-        bagConstraints.gridy = 9;
-        bagConstraints.gridwidth = 4;
-        bagConstraints.gridheight = 1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(comboxAudioCodec,bagConstraints);
-    }
-
-    /**
-     * This method initialize the search button fields
-     */
-    private void initCompBtnSearch(){
-
-        // setting constrains of buttonSearch
-        bagConstraints.gridx = 2;
-        bagConstraints.gridy = 14;
-        bagConstraints.gridwidth = 3;
-        bagConstraints.gridheight = 1;
-        bagConstraints.weightx = 1.0;
-        bagConstraints.weighty = 0.1;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        this.add(buttonSearch,bagConstraints);
-    }
-
-    /**
-     * This method initialize the search audio
-     */
-    private void initCompAudioCheck(){
-        // setting constrains of labelAudioCodec
-        bagConstraints.gridx = 0;
-        bagConstraints.gridy = 10;
-        bagConstraints.gridwidth = 2;
-        bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(labelAudio,bagConstraints);
-
-        // setting constrains of comboxAudioCodec
-        bagConstraints.gridx = 2;
-        bagConstraints.gridy = 10;
-        bagConstraints.gridwidth = 4;
-        bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(checkBoxAudio,bagConstraints);
-    }
-
-    /**
      * Initialize components
      */
     private void initComp() {
@@ -553,24 +259,8 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         initCompSearchP();
         initCompFileName();
         initCompDuration();
-        initCompExtention();
-        initCompFrame();
-        initCompAspect();
-        initCompResolution();
-        initCompVideo();
-        initCompAudio();
-        initCompBtnSearch();
-        initCompAudioCheck();
         // set visible the search panel
         this.setVisible(true);
-    }
-
-    /**
-     * Getter of the search button
-     * @return the search button object
-     */
-    public JButton getSearchButton(){
-        return this.buttonSearch;
     }
 
     /**
@@ -590,21 +280,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     }
 
     /**
-     * Getter for the file extension box
-     * @return filer extension box object
-     */
-    public JComboBox getBoxFileExt() {
-        return this.boxFileExt;
-    }
-
-    /**
-     * Getter for the Frame Rate combo box
-     * @return frame rate combo box object
-     */
-    public JComboBox getCBFrameRate() {
-        return this.comboxFrameRate;
-    }
-    /**
      * Getter for the Duration From box object
      */
     public JTextField getBoxDurationFrom() {
@@ -617,46 +292,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      */
     public JTextField getBoxDurationTo() {
         return this.boxDurationTo;
-    }
-
-    /**
-     * Getter for the Aspect Ratio combo box
-     * @return aspect ratio combo box object
-     */
-    public JComboBox getCBAspectRatio() {
-        return this.comboxAspectRatio;
-    }
-
-    /**
-     * Getter for the Resolution combo box
-     * @return resolution combo box object
-     */
-    public JComboBox getCBResolution() {
-        return this.comboxResolution;
-    }
-
-    /**
-     * Getter for the Video Codec combo box
-     * @return video codec combo box object
-     */
-    public JComboBox getCBVideoCodec() {
-        return this.comboxVideoCodec;
-    }
-
-    /**
-     * Getter for the Audio Codec combo box
-     * @return audio codec combo box object
-     */
-    public JComboBox getCBVAudioCodec() {
-        return this.comboxAudioCodec;
-    }
-
-    /**
-     * Getter for the Search music check box
-     * @return check box to do audio search
-     */
-    public JCheckBox getCheckBoxAudio() {
-        return this.checkBoxAudio;
     }
 
     /**
@@ -681,43 +316,21 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        Object src = e.getSource();
-
-        if (src == buttonPath) {
-            //File chooser for path
-            JFileChooser fc = new JFileChooser();
-            // start at application current directory
-            fc.setCurrentDirectory(new java.io.File("."));
-            //Only can select directories
-            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            int returnVal = fc.showSaveDialog(this);
-            if(returnVal == JFileChooser.APPROVE_OPTION) {
-                File yourFolder = fc.getSelectedFile();
-            }
-            //Copy selected path to the text box
-            try {
-                boxPath.setText(fc.getSelectedFile().getAbsolutePath());
-            } catch (Exception ex){
-                LoggerManager.getLogger().Log( ex.getMessage(), "Error");
-            }
+        //File chooser for path
+        JFileChooser fc = new JFileChooser();
+        // start at application current directory
+        fc.setCurrentDirectory(new java.io.File("."));
+        //Only can select directories
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnVal = fc.showSaveDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            File yourFolder = fc.getSelectedFile();
         }
-        else{
-            JCheckBox checkBox = (JCheckBox)e.getSource();
-            if(checkBox == checkBoxAudio && checkBox.isSelected())
-            {
-                searchAudioPanel.setVisible(true);
-                addNewSearchAudioPanel();
-                searchAudioPanel.revalidate();
-                searchAudioPanel.repaint();
-                LoggerManager.getLogger().Log( "Audio panel visible", "INFO");
-            }
-            else{
-                searchAudioPanel.setVisible(false);
-                searchAudioPanel.revalidate();
-                searchAudioPanel.repaint();
-                searchAudioPanel.cleanFieldsToAudioSearch();
-                LoggerManager.getLogger().Log( "Disabled the check box audio", "INFO");
-            }
+        //Copy selected path to the text box
+        try {
+            boxPath.setText(fc.getSelectedFile().getAbsolutePath());
+        } catch (Exception ex){
+            LoggerManager.getLogger().Log( ex.getMessage(), "Error");
         }
     }
 
@@ -729,22 +342,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
           boxDurationFrom.setValue("00:00:00");
           //set default duration time for duration to
           boxDurationTo.setValue("99:59:59");
-      }
-
-    /**
-     *  Add the option visible of audio panel.
-     */
-    private void addNewSearchAudioPanel(){
-          LoggerManager.getLogger().Log( "Into add new Panel search audio", "INFO");
-          bagConstraints.gridx = 1;
-          bagConstraints.gridy = 11;
-          bagConstraints.gridwidth = 4;
-          bagConstraints.gridheight = 1;
-          bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-          bagConstraints.insets = new Insets(5,5,5,5);
-          searchAudioPanel.setVisible(true);
-          this.add(searchAudioPanel,bagConstraints);
-          LoggerManager.getLogger().Log( "New audio panel added", "INFO");
       }
 
     /**
@@ -760,10 +357,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      */
     public void setPathRequiredDefault(){
         this.labelPath.setForeground(Color.darkGray);
-    }
-
-    public SearchAudioPanel getSearchAudioPanel(){
-        return searchAudioPanel;
     }
 
     /**
