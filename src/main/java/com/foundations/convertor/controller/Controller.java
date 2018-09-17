@@ -132,8 +132,8 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
                 criteria.setAudioChannels(Integer.parseInt(view.getSPanel().getSearchAudioPanel().getcbChannels().
                         getSelectedItem().toString()));
             if (!view.getSPanel().getSearchAudioPanel().getcbBitDepth().getSelectedItem().toString().isEmpty())
-                criteria.setAudioBitDepth(Integer.parseInt(view.getSPanel().getSearchAudioPanel().getcbBitDepth().
-                        getSelectedItem().toString()));
+                criteria.setAudioBitDepth(view.getSPanel().getSearchAudioPanel().getcbBitDepth().
+                        getSelectedItem().toString());
             Object [] c ={"File Name","File Path","Duration",
                     "Extension","Audio Codec","Sample Rate","Bit Depth","Bit Rate","Size"};
             view.getSLPanel().getResultsTable().setColumnIdentifiers(c);

@@ -106,7 +106,7 @@ public class Search implements ISearchVideo, ISearchAudio{
 
     /**
      * If the file is a Audio according to the search criteria it is added to the audio list
-     * search criteria allowed (file name, extension, duration, audio codec, channels sample rate)
+     * search criteria allowed (file name, extension, duration, audio codec, channels, sample rate)
      * @param file inside the file list from the path directory
      * @param audioList list to be filled with all the files that are audios and have the criteria selected
      */
@@ -140,14 +140,21 @@ public class Search implements ISearchVideo, ISearchAudio{
                     continue;
                 }
                 //Check channel count
-                if(auxAudio.getChannels() == 0 || criteria.getAudioChannels()==auxAudio.getChannels()){
+                if(criteria.getAudioChannels() != 0 &&criteria.getAudioChannels()!=auxAudio.getChannels()){
                     continue;
                 }
                 //Check sample rate
-                if(auxAudio.getSampleRate() == 0 || criteria.getAudioSampleRate()==auxAudio.getSampleRate()){
+                if(criteria.getAudioSampleRate() != 0 && criteria.getAudioSampleRate()!=auxAudio.getSampleRate()){
                     continue;
                 }
-
+                //Check bit rate
+                if(criteria.getAudioBitRate() != 0 && criteria.getAudioBitRate()!=auxAudio.getBitRate()){
+                    continue;
+                }
+                //Check bit depth rate
+                if(!criteria.getAudioBitDepth().isEmpty() && !auxAudio.getBitDepth().equals(criteria.getAudioBitDepth())){
+                    continue;
+                }
                 audioList.add(auxAudio);
 
             }
@@ -295,6 +302,7 @@ public class Search implements ISearchVideo, ISearchAudio{
             audio.setChannels(audioStream.channels);
             audio.setSampleRate(audioStream.sample_rate);
             audio.setBitRate(audioFormat.bit_rate);
+            audio.setBitDepth(audioStream.sample_fmt);
             audio.setSongArtist(audioFormat.tags.get("ARTIST"));
             audio.setSongAlbum(audioFormat.tags.get("ALBUM"));
             audio.setSongName(audioFormat.tags.get("TITLE"));
@@ -304,6 +312,15 @@ public class Search implements ISearchVideo, ISearchAudio{
         {
             LoggerManager.getLogger().Log("Error into get stream Audio", "ERROR");
         }
+        if (audio!=null)
+            System.out.println(String.format(
+                    "New Audio: %s, sample rate: %d, channels: %d, bit rate: %d, bit depth: %s",
+                    audio.getFileName(),
+                    audio.getSampleRate(),
+                    audio.getChannels(),
+                    audio.getBitRate(),
+                    audio.getBitDepth()
+            ));
         return audio;
     }
 }
