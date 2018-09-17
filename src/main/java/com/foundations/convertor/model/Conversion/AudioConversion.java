@@ -74,6 +74,12 @@ public class AudioConversion {
                 in = fpWrapper.probe(criteria.getPath());
                 out = criteria.getOutputPath();
 
+                if (criteria.getBitRate() == 0){
+                    bitRate = in.getStreams().get(0).bit_rate;
+                }else{
+                    bitRate = criteria.getBitRate();
+                }
+
                 if (criteria.getChannels() == 0){
                     channels = in.getStreams().get(0).channels;
                 }else{
@@ -92,9 +98,9 @@ public class AudioConversion {
                     bitDepth = criteria.getBitDepth();
                 }
 
-                LoggerManager.getLogger().Log("verified criteria, Channels: "+channels+" Sample Rate: "+sampleRate+" Bitdepth: "+bitDepth, "INFO");
+                LoggerManager.getLogger().Log("verified criteria, Bitrate: "+bitRate+" Channels: "+channels+" Sample Rate: "+sampleRate+" Bitdepth: "+bitDepth, "INFO");
                 //execute method to run conversion
-                FFmpegBuilder builder = ffSetBuild(in, out, channels, sampleRate,bitDepth);
+                FFmpegBuilder builder = ffSetBuild(in, out, bitRate,channels, sampleRate,bitDepth);
                 FFmpegExecutor executor = new FFmpegExecutor(fmWrapper, fpWrapper);
                 // Run a one-pass encode
                 conversionJob = executor.createJob(builder, new ProgressListener() {
@@ -125,7 +131,7 @@ public class AudioConversion {
          * @param bitDepth bitDepth for audio file
          * @return object FFmpegBuilder
          */
-        private FFmpegBuilder ffSetBuild(FFmpegProbeResult input, String outputPath, int channels,
+        private FFmpegBuilder ffSetBuild(FFmpegProbeResult input, String outputPath,long bitRate, int channels,
                                          int sampleRate,String bitDepth){
             FFmpegBuilder builder = new FFmpegBuilder()
                     //input video ffprobe
@@ -134,9 +140,11 @@ public class AudioConversion {
                     .overrideOutputFiles(true)
                     //set output path
                     .addOutput(outputPath)
+                    .setAudioBitRate(bitRate)
                     .setAudioChannels(channels)
                     .setAudioSampleRate(sampleRate)
                     .setAudioSampleFormat(bitDepth)
+
                     .done();
             return builder;
         }

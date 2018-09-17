@@ -22,6 +22,7 @@ package com.foundations.convertor.common;
  * @version 0.1
  */
 public class ConAudioCrit extends ConversionCriteria {
+    private long bitRate;
     private int channels;
     private int sampleRate;
     private String bitDepth;
@@ -30,6 +31,14 @@ public class ConAudioCrit extends ConversionCriteria {
      * Empty constructor
      */
     public ConAudioCrit(){
+    }
+
+    /**
+     * getter for bitrate
+     * @return bitrate
+     */
+    public long getBitRate() {
+        return bitRate;
     }
 
     /**
@@ -77,5 +86,13 @@ public class ConAudioCrit extends ConversionCriteria {
      */
     public void setBitDepth(String bitDepth) {
         this.bitDepth = bitDepth;
+    }
+
+    /**
+     * setter for bitrate
+     * @param bitRate
+     */
+    public void setBitRate(long bitRate) {
+        this.bitRate = bitRate;
     }
 }
