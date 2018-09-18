@@ -32,6 +32,6 @@ public abstract class MetadataFormats {
     public static String[] audioCodecs =        {"","mp3","pcm_u8","wmav2","ogg","flac","aac"};
     public static String[] audioBitDepth =      {"","u8","s16","s16p","fltp"};
     public static String[] audioSampleRates =   {"","11025","22050","44100","48000"};
-    public static String[] audioBitRate =   {"","127999","128000","129737","176456","838371"};
+    public static String[] audioBitRate =   {"","24000","32000","48000","64000","96000","127999","128000","129737","176456","838371"};
     public static String[] audioChannels =   {"","1","2"};
 }
