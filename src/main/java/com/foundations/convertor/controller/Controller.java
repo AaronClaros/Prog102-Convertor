@@ -47,7 +47,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     ProgressBar progressBar;
 
     public Controller() {
-        instanceSearchCriteria();
+        //instanceSearchCriteria();
         instanceViewComponent();
         instanceModelComponent();
         instanceConversionCriteria();
@@ -87,6 +87,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         double secondsFrom = 0;
         double secondsTo = 0;
         //Set the criteria to the view fields
+        criteria = new SearchCriteria();
         criteria.setPath(view.getSPanel().getBoxPath().getText());
         criteria.setFileName(view.getSPanel().getBoxFileName().getText());
         criteria.setExtension(view.getSPanel().getBoxFileExt().getSelectedItem().toString());
