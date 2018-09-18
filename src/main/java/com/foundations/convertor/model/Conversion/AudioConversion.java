@@ -64,7 +64,7 @@ public class AudioConversion {
             long bitRate;
             int channels;
             int sampleRate;
-            String audioCodec;
+            String bitDepth;
             try{
                 String ffProbePath = new File(".").getCanonicalFile() + separator + "src" + separator +"main" + separator +"resources" + separator +"thirdparty"+separator+ "ffprobe.exe";
                 String ffMpegPath = new File(".").getCanonicalFile() + separator + "src" + separator +"main" + separator +"resources" + separator +"thirdparty"+separator+ "ffmpeg.exe";
@@ -73,7 +73,8 @@ public class AudioConversion {
                 //convert input path into FFmpeg result
                 in = fpWrapper.probe(criteria.getPath());
                 out = criteria.getOutputPath();
-                if (criteria.getBitRate()== 0){
+
+                if (criteria.getBitRate() == 0){
                     bitRate = in.getStreams().get(0).bit_rate;
                 }else{
                     bitRate = criteria.getBitRate();
@@ -91,15 +92,15 @@ public class AudioConversion {
                     sampleRate = criteria.getSampleRate();
                 }
 
-                if (criteria.getAudioCodec() == null){
-                    audioCodec = in.getStreams().get(0).codec_name;
+                if (criteria.getBitDepth().isEmpty()){
+                    bitDepth = in.getStreams().get(0).sample_fmt;
                 }else{
-                    audioCodec = criteria.getAudioCodec();
+                    bitDepth = criteria.getBitDepth();
                 }
 
-                LoggerManager.getLogger().Log("verified criteria, BitRate: "+bitRate+" Channels: "+channels+" Sample Rate: "+sampleRate+" AudioCodec: "+audioCodec, "INFO");
+                LoggerManager.getLogger().Log("verified criteria, Bitrate: "+bitRate+" Channels: "+channels+" Sample Rate: "+sampleRate+" Bitdepth: "+bitDepth, "INFO");
                 //execute method to run conversion
-                FFmpegBuilder builder = ffSetBuild(in, out, bitRate, channels, sampleRate,audioCodec);
+                FFmpegBuilder builder = ffSetBuild(in, out, bitRate,channels, sampleRate,bitDepth);
                 FFmpegExecutor executor = new FFmpegExecutor(fmWrapper, fpWrapper);
                 // Run a one-pass encode
                 conversionJob = executor.createJob(builder, new ProgressListener() {
@@ -125,14 +126,13 @@ public class AudioConversion {
          * Instance a FFmpegBuilder using a parameters of conversion
          * @param input FFmpegProbeResult created with audio input path
          * @param outputPath output path for audio to converted
-         * @param bitRate bit rate for the audio file
          * @param channels number of channels for the audio file
          * @param sampleRate sample rate for the audio file
-         * @param audioCodec audiocodec for the audio file
+         * @param bitDepth bitDepth for audio file
          * @return object FFmpegBuilder
          */
-        private FFmpegBuilder ffSetBuild(FFmpegProbeResult input, String outputPath, long bitRate, int channels,
-                                         int sampleRate,String audioCodec){
+        private FFmpegBuilder ffSetBuild(FFmpegProbeResult input, String outputPath,long bitRate, int channels,
+                                         int sampleRate,String bitDepth){
             FFmpegBuilder builder = new FFmpegBuilder()
                     //input video ffprobe
                     .setInput(input)
@@ -143,7 +143,7 @@ public class AudioConversion {
                     .setAudioBitRate(bitRate)
                     .setAudioChannels(channels)
                     .setAudioSampleRate(sampleRate)
-                    .setAudioCodec(audioCodec)
+                    .setAudioSampleFormat(bitDepth)
                     .done();
             return builder;
         }

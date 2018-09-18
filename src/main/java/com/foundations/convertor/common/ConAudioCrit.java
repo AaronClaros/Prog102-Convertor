@@ -25,6 +25,7 @@ public class ConAudioCrit extends ConversionCriteria {
     private long bitRate;
     private int channels;
     private int sampleRate;
+    private String bitDepth;
 
     /**
      * Empty constructor
@@ -57,11 +58,10 @@ public class ConAudioCrit extends ConversionCriteria {
     }
 
     /**
-     * setter for bitrate
-     * @param bitRate
+     * getter for bitdepth
      */
-    public void setBitRate(long bitRate) {
-        this.bitRate = bitRate;
+    public String getBitDepth() {
+        return bitDepth;
     }
 
     /**
@@ -78,5 +78,21 @@ public class ConAudioCrit extends ConversionCriteria {
      */
     public void setSampleRate(int sampleRate) {
         this.sampleRate = sampleRate;
+    }
+
+    /**
+     * setter for bitdepth
+     * @param bitDepth
+     */
+    public void setBitDepth(String bitDepth) {
+        this.bitDepth = bitDepth;
+    }
+
+    /**
+     * setter for bitrate
+     * @param bitRate
+     */
+    public void setBitRate(long bitRate) {
+        this.bitRate = bitRate;
     }
 }
