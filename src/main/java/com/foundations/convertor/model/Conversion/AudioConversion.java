@@ -55,7 +55,7 @@ public class AudioConversion {
         }
         /**
          * Prepare criteria parameters to make audio conversion
-         * @param criteria conversion criteria parameters
+         * @param criteria conversion criteria parameter
          */
         public void doConversion(ConAudioCrit criteria){
             String separator = System.getProperty("file.separator");

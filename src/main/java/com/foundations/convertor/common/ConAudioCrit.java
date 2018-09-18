@@ -89,7 +89,7 @@ public class ConAudioCrit extends ConversionCriteria {
     }
 
     /**
-     * setter for bitrate
+     * setter for bitrate field
      * @param bitRate
      */
     public void setBitRate(long bitRate) {
