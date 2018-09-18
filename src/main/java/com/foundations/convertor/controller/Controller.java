@@ -42,7 +42,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     public static SearchCriteria criteria; // reference to object criteria
     private ConversionCriteria conversionCriteria; // reference to object Criteria of conversion
     private String pathToConvert; // reference path to convert
-    public  Object [] headerAudio ={"File Name","File Path","Duration","Extension","Audio Codec","Sample Rate",
+    private Object [] headerAudio ={"File Name","File Path","Duration","Extension","Audio Codec","Sample Rate",
             "Bit Depth","Bit Rate","Channels","Size"};
     private Object[] headerVideo = {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
             "Resolution","Video Codec","Audio Codec","Size"};
