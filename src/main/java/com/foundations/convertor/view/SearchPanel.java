@@ -988,7 +988,8 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      */
     public void setPathRequiredRed(){
         this.labelPath.setForeground(Color.red);
-        this.add(labelPath);
+        this.repaint();
+        //this.add(labelPath);
     }
 
     /**
