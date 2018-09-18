@@ -68,7 +68,7 @@ public class MultimediaPlayer {
 
         JButton rewindButton = new JButton("<<");
         controlsPane.add(rewindButton);
-        JButton pauseButton = new JButton("Play/Pause");
+        JButton pauseButton = new JButton("|>");
         controlsPane.add(pauseButton);
         JButton skipButton = new JButton(">>");
         controlsPane.add(skipButton);
@@ -103,7 +103,7 @@ public class MultimediaPlayer {
                     public void run() {
                         frame.setTitle(String.format(
                                 "Convertor - %s",
-                                mediaPlayerComponent.getMediaPlayer().getMediaMeta().getUrl()
+                                mediaPlayerComponent.getMediaPlayer().getMediaMeta().getTitle()
                         ));
                     }
                 });
@@ -114,7 +114,10 @@ public class MultimediaPlayer {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        closeWindow();
+                        mediaPlayerComponent.getMediaPlayer().stop();
+                        mediaPlayerComponent.getMediaPlayer().start();
+                        mediaPlayerComponent.getMediaPlayer().pause();
+
                     }
                 });
             }
