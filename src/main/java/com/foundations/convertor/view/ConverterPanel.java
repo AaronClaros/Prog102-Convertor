@@ -15,6 +15,7 @@
 package com.foundations.convertor.view;
 
 import com.foundations.convertor.utils.LoggerManager;
+import com.foundations.convertor.utils.MetadataFormats;
 import com.foundations.convertor.utils.StyleUtils;
 import javax.swing.*;
 import java.awt.*;
@@ -164,24 +165,19 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         txtName = new JTextField(15);
 
         // addition of options to the resolution selector
-        String[] resolOptions = {"","1920X1080","1280X720","640X480","640X368","480X270","320X240","256X240","176X144"};
-        cmbResolution = new JComboBox(resolOptions);
+        cmbResolution = new JComboBox(MetadataFormats.videoResolutions);
 
         // addition of options to the frame rate selector
-        String[] frameRateOptions = {"","24","25","29","29.7","30","60"};
-        cmbFrameRate = new JComboBox(frameRateOptions);
+        cmbFrameRate = new JComboBox(MetadataFormats.videoFrameRates);
 
         // addition of options to the video codec selector
-        String[] videoCodOptions = {"","h264","h263","indeo4","mpeg4","flv","avi"};
-        cmbVideoCodec = new JComboBox(videoCodOptions);
+        cmbVideoCodec = new JComboBox(MetadataFormats.videoCodecs);
 
         // addition of options to the audio codec selector
-        String[] audioCodOptions = {"","MP3","WMA","OGG","VIDEO"};
-        cmbAudioCodec = new JComboBox(audioCodOptions);
+        cmbAudioCodec = new JComboBox(MetadataFormats.audioCodecs);
 
         // addition of options to the format selector
-        String[] formatOptions = {"","mp4","avi","flv","mkv","mov","3gp"};
-        cmbFormat = new JComboBox(formatOptions);
+        cmbFormat = new JComboBox(MetadataFormats.videoExtensions);
 
         // set text to the convertor button
         //Added Icon to button
@@ -548,6 +544,14 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         return this.buttonConvert;
     }
 
+    public SearchAudioPanel getSearchAudioPanel() {
+        return searchAudioPanel;
+    }
+
+    public JCheckBox getCheckBoxAudio() {
+        return checkBoxAudio;
+    }
+
     /**
      * Obtain path for button out path
      * @param e event of path button choosing directory
@@ -570,22 +574,30 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
           //Copy selected path to the text box
           tFieldOutPath.setText(fc.getSelectedFile().getAbsolutePath());
         }
-      }
-      else{
+      } else{
         JCheckBox checkBox = (JCheckBox)e.getSource();
         if(checkBox == checkBoxAudio && checkBox.isSelected())
         {
-          searchAudioPanel.setVisible(true);
-          addNewSearchAudioPanel();
-          searchAudioPanel.revalidate();
-          searchAudioPanel.repaint();
-          LoggerManager.getLogger().Log( "Audio panel visible", "INFO");
-        }
-        else{
-          searchAudioPanel.setVisible(false);
-          searchAudioPanel.revalidate();
-          searchAudioPanel.repaint();
-          searchAudioPanel.cleanFieldsToAudioSearch();
+            cmbFrameRate.setEnabled(false);
+            cmbResolution.setEnabled(false);
+            cmbVideoCodec.setEnabled(false);
+            cmbFormat.removeAllItems();
+            addAll(MetadataFormats.audioExtensions,cmbFormat);
+            searchAudioPanel.setVisible(true);
+            addNewSearchAudioPanel();
+            searchAudioPanel.revalidate();
+            searchAudioPanel.repaint();
+            LoggerManager.getLogger().Log( "Audio panel visible", "INFO");
+        } else{
+            cmbFormat.removeAllItems();
+            addAll(MetadataFormats.videoExtensions,cmbFormat);
+            cmbFrameRate.setEnabled(true);
+            cmbResolution.setEnabled(true);
+            cmbVideoCodec.setEnabled(true);
+            searchAudioPanel.setVisible(false);
+            searchAudioPanel.revalidate();
+            searchAudioPanel.repaint();
+            searchAudioPanel.cleanFieldsToAudioSearch();
           LoggerManager.getLogger().Log( "Disabled the check box audio", "INFO");
         }
       }
@@ -603,6 +615,11 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         this.cmbVideoCodec.setSelectedItem("");
         this.cmbAudioCodec.setSelectedItem("");
         this.cmbFormat.setSelectedItem("");
+    }
+    private void addAll(String[] list,JComboBox comboBox){
+        for (int i = 0; i < list.length; i++){
+            comboBox.addItem(list[i]);
+        }
     }
 
     /**
