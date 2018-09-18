@@ -42,7 +42,10 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     public static SearchCriteria criteria; // reference to object criteria
     private ConversionCriteria conversionCriteria; // reference to object Criteria of conversion
     private String pathToConvert; // reference path to convert
-
+    public  Object [] headerAudio ={"File Name","File Path","Duration","Extension","Audio Codec","Sample Rate",
+            "Bit Depth","Bit Rate","Channels","Size"};
+    private Object[] headerVideo = {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
+            "Resolution","Video Codec","Audio Codec","Size"};
     VideoConversion conversion;
     ProgressBar progressBar;
 
@@ -118,7 +121,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             criteria.setResolution(view.getSPanel().getCBResolution().getSelectedItem().toString());
             criteria.setVideoCodec(view.getSPanel().getCBVideoCodec().getSelectedItem().toString());
             criteria.setAspectRatio(view.getSPanel().getCBAspectRatio().getSelectedItem().toString());
-
+            view.getSLPanel().getResultsTable().setColumnIdentifiers(headerVideo);
             List<Multimedia> resultsList = search.searchVideoFiles(criteria);
             fillTable(resultsList);
         } else {
@@ -134,15 +137,10 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             if (!view.getSPanel().getComBoxAudioBitDepth().getSelectedItem().toString().isEmpty())
                 criteria.setAudioBitDepth(view.getSPanel().getComBoxAudioBitDepth().
                         getSelectedItem().toString());
-            Object [] c ={"File Name","File Path","Duration",
-                    "Extension","Audio Codec","Sample Rate","Bit Depth","Bit Rate","Size"};
-            System.out.println("criteria sample rate: "+criteria.getAudioSampleRate());
-            view.getSLPanel().getResultsTable().setColumnIdentifiers(c);
+            view.getSLPanel().getResultsTable().setColumnIdentifiers(headerAudio);
             List<Multimedia> resultsList = search.searchAudioFiles(criteria);
             fillTable(resultsList);
         }
-
-        //TODO: different search cases for searchCriteria.SearchType
     }
 
     /**
@@ -171,11 +169,11 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      */
     public Object[] fillRowAudio(Audio audio) {
         // Setting row data of table {"File Name","File Path","Duration","Extension"
-        //            //            ,"Audio Codec", sample rate, bit depth,bit rate,"Size"};
+        //            //            ,"Audio Codec", sample rate, bit depth,bit rate,"Channels","Size"};
         Object[] d = {
                 audio.getFileName(), audio.getPathFile(),
                 audio.getDuration(), audio.getExt(),
-                audio.getAudioCodec(), audio.getSampleRate(), audio.getBitDepth(), audio.getBitRate(), formatSize(audio.getSize())};
+                audio.getAudioCodec(), audio.getSampleRate(), audio.getBitDepth(), audio.getBitRate(), audio.getChannels(),formatSize(audio.getSize())};
         return d;
     }
 

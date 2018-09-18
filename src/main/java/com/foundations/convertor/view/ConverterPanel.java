@@ -93,7 +93,7 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         initComp();
         //Initialize Search Audio Panel
         searchAudioPanel = new SearchAudioPanel();
-        searchAudioPanel.setBackground(new java.awt.Color(254, 233, 52));
+        searchAudioPanel.setBackground(new java.awt.Color(255, 204, 51));
     }
 
     /**

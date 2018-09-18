@@ -19,7 +19,9 @@ package com.foundations.convertor.view;
  */
 import com.foundations.convertor.utils.LoggerManager;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -69,7 +71,11 @@ public class SearchListPanel extends JPanel {
         //instance results table
         resultsTable = new JTable(model);
         resultsTable.setBackground(new java.awt.Color(233, 233, 233));
-
+        JTableHeader header = resultsTable.getTableHeader();
+        resultsTable.getTableHeader().setReorderingAllowed(false);
+        //Header Style
+        header.setBackground(new java.awt.Color(255,204,51));
+        header.setFont(new Font("Default",Font.BOLD,12));
         //instance scroll panel container for results table
         scrollPane = new JScrollPane(resultsTable);
         //Add action listener for double click over table
