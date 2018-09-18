@@ -270,19 +270,12 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //Label for Bitrate
         labelAudioBitrate = new JLabel("Bitrate (Kbps)", SwingConstants.RIGHT);
 
-        String[] bit_rate = {"","18487","16568"};
+        String[] bit_rate = MetadataFormats.audioBitRate;
         //combo box selection bit_rate instance
         comBoxbAudioBitRate = new JComboBox(bit_rate);
 
         //Label for Sample Rate
         labelAudioSampleRate = new JLabel("Sample Rate (Hz):", SwingConstants.RIGHT);
-
-        //Label for Size
-        labelAudioBitDepth = new JLabel("Bit depth (bits):", SwingConstants.RIGHT);
-
-        //Label for
-        //Label for text field path
-        labelAudioChannels = new JLabel("Channels:", SwingConstants.RIGHT);
 
         //sample rate array
         String[] sample_rate = MetadataFormats.audioSampleRates;
@@ -290,15 +283,21 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //combo box selection sample rate instance
         comBoxAudioSampleRate = new JComboBox(sample_rate);
 
+        //Label for Size
+        labelAudioBitDepth = new JLabel("Bit depth (bits):", SwingConstants.RIGHT);
+
         //size array
         String[] bitDepth = MetadataFormats.audioBitDepth;
 
         //combo box selection size instance
         comBoxAudioBitDepth = new JComboBox(bitDepth);
 
+        //Label for text field path
+        labelAudioChannels = new JLabel("Channels:", SwingConstants.RIGHT);
+
 
         //channels array
-        String[] channels = {"","2"};
+        String[] channels = MetadataFormats.audioChannels;
 
         //combo box selection channels instance
         comBoxAudioChannels = new JComboBox(channels);
