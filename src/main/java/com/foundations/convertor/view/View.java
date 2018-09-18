@@ -94,7 +94,7 @@ public class View extends JFrame {  //
 
         //Instance frame with converter panel
         convPanel = new ConverterPanel();
-        convPanel.setBackground(new java.awt.Color(229, 208, 47));
+        convPanel.setBackground(new java.awt.Color(255, 204, 51));
 
         // setting constrains of spanel
         // position where it starts
