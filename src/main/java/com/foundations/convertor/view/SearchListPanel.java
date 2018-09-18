@@ -116,9 +116,9 @@ public class SearchListPanel extends JPanel {
         selectedData = (String) resultsTable.getValueAt(selectedRow,1);
 
         //Only creates the video player frame if the path for the cell selection is not null
-        if(selectedData!=null&&supportedVideo(selectedRow)) {
+        if(selectedData!=null) {
             LoggerManager.getLogger().Log( "Selected row to play: " + selectedData, "INFO");
-            MoviePlayer player = new MoviePlayer();
+            MultimediaPlayer player = new MultimediaPlayer();
             try {
                 player.start(selectedData);
             } catch (Exception e) {
