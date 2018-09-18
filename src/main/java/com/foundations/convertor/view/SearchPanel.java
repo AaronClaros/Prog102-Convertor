@@ -21,6 +21,7 @@ package com.foundations.convertor.view;
 
 import com.foundations.convertor.utils.LoggerManager;
 
+import com.foundations.convertor.utils.MetadataFormats;
 import com.foundations.convertor.utils.StyleUtils;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
@@ -84,11 +85,28 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     // the search panel
     private GridBagConstraints bagConstraints;
     //Label for audio
-    private JLabel labelAudio;
-    //Check box to show the panel audio search
-    private JCheckBox checkBoxAudio;
+    private JLabel labelSearchType;
 
-    private SearchAudioPanel searchAudioPanel;
+    //Check box to show the panel audio search
+    private JToggleButton toggleAudio;
+
+    private JToggleButton toggleVideo;
+
+    //private SearchAudioPanel searchAudioPanel;
+
+    private JLabel labelAudioBitrate;
+
+    private JComboBox comBoxbAudioBitRate;
+
+    private JLabel labelAudioSampleRate;
+
+    private JLabel labelAudioBitDepth;
+
+    private JLabel labelAudioChannels;
+
+    private JComboBox comBoxAudioSampleRate;
+    private JComboBox comBoxAudioBitDepth;
+    private JComboBox comBoxAudioChannels;
 
     /**
      * Constructor of father class JPanel
@@ -100,8 +118,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         // Initialize attributes or components
         initComp();
         //Initialize the panel to Audio Search
-        searchAudioPanel = new SearchAudioPanel();
-        searchAudioPanel.setBackground(new java.awt.Color(233, 233, 233));
+
     }
 
     /**
@@ -166,16 +183,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         labelDurationTo = new JLabel("To:", SwingConstants.RIGHT);
         setColorLabel(labelDurationTo);
 
-        //label frame rate instance and text set
-        labelFrameRate = new JLabel("Frame Rate:", SwingConstants.RIGHT);
-        setColorLabel(labelFrameRate);
-
-        //frame rates array
-        String[] frame_rates = {"","24","25","29","29.7","30","60"};
-
-        //combo box frame rate instance and content set
-        comboxFrameRate = new JComboBox(frame_rates);
-
         //box "duration from" instance and text format set
         boxDurationFrom = new JFormattedTextField(createFormat("##:##:##"));
         boxDurationFrom.setHorizontalAlignment(SwingConstants.CENTER);
@@ -190,12 +197,23 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //set default duration time for duration to
         boxDurationTo.setValue("99:59:59");
 
+        //VIDEO SEARCH COMPONENTS
+        //label frame rate instance and text set
+        labelFrameRate = new JLabel("Frame Rate:", SwingConstants.RIGHT);
+        setColorLabel(labelFrameRate);
+
+        //frame rates array
+        String[] frame_rates = MetadataFormats.videoFrameRates;
+
+        //combo box frame rate instance and content set
+        comboxFrameRate = new JComboBox(frame_rates);
+
         //label aspect ratio instance and text set
         labelAspectRatio = new JLabel("Aspect Ratio:", SwingConstants.RIGHT);
         setColorLabel(labelAspectRatio);
 
         //aspect ratio array
-        String[] asp_ratios = {"","16:9","16:10","0:1","4:3","40:23"};
+        String[] asp_ratios = MetadataFormats.videoAspectRatios;
 
         //combo box aspect ratio instance and content set
         comboxAspectRatio = new JComboBox(asp_ratios);
@@ -205,7 +223,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         setColorLabel(labelResolution);
 
         //resolution array
-        String[] resolutions = {"","1920X1080","1280X720","640X480","640X368","480X270","320X240","256X240","176X144"};
+        String[] resolutions = MetadataFormats.videoResolutions;
 
         //combo box resolution instance and content set
         comboxResolution = new JComboBox(resolutions);
@@ -215,7 +233,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         setColorLabel(labelVideoCodec);
 
         //video codecs array
-        String[] video_codecs = {"","h264","h263","indeo4","mpeg4","flv","avi"};
+        String[] video_codecs = MetadataFormats.videoCodecs;
 
         //combo box video codec instance and content set
         comboxVideoCodec = new JComboBox(video_codecs);
@@ -225,7 +243,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         setColorLabel(labelAudioCodec);
 
         //audio codecs array
-        String[] audio_codecs = {"","MP3","WMA","OGG","VIDEO"};
+        String[] audio_codecs = MetadataFormats.audioCodecs;
 
         //combo box audio codec instance and content set
         comboxAudioCodec = new JComboBox(audio_codecs);
@@ -234,13 +252,56 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         buttonPath.addActionListener(this);
 
         //label file name instance and text set
-        labelAudio= new JLabel("Search for audio:", SwingConstants.RIGHT);
-        setColorLabel(labelAudio);
+
+        labelSearchType = new JLabel("Search Type:", SwingConstants.RIGHT);
+        setColorLabel(labelSearchType);
 
         //check box audio
-        checkBoxAudio = new JCheckBox();
-        checkBoxAudio.setSelected(false);
-        checkBoxAudio.addActionListener(this);
+        toggleAudio = new JToggleButton("Search Audios");
+        toggleVideo = new JToggleButton("Search Videos");
+
+        toggleAudio.setSelected(false);
+        toggleVideo.setSelected(true);
+
+        toggleAudio.addActionListener(this);
+        toggleVideo.addActionListener(this);
+
+        //AUDIO SEARCH COMPONENTS
+        //Label for Bitrate
+        labelAudioBitrate = new JLabel("Bitrate (Kbps)", SwingConstants.RIGHT);
+
+        String[] bit_rate = {"","18487","16568"};
+        //combo box selection bit_rate instance
+        comBoxbAudioBitRate = new JComboBox(bit_rate);
+
+        //Label for Sample Rate
+        labelAudioSampleRate = new JLabel("Sample Rate (Hz):", SwingConstants.RIGHT);
+
+        //Label for Size
+        labelAudioBitDepth = new JLabel("Bit depth (bits):", SwingConstants.RIGHT);
+
+        //Label for
+        //Label for text field path
+        labelAudioChannels = new JLabel("Channels:", SwingConstants.RIGHT);
+
+        //sample rate array
+        String[] sample_rate = MetadataFormats.audioSampleRates;
+
+        //combo box selection sample rate instance
+        comBoxAudioSampleRate = new JComboBox(sample_rate);
+
+        //size array
+        String[] bitDepth = MetadataFormats.audioBitDepth;
+
+        //combo box selection size instance
+        comBoxAudioBitDepth = new JComboBox(bitDepth);
+
+
+        //channels array
+        String[] channels = {"","2"};
+
+        //combo box selection channels instance
+        comBoxAudioChannels = new JComboBox(channels);
     }
 
     /**
@@ -265,7 +326,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of label path
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 1;
+        bagConstraints.gridy = 2;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -274,7 +335,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of boxpath
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 1;
+        bagConstraints.gridy = 2;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.insets = new Insets(5,5,5,5);
@@ -283,7 +344,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of button path
         bagConstraints.gridx = 6;
-        bagConstraints.gridy = 1;
+        bagConstraints.gridy = 2;
         bagConstraints.gridwidth = 1;
         bagConstraints.gridheight = 1;
         bagConstraints.insets = new Insets(5,5,5,5);
@@ -298,7 +359,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of titleFileName
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 2;
+        bagConstraints.gridy = 3;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -307,7 +368,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of boxFileName
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 2;
+        bagConstraints.gridy = 3;
         bagConstraints.gridwidth = 5;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -322,7 +383,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of labelDuration
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 3;
+        bagConstraints.gridy = 4;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -331,7 +392,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of boxDurationFrom
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 3;
+        bagConstraints.gridy = 4;
         bagConstraints.gridwidth = 1;
         bagConstraints.gridheight = 1;
         bagConstraints.weightx = 0.2;
@@ -341,7 +402,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of labelDurationTo
         bagConstraints.gridx = 3;
-        bagConstraints.gridy = 3;
+        bagConstraints.gridy = 4;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.weightx = 1.1;
@@ -351,7 +412,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of boxDurationTo
         bagConstraints.gridx = 5;
-        bagConstraints.gridy = 3;
+        bagConstraints.gridy = 4;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.weightx = 1.0;
@@ -363,11 +424,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     /**
      * This method initialize the extension fields
      */
-    private void initCompExtention(){
+    private void initCompExtension(){
 
         // setting constrains of labelFileExt
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 4;
+        bagConstraints.gridy = 5;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -376,7 +437,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of boxFileExt
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 4;
+        bagConstraints.gridy = 5;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -385,12 +446,33 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     }
 
     /**
+     * remove components for Frame rate fields
+     * @return layout grid axis "Y" position of Frame Rate components
+     */
+    private void updateCompExtension(){
+        String[] data = {""};
+        if (toggleAudio.isSelected()){
+            data = MetadataFormats.audioExtensions;
+            System.out.println("change combo box extension video");
+        }
+        else {
+            data = MetadataFormats.videoExtensions;
+            System.out.println("change combo box extension audio");
+        }
+
+        DefaultComboBoxModel model = new DefaultComboBoxModel( data );
+        boxFileExt.setModel( model );
+        this.revalidate();
+        this.repaint();
+    }
+
+    /**
      * This method initialize the Frame rate fields
      */
-    private void initCompFrame(){
+    private void initCompFrame(int gridAxisY){
         // setting constrains of labelFrameRate
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 5;
+        bagConstraints.gridy = gridAxisY;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -399,7 +481,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of comboxFrameRate
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 5;
+        bagConstraints.gridy = gridAxisY;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -408,15 +490,25 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     }
 
     /**
+     * remove components for Frame rate fields
+     * @return layout grid axis "Y" position of Frame Rate components
+     */
+    private int disableCompFrame(){
+        this.remove(labelFrameRate);
+        this.remove(comboxFrameRate);
+        return 6;
+    }
+
+    /**
      * This method initialize the aspect ratio fields
      * @return it return a JPanel object
      * to be added in the search panel
      */
-    private void initCompAspect(){
+    private void initCompAspect(int gridAxisY){
 
         // setting constrains of labelAspectRatio
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 6;
+        bagConstraints.gridy = gridAxisY;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -425,11 +517,20 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of comboxAspectRatio
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 6;
+        bagConstraints.gridy = gridAxisY;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(comboxAspectRatio,bagConstraints);
+    }
+    /**
+     * remove components for aspect ratio fields
+     * @return layout grid axis "Y" position of aspect ratio components
+     */
+    private int disableCompAspect(){
+        this.remove(labelAspectRatio);
+        this.remove(comboxAspectRatio);
+        return 7;
     }
 
     /**
@@ -437,20 +538,20 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * @return it return a JPanel object
      * to be added in the search panel
      */
-    private void initCompResolution(){
+    private void initCompResolution(int gridAxisY){
 
         // setting constrains of labelResolution
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 7;
+        bagConstraints.gridy = gridAxisY;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(labelResolution,bagConstraints);
 
-        // setting constrains of comboxResolution
+        // setting constrains of combox Resolution
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 7;
+        bagConstraints.gridy = gridAxisY;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -459,13 +560,23 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     }
 
     /**
+     * remove components for the resolution fields
+     * @return layout grid axis "Y" position of the resolution fields
+     */
+    private int disableCompResolution(){
+        this.remove(labelResolution);
+        this.remove(comboxResolution);
+        return 8;
+    }
+
+    /**
      * This method initialize the video codec fields
      */
-    private void initCompVideo(){
+    private void initCompVideo(int gridAxisY){
 
         // setting constrains of labelVideoCodec
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 8;
+        bagConstraints.gridy = gridAxisY;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -473,12 +584,22 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of comboxVideoCodec
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 8;
+        bagConstraints.gridy = gridAxisY;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
         this.add(comboxVideoCodec,bagConstraints);
+    }
+
+    /**
+     * remove components for the video codec fields
+     * @return layout grid axis "Y" position of video codec components
+     */
+    private int disableCompVideo(){
+        this.remove(labelVideoCodec);
+        this.remove(comboxVideoCodec);
+        return 9;
     }
 
     /**
@@ -488,7 +609,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of labelAudioCodec
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 9;
+        bagConstraints.gridy = 10;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -497,7 +618,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         // setting constrains of comboxAudioCodec
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 9;
+        bagConstraints.gridy = 10;
         bagConstraints.gridwidth = 4;
         bagConstraints.gridheight = 1;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -525,24 +646,143 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * This method initialize the search audio
      */
     private void initCompAudioCheck(){
-        // setting constrains of labelAudioCodec
+        // setting constrains of labelSearchType
         bagConstraints.gridx = 0;
-        bagConstraints.gridy = 10;
+        bagConstraints.gridy = 1;
         bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(labelAudio,bagConstraints);
+        this.add(labelSearchType,bagConstraints);
 
-        // setting constrains of comboxAudioCodec
+        // setting constrains of toggleAudio
         bagConstraints.gridx = 2;
-        bagConstraints.gridy = 10;
-        bagConstraints.gridwidth = 4;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 2;
         bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
         bagConstraints.insets = new Insets(5,5,5,5);
-        this.add(checkBoxAudio,bagConstraints);
+        this.add(toggleAudio,bagConstraints);
+
+        // setting constrains of toggleVideo
+        bagConstraints.gridx = 4;
+        bagConstraints.gridy = 1;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(toggleVideo,bagConstraints);
+
+
     }
+
+    private void initCompSampleRate(int gridAxisY){
+
+        // setting constrains of label bit rate
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = gridAxisY;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelAudioSampleRate,bagConstraints);
+
+        // setting constrains of combo bit rate
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = gridAxisY;
+        bagConstraints.gridwidth = 4;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(comBoxAudioSampleRate,bagConstraints);
+    }
+
+    private int disableCompSampleRate(){
+        this.remove(labelAudioSampleRate);
+        this.remove(comBoxAudioSampleRate);
+        return 6;
+    }
+    private void initCompBitDepth(int gridAxisY){
+
+        // setting constrains of label bit rate
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = gridAxisY;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelAudioBitDepth,bagConstraints);
+
+        // setting constrains of combo bit rate
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = gridAxisY;
+        bagConstraints.gridwidth = 4;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(comBoxAudioBitDepth,bagConstraints);
+    }
+
+    private int disableCompBitDepth(){
+        this.remove(labelAudioBitDepth);
+        this.remove(comBoxAudioBitDepth);
+        return 7;
+    }
+
+    private void initCompBitRate(int gridAxisY){
+
+        // setting constrains of label bit rate
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = gridAxisY;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelAudioBitrate,bagConstraints);
+
+        // setting constrains of combo bit rate
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = gridAxisY;
+        bagConstraints.gridwidth = 4;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(comBoxbAudioBitRate,bagConstraints);
+    }
+
+    private int disableCompBitRate(){
+        this.remove(labelAudioBitrate);
+        this.remove(comBoxbAudioBitRate);
+        return 8;
+    }
+
+    private void initCompChannels(int gridAxisY){
+
+        // setting constrains of label bit rate
+        bagConstraints.gridx = 0;
+        bagConstraints.gridy = gridAxisY;
+        bagConstraints.gridwidth = 2;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(labelAudioChannels,bagConstraints);
+
+        // setting constrains of combo bit rate
+        bagConstraints.gridx = 2;
+        bagConstraints.gridy = gridAxisY;
+        bagConstraints.gridwidth = 4;
+        bagConstraints.gridheight = 1;
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        bagConstraints.insets = new Insets(5,5,5,5);
+        this.add(comBoxAudioChannels,bagConstraints);
+    }
+
+    private int disableCompChannels(){
+        this.remove(labelAudioChannels);
+        this.remove(comBoxAudioChannels);
+        return 9;
+    }
+
 
     /**
      * Initialize components
@@ -553,11 +793,11 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         initCompSearchP();
         initCompFileName();
         initCompDuration();
-        initCompExtention();
-        initCompFrame();
-        initCompAspect();
-        initCompResolution();
-        initCompVideo();
+        initCompExtension();
+        initCompFrame(6);
+        initCompAspect(7);
+        initCompResolution(8);
+        initCompVideo(9);
         initCompAudio();
         initCompBtnSearch();
         initCompAudioCheck();
@@ -652,14 +892,6 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     }
 
     /**
-     * Getter for the Search music check box
-     * @return check box to do audio search
-     */
-    public JCheckBox getCheckBoxAudio() {
-        return this.checkBoxAudio;
-    }
-
-    /**
      * try to create a masked text format
      * @param s desired format
      * @return text maskformat
@@ -701,23 +933,26 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
                 LoggerManager.getLogger().Log( ex.getMessage(), "Error");
             }
         }
-        else{
-            JCheckBox checkBox = (JCheckBox)e.getSource();
-            if(checkBox == checkBoxAudio && checkBox.isSelected())
-            {
-                searchAudioPanel.setVisible(true);
-                addNewSearchAudioPanel();
-                searchAudioPanel.revalidate();
-                searchAudioPanel.repaint();
-                LoggerManager.getLogger().Log( "Audio panel visible", "INFO");
-            }
-            else{
-                searchAudioPanel.setVisible(false);
-                searchAudioPanel.revalidate();
-                searchAudioPanel.repaint();
-                searchAudioPanel.cleanFieldsToAudioSearch();
-                LoggerManager.getLogger().Log( "Disabled the check box audio", "INFO");
-            }
+        else if ( src == toggleAudio ){
+            toggleVideo.setSelected(!toggleAudio.isSelected()); // <-- this will change the state of toggle button
+            System.out.println("toggle to audio");
+            initCompSampleRate( disableCompFrame() );
+            initCompBitDepth( disableCompAspect() );
+            initCompBitRate( disableCompResolution() );
+            initCompChannels( disableCompVideo() );
+            updateCompExtension();
+            this.revalidate();
+            this.repaint();
+        } else if (src == toggleVideo){
+            toggleAudio.setSelected(!toggleVideo.isSelected()); // <-- this will change the state of toggle button
+            System.out.println("toggle to video");
+            initCompFrame( disableCompSampleRate() );
+            initCompAspect( disableCompBitDepth() );
+            initCompResolution( disableCompBitRate() );
+            initCompVideo( disableCompChannels() );
+            updateCompExtension();
+            this.revalidate();
+            this.repaint();
         }
     }
 
@@ -734,9 +969,10 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     /**
      *  Add the option visible of audio panel.
      */
+    /*
     private void addNewSearchAudioPanel(){
           LoggerManager.getLogger().Log( "Into add new Panel search audio", "INFO");
-          bagConstraints.gridx = 1;
+          bagConstraints.gridx = 0;
           bagConstraints.gridy = 11;
           bagConstraints.gridwidth = 4;
           bagConstraints.gridheight = 1;
@@ -746,7 +982,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
           this.add(searchAudioPanel,bagConstraints);
           LoggerManager.getLogger().Log( "New audio panel added", "INFO");
       }
-
+*/
     /**
      * Set path red: As a mandatory field
      */
@@ -762,9 +998,9 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         this.labelPath.setForeground(Color.darkGray);
     }
 
-    public SearchAudioPanel getSearchAudioPanel(){
-        return searchAudioPanel;
-    }
+    //public SearchAudioPanel getSearchAudioPanel(){
+    //    return searchAudioPanel;
+    //}
 
     /**
      * Setting Color to label
@@ -773,4 +1009,30 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
     private void setColorLabel(JLabel jLabel){
         jLabel.setBackground(new java.awt.Color(59, 59, 61));
     }
+
+    public JToggleButton getToggleAudio() {
+        return toggleAudio;
+    }
+
+
+    public JToggleButton getToggleVideo() {
+        return toggleVideo;
+    }
+
+    public JComboBox getComBoxbAudioBitRate() {
+        return comBoxbAudioBitRate;
+    }
+
+    public JComboBox getComBoxAudioSampleRate() {
+        return comBoxAudioSampleRate;
+    }
+
+    public JComboBox getComBoxAudioBitDepth() {
+        return comBoxAudioBitDepth;
+    }
+
+    public JComboBox getComBoxAudioChannels() {
+        return comBoxAudioChannels;
+    }
+
 }

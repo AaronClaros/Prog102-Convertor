@@ -111,7 +111,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         criteria.setAudioCodec(view.getSPanel().getCBVAudioCodec().getSelectedItem().toString());
 
         //Depending if the search audio check box is selected set the fields of criteria for audio or video
-        if (!view.getSPanel().getCheckBoxAudio().isSelected()) {
+        if (!view.getSPanel().getToggleAudio().isSelected()) {
             //Validates if frame Rate is entered
             if (!view.getSPanel().getCBFrameRate().getSelectedItem().toString().isEmpty())
                 criteria.setFrameRate(Double.parseDouble(view.getSPanel().getCBFrameRate().getSelectedItem().toString()));
@@ -122,20 +122,21 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             List<Multimedia> resultsList = search.searchVideoFiles(criteria);
             fillTable(resultsList);
         } else {
-            if (!view.getSPanel().getSearchAudioPanel().getcbBitRate().getSelectedItem().toString().isEmpty())
-                criteria.setAudioBitRate(Integer.parseInt(view.getSPanel().getSearchAudioPanel().getcbBitRate().
+            if (!view.getSPanel().getComBoxbAudioBitRate().getSelectedItem().toString().isEmpty())
+                criteria.setAudioBitRate(Integer.parseInt(view.getSPanel().getComBoxbAudioBitRate().
                         getSelectedItem().toString()));
-            if (!view.getSPanel().getSearchAudioPanel().getcbSampleRate().getSelectedItem().toString().isEmpty())
-                criteria.setAudioSampleRate(Integer.parseInt(view.getSPanel().getSearchAudioPanel().getcbSampleRate().
+            if (!view.getSPanel().getComBoxAudioSampleRate().getSelectedItem().toString().isEmpty())
+                criteria.setAudioSampleRate(Integer.parseInt(view.getSPanel().getComBoxAudioSampleRate().
                         getSelectedItem().toString()));
-            if (!view.getSPanel().getSearchAudioPanel().getcbChannels().getSelectedItem().toString().isEmpty())
-                criteria.setAudioChannels(Integer.parseInt(view.getSPanel().getSearchAudioPanel().getcbChannels().
+            if (!view.getSPanel().getComBoxAudioChannels().getSelectedItem().toString().isEmpty())
+                criteria.setAudioChannels(Integer.parseInt(view.getSPanel().getComBoxAudioChannels().
                         getSelectedItem().toString()));
-            if (!view.getSPanel().getSearchAudioPanel().getcbBitDepth().getSelectedItem().toString().isEmpty())
-                criteria.setAudioBitDepth(Integer.parseInt(view.getSPanel().getSearchAudioPanel().getcbBitDepth().
-                        getSelectedItem().toString()));
+            if (!view.getSPanel().getComBoxAudioBitDepth().getSelectedItem().toString().isEmpty())
+                criteria.setAudioBitDepth(view.getSPanel().getComBoxAudioBitDepth().
+                        getSelectedItem().toString());
             Object [] c ={"File Name","File Path","Duration",
                     "Extension","Audio Codec","Sample Rate","Bit Depth","Bit Rate","Size"};
+            System.out.println("criteria sample rate: "+criteria.getAudioSampleRate());
             view.getSLPanel().getResultsTable().setColumnIdentifiers(c);
             List<Multimedia> resultsList = search.searchAudioFiles(criteria);
             fillTable(resultsList);
