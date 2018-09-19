@@ -17,7 +17,7 @@
 package com.foundations.convertor.utils;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
+import org.apache.log4j.PropertyConfigurator;
 import java.net.URL;
 
 public class LoggerManager {
@@ -36,9 +36,9 @@ public class LoggerManager {
      * Constructor private to singleton class
      */
     private LoggerManager(){
-        // Config.xml: file path used to configure log4j
-        final URL log4jFile=LoggerManager.class.getResource("/Config.xml");
-        DOMConfigurator.configure(log4jFile);
+        // log4j.properties: file path used to configure log4j
+        final URL log4jFile=LoggerManager.class.getResource("/log4j.properties");
+        PropertyConfigurator.configure(log4jFile);
     }
 
     /**

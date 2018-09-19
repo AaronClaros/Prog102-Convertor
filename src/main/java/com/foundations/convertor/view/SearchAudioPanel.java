@@ -17,6 +17,8 @@ package com.foundations.convertor.view;
  * @version 0.1
  */
 
+import com.foundations.convertor.utils.MetadataFormats;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -68,32 +70,17 @@ public class SearchAudioPanel extends JPanel {
         //Label for text field path
         lbChannels = new JLabel("Channels:", SwingConstants.RIGHT);
 
-        //audio codec array
-        String[] audio_codec = {"","mp2","mp3"};
-
-        //sample rate array
-        String[] sample_rate = {"","48000","2600"};
-
         //combo box selection sample rate instance
-        cbSampleRate = new JComboBox(sample_rate);
-
-        //size array
-        String[] bitDepth = {"","16","32"};
+        cbSampleRate = new JComboBox(MetadataFormats.audioSampleRates);
 
         //combo box selection size instance
-        cbBitDepth = new JComboBox(bitDepth);
-
-        //BitRate array
-        String[] bit_rate = {"","224"};
+        cbBitDepth = new JComboBox(MetadataFormats.audioBitDepth);
 
         //combo box selection bit_rate instance
-        cbBitRate = new JComboBox(bit_rate);
-
-        //channels array
-        String[] channels = {"","2"};
+        cbBitRate = new JComboBox(MetadataFormats.audioBitRate);
 
         //combo box selection channels instance
-        cbChannels = new JComboBox(channels);
+        cbChannels = new JComboBox(MetadataFormats.audioChannels);
     }
 
     /**
