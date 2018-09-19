@@ -578,29 +578,57 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         JCheckBox checkBox = (JCheckBox)e.getSource();
         if(checkBox == checkBoxAudio && checkBox.isSelected())
         {
-            cmbFrameRate.setEnabled(false);
-            cmbResolution.setEnabled(false);
-            cmbVideoCodec.setEnabled(false);
+            enableComboxOptions(false);
             cmbFormat.removeAllItems();
             addAll(MetadataFormats.audioExtensions,cmbFormat);
-            searchAudioPanel.setVisible(true);
+            rePaintSearchAudioPanel(true);
             addNewSearchAudioPanel();
-            searchAudioPanel.revalidate();
-            searchAudioPanel.repaint();
             LoggerManager.getLogger().Log( "Audio panel visible", "INFO");
         } else{
             cmbFormat.removeAllItems();
             addAll(MetadataFormats.videoExtensions,cmbFormat);
-            cmbFrameRate.setEnabled(true);
-            cmbResolution.setEnabled(true);
-            cmbVideoCodec.setEnabled(true);
-            searchAudioPanel.setVisible(false);
-            searchAudioPanel.revalidate();
-            searchAudioPanel.repaint();
+            enableComboxOptions(true);
+            rePaintSearchAudioPanel(false);
             searchAudioPanel.cleanFieldsToAudioSearch();
           LoggerManager.getLogger().Log( "Disabled the check box audio", "INFO");
         }
       }
+    }
+
+    /**
+     * Enable the options to combo box
+     * @param value boolean
+     */
+    private void enableComboxOptions(Boolean value){
+        if (!value) {
+            this.remove(cmbFrameRate);
+            this.remove(cmbResolution);
+            this.remove(cmbVideoCodec);
+            this.remove(labelFrameRate);
+            this.remove(labelResolution);
+            this.remove(labelVideoCodec);
+            this.repaint();
+            this.revalidate();
+        }
+        else{
+            this.add(cmbFrameRate);
+            this.add(cmbResolution);
+            this.add(cmbVideoCodec);
+            initCompLeft();
+            iniCompRight();
+            this.repaint();
+            this.revalidate();
+        }
+    }
+
+    /**
+     * Enable the option visible and repaint to panel search
+     * @param value boolean
+     */
+    private void rePaintSearchAudioPanel(Boolean value){
+        searchAudioPanel.setVisible(value);
+        searchAudioPanel.revalidate();
+        searchAudioPanel.repaint();
     }
 
     /**
@@ -627,10 +655,10 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
      */
     private void addNewSearchAudioPanel(){
       LoggerManager.getLogger().Log( "Into add new Panel search audio", "INFO");
-      bagConstraints.gridx = 3;
-      bagConstraints.gridy = 6;
-      bagConstraints.gridwidth = 4;
-      bagConstraints.gridheight = 1;
+      bagConstraints.gridx = 2;
+      bagConstraints.gridy = 3;
+      bagConstraints.gridwidth = 2;
+      bagConstraints.gridheight = 3;
       bagConstraints.fill = GridBagConstraints.HORIZONTAL;
       bagConstraints.insets = new Insets(5,5,5,5);
       searchAudioPanel.setVisible(true);
