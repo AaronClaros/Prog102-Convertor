@@ -21,11 +21,13 @@ import com.foundations.convertor.model.Multimedia.Audio;
 import com.foundations.convertor.model.Multimedia.Multimedia;
 import com.foundations.convertor.model.Multimedia.Video;
 import com.foundations.convertor.utils.LoggerManager;
+import com.foundations.convertor.utils.Messages;
 import com.foundations.convertor.view.ProgressBar;
 import com.foundations.convertor.view.View;
 import com.foundations.convertor.model.Search;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.EventListener;
 import java.util.List;
 import javax.swing.event.ListSelectionEvent;
@@ -323,12 +325,12 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
                     doSearch();
                 } catch (Exception ex){
                     LoggerManager.getLogger().Log("Error: Path is not valid "+ex,"ERROR");
-                    view.errorMessage("Path is not valid");
+                    Messages.getInstance().errorMessage("Path is not valid","Error!");
                 }
 
             } else {
                 view.getSPanel().setPathRequiredRed();
-                view.errorMessage("Path is a required field");
+                Messages.getInstance().informationMessage("Path is a required field","Atention!");
             }
         }
         if (src == view.getConvPanel().getConvertButton() && view.getConvPanel().getCheckBoxAudio().isSelected()) {
@@ -348,6 +350,13 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         try {
             String pathSelected = view.getSLPanel().getTable().getValueAt(view.getSLPanel().getTable().getSelectedRow(), 1).toString();
             setPathToConvert(pathSelected);
+            File f = new File(pathSelected);
+            if(search.isAudio(f)){
+                view.getConvPanel().getCheckBoxAudio().setSelected(true);
+            } else {
+                view.getConvPanel().getCheckBoxAudio().setSelected(false);
+            }
+            view.getConvPanel().changeUI();
             LoggerManager.getLogger().Log("SELECTED: " + pathSelected, "INFO");
             view.getConvPanel().getTFInputPath().setText(pathSelected);
 

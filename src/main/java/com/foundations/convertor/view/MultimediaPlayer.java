@@ -6,8 +6,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.awt.BorderLayout;
+import java.util.logging.Logger;
 
 import com.foundations.convertor.utils.LoggerManager;
+import com.foundations.convertor.utils.Messages;
 import com.foundations.convertor.utils.StyleUtils;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
@@ -20,7 +22,7 @@ public class MultimediaPlayer {
     private static final int LIMIT = 3; //Instance quantity restriction
     private static int count = 0;
     /**
-     *
+     *Restricts the MultimediaPlayer instances to 3
     */
     public static synchronized MultimediaPlayer getInstance()
     {
@@ -29,6 +31,8 @@ public class MultimediaPlayer {
             count++;
             return multimediaPlayer;
         }
+        LoggerManager.getLogger().Log("Only 3 Multimedia players allowed", "INFO");
+        Messages.getInstance().informationMessage("Only 3 Players can work at the same time","Atention!");
         return null;
     }
     /**
@@ -68,7 +72,6 @@ public class MultimediaPlayer {
             public void windowClosing(WindowEvent e) {
                 count --;
                 mediaPlayerComponent.release();
-                count --;
                 frame.dispose();
             }
         });

@@ -19,15 +19,9 @@ package com.foundations.convertor.view;
  * @version 0.1
  */
 import com.foundations.convertor.utils.LoggerManager;
-
 import com.foundations.convertor.utils.StyleUtils;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.plaf.FontUIResource;
-
-import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * main Frame for UI Convertor project
@@ -161,12 +155,4 @@ public class View extends JFrame {  //
      * @return Panel convert
      */
     public ConverterPanel getConvPanel() {return convPanel;}
-    /**
-     * Method to display message box with error message
-     * @param error String with the error to be displayed
-     */
-    public void errorMessage(String error){
-        showMessageDialog(null, error, "Error", JOptionPane.INFORMATION_MESSAGE);
-        LoggerManager.getLogger().Log( error, "INFO");
-    }
 }
