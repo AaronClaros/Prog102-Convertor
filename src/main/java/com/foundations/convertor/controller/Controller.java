@@ -46,8 +46,8 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             "Bit Depth","Bit Rate","Channels","Size"};
     private Object[] headerVideo = {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
             "Resolution","Video Codec","Audio Codec","Size"};
-    VideoConversion conversion;
-    ProgressBar progressBar;
+    private VideoConversion conversion;
+    private ProgressBar progressBar;
 
     public Controller() {
         instanceSearchCriteria();
@@ -149,7 +149,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      * @param video on the list
      * @return return the object with the videos metadata
      */
-    public Object[] fillRowVideo(Video video) {
+    private Object[] fillRowVideo(Video video) {
         // Setting row data of table {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
         //            "Resolution","Video Codec","Audio Codec","Size"};
         Object[] d = {
@@ -167,7 +167,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      * @param audio on the list
      * @return return the object with the audios metadata
      */
-    public Object[] fillRowAudio(Audio audio) {
+    private Object[] fillRowAudio(Audio audio) {
         // Setting row data of table {"File Name","File Path","Duration","Extension"
         //            //            ,"Audio Codec", sample rate, bit depth,bit rate,"Channels","Size"};
         Object[] d = {
@@ -182,7 +182,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      *
      * @param resultsList List of videos within the search criteria
      */
-    public void fillTable(List<? extends Multimedia> resultsList) {
+    private void fillTable(List<? extends Multimedia> resultsList) {
         if (resultsList == null) {
             LoggerManager.getLogger().Log("Table Multimedia: Result is null", "INFO");
             return;
@@ -218,7 +218,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
 
     /**
      * @param size formats Size as long to a String for "MB"
-     * @return
+     * @return return the size for UI
      */
     private String formatSize(long size) {
         if (size < 1000000)
@@ -231,7 +231,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     /**
      * Execute a conversion of video
      */
-    public void convertVideo() {
+    private void convertVideo() {
         //Instance conversion criteria
         conversionCriteria = new ConversionCriteria();
         //Set conversion criteria fields with converter panel
@@ -257,9 +257,9 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     /**
      * Setting the path to convert
      *
-     * @param pathToConvert
+     * @param pathToConvert returns the output path for conversion
      */
-    public void setPathToConvert(String pathToConvert) {
+    private void setPathToConvert(String pathToConvert) {
         this.pathToConvert = pathToConvert;
     }
 
@@ -270,11 +270,16 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
-
-        if (src == view.getSPanel().getSearchButton()) {
+         if (src == view.getSPanel().getSearchButton()) {
             if (!view.getSPanel().getBoxPath().getText().isEmpty()) {
                 view.getSPanel().setPathRequiredDefault();
-                doSearch();
+                try{
+                    doSearch();
+                } catch (Exception ex){
+                    LoggerManager.getLogger().Log("Error: Path is not valid "+ex,"ERROR");
+                    view.errorMessage("Path is not valid");
+                }
+
             } else {
                 view.getSPanel().setPathRequiredRed();
                 view.errorMessage("Path is a required field");

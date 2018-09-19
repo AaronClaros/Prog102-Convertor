@@ -18,10 +18,11 @@ package com.foundations.convertor.view;
  * @version 0.1
  */
 import com.foundations.convertor.utils.LoggerManager;
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -124,7 +125,7 @@ public class SearchListPanel extends JPanel {
         //Only creates the video player frame if the path for the cell selection is not null
         if(selectedData!=null) {
             LoggerManager.getLogger().Log( "Selected row to play: " + selectedData, "INFO");
-            MultimediaPlayer player = new MultimediaPlayer();
+            MultimediaPlayer player = MultimediaPlayer.getInstance();
             try {
                 player.start(selectedData);
             } catch (Exception e) {
@@ -135,16 +136,4 @@ public class SearchListPanel extends JPanel {
             JOptionPane.showMessageDialog(null, resultsTable.getValueAt(selectedRow,0)+": Extension not supported", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
-    /**
-     *
-     * @param selRow Selected row of the video to validate
-     * @return if the video can be played by the video player
-     */
-    private boolean supportedVideo(int selRow){
-        if (resultsTable.getValueAt(selRow,3).equals("flv")|| resultsTable.getValueAt(selRow,3).equals("mp4"))
-        return true;
-        else return false;
-    }
-
 }
