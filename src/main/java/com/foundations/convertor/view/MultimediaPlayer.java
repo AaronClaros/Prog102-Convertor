@@ -67,6 +67,7 @@ public class MultimediaPlayer {
             @Override
             public void windowClosing(WindowEvent e) {
                 mediaPlayerComponent.release();
+                count --;
                 frame.dispose();
             }
         });
