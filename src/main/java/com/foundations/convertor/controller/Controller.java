@@ -80,10 +80,6 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         search = new Search();
     }
 
-    public void instanceSearchCriteria() {
-        criteria = new SearchCriteria();
-    }
-
     public void instanceConversionCriteria() {
         view.getConvPanel().getConvertButton().addActionListener(this); // add actionListener for button convert
     }
@@ -259,7 +255,12 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         conversion = new VideoConversion();
         progressBar = new ProgressBar();
         conversion.getProgressPercentageProperty().addListener(progressBar);
-        conversion.doConversion(conversionCriteria);
+        try {
+            conversion.doConversion(conversionCriteria);
+        } catch (Exception e){
+            LoggerManager.getLogger().Log(e.getMessage(), "Error");
+            Messages.getInstance().errorMessage("Could not convert video","Error!");
+        }
         // this method clean the fields of converter
         view.getConvPanel().cleanFields();
     }
@@ -296,7 +297,12 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         audioConversion = new AudioConversion();
         progressBar = new ProgressBar();
         audioConversion.getProgressPercentageProperty().addListener(progressBar);
-        audioConversion.doConversion(conAudioCrit);
+        try {
+            audioConversion.doConversion(conAudioCrit);
+        } catch (Exception e){
+            LoggerManager.getLogger().Log(e.getMessage(), "Error");
+            Messages.getInstance().errorMessage("Could not convert audio","Error!");
+        }
         // this method clean the fields of converter
         view.getConvPanel().cleanFields();
     }
@@ -333,10 +339,16 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
                 Messages.getInstance().informationMessage("Path is a required field","Atention!");
             }
         }
-        if (src == view.getConvPanel().getConvertButton() && view.getConvPanel().getCheckBoxAudio().isSelected()) {
-            convertAudio();
-        }else{
-            convertVideo();
+        try{
+            if (src == view.getConvPanel().getConvertButton() && view.getConvPanel().getCheckBoxAudio().isSelected()) {
+                convertAudio();
+            }else if(src == view.getConvPanel().getConvertButton()){
+                convertVideo();
+            }
+
+        } catch (Exception exc){
+            LoggerManager.getLogger().Log("Error: Could not convert "+exc,"ERROR");
+            Messages.getInstance().errorMessage("Convertion criteria invalid","Error!");
         }
     }
 
@@ -362,6 +374,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
 
         } catch (Exception ex) {
             LoggerManager.getLogger().Log(ex.getMessage(), "Error");
+            Messages.getInstance().errorMessage("Output path file invalid","Error!");
         }
     }
 }

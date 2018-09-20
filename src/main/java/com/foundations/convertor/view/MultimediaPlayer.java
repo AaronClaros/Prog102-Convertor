@@ -7,7 +7,6 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.awt.BorderLayout;
 import java.util.logging.Logger;
-
 import com.foundations.convertor.utils.LoggerManager;
 import com.foundations.convertor.utils.Messages;
 import com.foundations.convertor.utils.StyleUtils;
@@ -15,6 +14,7 @@ import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
+
 
 public class MultimediaPlayer {
     private JFrame frame;
@@ -31,8 +31,13 @@ public class MultimediaPlayer {
             count++;
             return multimediaPlayer;
         }
-        LoggerManager.getLogger().Log("Only 3 Multimedia players allowed", "INFO");
-        Messages.getInstance().informationMessage("Only 3 Players can work at the same time","Atention!");
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                LoggerManager.getLogger().Log("Only 3 Multimedia players allowed", "INFO");
+                Messages.getInstance().informationMessage("Only 3 players allowed","Atention!");
+            }
+        });
         return null;
     }
     /**
@@ -151,13 +156,8 @@ public class MultimediaPlayer {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        JOptionPane.showMessageDialog(
-                                frame,
-                                "Failed to play media",
-                                "Error",
-                                JOptionPane.ERROR_MESSAGE
-                        );
-                        closeWindow();
+                        Messages.getInstance().errorMessage("Failed to play media","Error");
+                        frame.dispose();
                     }
                 });
             }
