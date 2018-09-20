@@ -27,6 +27,8 @@ public class Audio extends Multimedia {
     private String bitDepth;
     private int sampleRate;
 
+
+
     /**
      * get Audio channels
      * @return audio channels
