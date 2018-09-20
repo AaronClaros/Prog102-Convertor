@@ -6,7 +6,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.awt.BorderLayout;
-import uk.co.caprica.vlcj.binding.LibVlc;
+
+import com.foundations.convertor.utils.LoggerManager;
+import com.foundations.convertor.utils.StyleUtils;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 import uk.co.caprica.vlcj.player.MediaPlayer;
@@ -15,20 +17,30 @@ import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 public class MultimediaPlayer {
     private JFrame frame;
     private EmbeddedMediaPlayerComponent mediaPlayerComponent;
-
+    private static final int LIMIT = 3; //Instance quantity restriction
+    private static int count = 0;
+    /**
+     *
+    */
+    public static synchronized MultimediaPlayer getInstance()
+    {
+        if(count<LIMIT){
+            MultimediaPlayer multimediaPlayer = new MultimediaPlayer();
+            count++;
+            return multimediaPlayer;
+        }
+        return null;
+    }
     /**
      * Starts to play multimedia with VLCJ
      * @param mmPath string of the multimedia path
      */
     public void start(String mmPath){
         new NativeDiscovery().discover();
-        boolean found = new NativeDiscovery().discover();
-        System.out.println(found);
-        System.out.println(LibVlc.INSTANCE.libvlc_get_version());
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                VLCPlayer(encodePath(mmPath));
+                Player(encodePath(mmPath));
             }
         });
     }
@@ -44,15 +56,17 @@ public class MultimediaPlayer {
         return path;
     }
 
-    private void VLCPlayer(String path) {
+    private void Player(String path) {
         frame = new JFrame("Convertor - Multimedia Player");
+        ImageIcon openIcon = StyleUtils.getInstance().createImageIcon("Grasshopper_32.png");
+        frame.setIconImage(openIcon.getImage());
         frame.setBounds(100, 100, 600, 400);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         //Release resources when frame closes
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println(e);
+                count --;
                 mediaPlayerComponent.release();
                 frame.dispose();
             }
@@ -65,12 +79,18 @@ public class MultimediaPlayer {
         contentPane.add(mediaPlayerComponent, BorderLayout.CENTER);
 
         JPanel controlsPane = new JPanel();
-
-        JButton rewindButton = new JButton("<<");
+        //Creating playback icons
+        ImageIcon playpause = StyleUtils.getInstance().createImageIcon("playpause.png");
+        ImageIcon backward = StyleUtils.getInstance().createImageIcon("backward.png");
+        ImageIcon forward = StyleUtils.getInstance().createImageIcon("forward.png");
+        JButton rewindButton = new JButton();
+        rewindButton.setIcon(backward);
         controlsPane.add(rewindButton);
-        JButton pauseButton = new JButton("|>");
+        JButton pauseButton = new JButton();
+        pauseButton.setIcon(playpause);
         controlsPane.add(pauseButton);
-        JButton skipButton = new JButton(">>");
+        JButton skipButton = new JButton();
+        skipButton.setIcon(forward);
         controlsPane.add(skipButton);
         contentPane.add(controlsPane, BorderLayout.SOUTH);
 

@@ -210,13 +210,13 @@ public class Search implements ISearchVideo, ISearchAudio{
     private File checkValidDirectotyPath(String path){
         //Check if the path is correct for a file or directory
         if ((path == null) || path.isEmpty()) {
-            LoggerManager.getLogger().Log("Error message: There is no path selected", "INFO");
+            LoggerManager.getLogger().Log("Error message: There is no path selected", "ERROR");
             return null;
         }
         //Check if the path is for a File type
         File file = new File(path);
         if (!file.exists()) {
-            LoggerManager.getLogger().Log("Error message: Search path is not a directory", "INFO");
+            LoggerManager.getLogger().Log("Error message: Search path is not a directory", "ERROR");
             return null;
         } else {
             return file;
@@ -345,7 +345,7 @@ public class Search implements ISearchVideo, ISearchAudio{
         catch (Exception ex)
         {
             LoggerManager.getLogger().Log("Error into get stream Audio", "ERROR");
-        }
+        }     
         if (audioStream != null && audioStream.codec_type.equals(FFmpegStream.CodecType.AUDIO)) {
             String songTitle = "";
             String songArtist = "";
@@ -361,17 +361,15 @@ public class Search implements ISearchVideo, ISearchAudio{
                     audioStream.sample_fmt, songTitle, songArtist, songAlbum);
         }
         if (audio!=null){
-            System.out.println(String.format(
+            LoggerManager.getLogger().Log(String.format(
                     "New Audio: %s, sample rate: %d, channels: %d, bit rate: %d, bit depth: %s",
                     audio.getFileName(),
                     audio.getSampleRate(),
                     audio.getChannels(),
                     audio.getBitRate(),
-                    audio.getBitDepth()
-            ));
+                    audio.getBitDepth()),"INFO");
         }
         return audio;
     }
 }
-
 

@@ -12,8 +12,10 @@
 
 package com.foundations.convertor.controller;
 
+import com.foundations.convertor.common.ConAudioCrit;
 import com.foundations.convertor.common.ConversionCriteria;
 import com.foundations.convertor.common.SearchCriteria;
+import com.foundations.convertor.model.Conversion.AudioConversion;
 import com.foundations.convertor.model.Conversion.VideoConversion;
 import com.foundations.convertor.model.Multimedia.Audio;
 import com.foundations.convertor.model.Multimedia.Multimedia;
@@ -46,8 +48,12 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             "Bit Depth","Bit Rate","Channels","Size"};
     private Object[] headerVideo = {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
             "Resolution","Video Codec","Audio Codec","Size"};
+
+    private ConAudioCrit conAudioCrit;
     VideoConversion conversion;
+    AudioConversion audioConversion;
     ProgressBar progressBar;
+
 
     public Controller() {
         //instanceSearchCriteria();
@@ -126,6 +132,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             List<Multimedia> resultsList = search.searchVideoFiles(criteria);
             fillTable(resultsList);
         } else {
+
             if (!view.getSPanel().getComBoxbAudioBitRate().getSelectedItem().toString().isEmpty())
                 criteria.setAudioBitRate(Integer.parseInt(view.getSPanel().getComBoxbAudioBitRate().
                         getSelectedItem().toString()));
@@ -150,7 +157,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      * @param video on the list
      * @return return the object with the videos metadata
      */
-    public Object[] fillRowVideo(Video video) {
+    private Object[] fillRowVideo(Video video) {
         // Setting row data of table {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
         //            "Resolution","Video Codec","Audio Codec","Size"};
         Object[] d = {
@@ -168,7 +175,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      * @param audio on the list
      * @return return the object with the audios metadata
      */
-    public Object[] fillRowAudio(Audio audio) {
+    private Object[] fillRowAudio(Audio audio) {
         // Setting row data of table {"File Name","File Path","Duration","Extension"
         //            //            ,"Audio Codec", sample rate, bit depth,bit rate,"Channels","Size"};
         Object[] d = {
@@ -183,7 +190,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      *
      * @param resultsList List of videos within the search criteria
      */
-    public void fillTable(List<? extends Multimedia> resultsList) {
+    private void fillTable(List<? extends Multimedia> resultsList) {
         if (resultsList == null) {
             LoggerManager.getLogger().Log("Table Multimedia: Result is null", "INFO");
             return;
@@ -219,7 +226,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
 
     /**
      * @param size formats Size as long to a String for "MB"
-     * @return
+     * @return return the size for UI
      */
     private String formatSize(long size) {
         if (size < 1000000)
@@ -232,7 +239,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
     /**
      * Execute a conversion of video
      */
-    public void convertVideo() {
+    private void convertVideo() {
         //Instance conversion criteria
         conversionCriteria = new ConversionCriteria();
         //Set conversion criteria fields with converter panel
@@ -254,13 +261,50 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         // this method clean the fields of converter
         view.getConvPanel().cleanFields();
     }
+    /**
+     * execute an audio conversion
+     */
+    public void convertAudio(){
+        conAudioCrit = new ConAudioCrit();
+        conAudioCrit.setPath(pathToConvert);
+        conAudioCrit.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
+        conAudioCrit.setExtension(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
+        conAudioCrit.setFileName(view.getConvPanel().getTxtName().getText());
+        conAudioCrit.setOutputDirectory(view.getConvPanel().getTFOutputPath().getText());
+        if (view.getConvPanel().getSearchAudioPanel().getcbSampleRate().getSelectedItem()==""){
+            conAudioCrit.setSampleRate(0);
+        }else {
+            conAudioCrit.setSampleRate(Integer.parseInt(view.getConvPanel().getSearchAudioPanel().getcbSampleRate()
+                                        .getSelectedItem().toString()));
+        }
+        if (view.getConvPanel().getSearchAudioPanel().getcbBitRate().getSelectedItem()==""){
+            conAudioCrit.setBitRate(0);
+        }else {
+            conAudioCrit.setBitRate(Long.parseLong(view.getConvPanel().getSearchAudioPanel().getcbBitRate()
+                                                    .getSelectedItem().toString()));
+        }
+        conAudioCrit.setBitDepth(view.getConvPanel().getSearchAudioPanel().getcbBitDepth().getSelectedItem().toString());
+        if (view.getConvPanel().getSearchAudioPanel().getcbChannels().getSelectedItem()==""){
+            conAudioCrit.setChannels(0);
+        }else {
+            conAudioCrit.setChannels(Integer.parseInt(view.getConvPanel().getSearchAudioPanel().getcbChannels()
+                                                        .getSelectedItem().toString()));
+        }
+
+        audioConversion = new AudioConversion();
+        progressBar = new ProgressBar();
+        audioConversion.getProgressPercentageProperty().addListener(progressBar);
+        audioConversion.doConversion(conAudioCrit);
+        // this method clean the fields of converter
+        view.getConvPanel().cleanFields();
+    }
 
     /**
      * Setting the path to convert
      *
-     * @param pathToConvert
+     * @param pathToConvert returns the output path for conversion
      */
-    public void setPathToConvert(String pathToConvert) {
+    private void setPathToConvert(String pathToConvert) {
         this.pathToConvert = pathToConvert;
     }
 
@@ -275,13 +319,21 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         if (src == view.getSPanel().getSearchButton()) {
             if (!view.getSPanel().getBoxPath().getText().isEmpty()) {
                 view.getSPanel().setPathRequiredDefault();
-                doSearch();
+                try{
+                    doSearch();
+                } catch (Exception ex){
+                    LoggerManager.getLogger().Log("Error: Path is not valid "+ex,"ERROR");
+                    view.errorMessage("Path is not valid");
+                }
+
             } else {
                 view.getSPanel().setPathRequiredRed();
                 view.errorMessage("Path is a required field");
             }
         }
-        if (src == view.getConvPanel().getConvertButton()) {
+        if (src == view.getConvPanel().getConvertButton() && view.getConvPanel().getCheckBoxAudio().isSelected()) {
+            convertAudio();
+        }else{
             convertVideo();
         }
     }
