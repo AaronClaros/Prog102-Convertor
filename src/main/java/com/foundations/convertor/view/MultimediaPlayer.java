@@ -6,9 +6,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.awt.BorderLayout;
-import java.util.logging.Logger;
+
 import com.foundations.convertor.utils.LoggerManager;
-import com.foundations.convertor.utils.Messages;
 import com.foundations.convertor.utils.StyleUtils;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;

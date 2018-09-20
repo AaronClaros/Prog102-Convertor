@@ -12,7 +12,9 @@
  * @version 0.1
  */
 
-package com.foundations.convertor.utils;
+package com.foundations.convertor.view;
+
+import com.foundations.convertor.utils.StyleUtils;
 
 import javax.swing.*;
 import java.awt.*;

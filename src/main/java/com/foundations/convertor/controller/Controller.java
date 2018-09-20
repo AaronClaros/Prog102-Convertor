@@ -21,7 +21,7 @@ import com.foundations.convertor.model.Multimedia.Audio;
 import com.foundations.convertor.model.Multimedia.Multimedia;
 import com.foundations.convertor.model.Multimedia.Video;
 import com.foundations.convertor.utils.LoggerManager;
-import com.foundations.convertor.utils.Messages;
+import com.foundations.convertor.view.Messages;
 import com.foundations.convertor.view.ProgressBar;
 import com.foundations.convertor.view.View;
 import com.foundations.convertor.model.Search;
