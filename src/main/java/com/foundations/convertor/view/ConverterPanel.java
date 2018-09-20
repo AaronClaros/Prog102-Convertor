@@ -419,29 +419,6 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
     }
 
     /**
-     * This method initialize the search audio
-     */
-    private void initCompAudioCheck(){
-      // setting constrains of labelAudioCodec
-      bagConstraints.gridx = 0;
-      bagConstraints.gridy = 6;
-      bagConstraints.gridwidth = 2;
-      bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
-      bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-      bagConstraints.insets = new Insets(5,5,5,5);
-      this.add(labelAudio,bagConstraints);
-
-      // setting constrains of comboxAudioCodec
-      bagConstraints.gridx = 1;
-      bagConstraints.gridy = 6;
-      bagConstraints.gridwidth = 2;
-      bagConstraints.gridheight = 1;bagConstraints.weighty=0.0;
-      bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-      bagConstraints.insets = new Insets(5,5,5,5);
-      this.add(checkBoxAudio,bagConstraints);
-    }
-
-    /**
      * Initialize components
      */
     private void initComp() {
@@ -451,7 +428,6 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
         initCompLeft();
         iniCompRight();
         iniCompButton();
-        initCompAudioCheck();
         this.setVisible(true);
         buttonOutPath.addActionListener(this);
     }
@@ -574,9 +550,11 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
           //Copy selected path to the text box
           tFieldOutPath.setText(fc.getSelectedFile().getAbsolutePath());
         }
-      } else{
-        JCheckBox checkBox = (JCheckBox)e.getSource();
-        if(checkBox == checkBoxAudio && checkBox.isSelected())
+      }
+    }
+
+    public void changeUI(){
+        if(checkBoxAudio.isSelected())
         {
             enableComboxOptions(false);
             cmbFormat.removeAllItems();
@@ -590,9 +568,8 @@ public class ConverterPanel extends JPanel implements ActionListener, EventListe
             enableComboxOptions(true);
             rePaintSearchAudioPanel(false);
             searchAudioPanel.cleanFieldsToAudioSearch();
-          LoggerManager.getLogger().Log( "Disabled the check box audio", "INFO");
+            LoggerManager.getLogger().Log( "Video panel visible", "INFO");
         }
-      }
     }
 
     /**
