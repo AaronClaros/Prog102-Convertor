@@ -14,11 +14,14 @@ package com.foundations.convertor.model;
 import com.foundations.convertor.common.Criteria;
 import com.foundations.convertor.model.Multimedia.Audio;
 import com.foundations.convertor.model.Multimedia.Multimedia;
+import com.foundations.convertor.model.Multimedia.MultimediaFactory;
 import com.foundations.convertor.model.Multimedia.Video;
 import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.probe.FFmpegFormat;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
@@ -66,6 +69,9 @@ public class Search implements ISearchVideo, ISearchAudio{
             //Check if the file is video and convert it to Video object
             else  if(isVideo(elementFile)) {
                 auxVideo = convertFileToVideo(elementFile);
+                if (auxVideo==null){
+                    continue;
+                }
                 //Check File Name
                 if(auxVideo.getFileName()==null||!criteria.getFileName().isEmpty()&&!auxVideo.getFileName().contains(criteria.getFileName())){
                     continue;
@@ -122,6 +128,9 @@ public class Search implements ISearchVideo, ISearchAudio{
             //Check if the file is audio and convert it to Multimedia object
             else  if(isAudio(elementFile)) {
                 auxAudio = convertFileToAudio(elementFile);
+                if (auxAudio == null){
+                    continue;
+                }
                 //Check File Name
                 if(auxAudio.getFileName()== null||!criteria.getFileName().isEmpty()&&!auxAudio.getFileName().contains(criteria.getFileName())){
                     continue;
@@ -245,12 +254,20 @@ public class Search implements ISearchVideo, ISearchAudio{
      */
     @Override
     public Video convertFileToVideo(File file) {
-        Video video = new Video();
+        Video video = null;
+        FFmpegProbeResult probeResult = null;
+        FFmpegStream videoStream = null;
+        FFmpegStream audioStream = null;
         try{
             String ffProbePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
-            ffprobe = new FFprobe(ffProbePath);
-            FFmpegStream videoStream = ffprobe.probe(file.getPath()).getStreams().get(0);
+            if (ffprobe==null) {
+                ffprobe = new FFprobe(ffProbePath);
+            }
+            probeResult = ffprobe.probe(file.getPath());
+            videoStream = probeResult.getStreams().get(0);
+            audioStream = probeResult.getStreams().get(1);
             //set Video object values
+            /*
             video.setExt(FilenameUtils.getExtension(file.getAbsolutePath()));
             video.setFileName(file.getName());
             video.setPathFile(file.getAbsolutePath());
@@ -266,11 +283,24 @@ public class Search implements ISearchVideo, ISearchAudio{
             video.setAspectRatio(videoStream.display_aspect_ratio);
             video.setResolution(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
             video.setSize(file.length());
+            */
         }
         //If the file is not a video an exception is send
         catch (Exception ex)
         {
             LoggerManager.getLogger().Log("Error into get stream Video", "ERROR");
+        }
+        if (videoStream != null && videoStream.codec_type.equals(FFmpegStream.CodecType.VIDEO)){
+            String aCodecAux = "";
+            if (audioStream!=null) {
+                aCodecAux = audioStream.codec_name;
+            }
+            //FFmpegFormat audioFormat = probeResult.format;
+            video = (Video) new MultimediaFactory().createVideo(file.getAbsolutePath() ,file.getName(),
+                    FilenameUtils.getExtension(file.getAbsolutePath()), aCodecAux, videoStream.duration,
+                    file.length(), videoStream.display_aspect_ratio,
+                    String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height),
+                    videoStream.codec_name, (videoStream.avg_frame_rate.doubleValue()*100)/100);
         }
         return video;
     }
@@ -282,17 +312,20 @@ public class Search implements ISearchVideo, ISearchAudio{
      */
     @Override
     public Audio convertFileToAudio(File file) {
-        Audio audio = new Audio();
-        FFmpegStream audioStream = null;
+        Audio audio = null;
         FFmpegProbeResult probeResult = null;
+        FFmpegStream audioStream = null;
         FFmpegFormat audioFormat = null;
         try{
             String ffProbePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
-            ffprobe = new FFprobe(ffProbePath);
+            if (ffprobe==null) {
+                ffprobe = new FFprobe(ffProbePath);
+            }
             probeResult = ffprobe.probe(file.getPath());
             audioStream = probeResult.getStreams().get(0);
             audioFormat = probeResult.getFormat();
             //set Audio object values
+            /*
             audio.setExt(FilenameUtils.getExtension(file.getAbsolutePath()));
             audio.setFileName(file.getName());
             audio.setPathFile(file.getAbsolutePath());
@@ -306,23 +339,37 @@ public class Search implements ISearchVideo, ISearchAudio{
             audio.setSongArtist(audioFormat.tags.get("ARTIST"));
             audio.setSongAlbum(audioFormat.tags.get("ALBUM"));
             audio.setSongName(audioFormat.tags.get("TITLE"));
+            */
         }
         //If the file is not a audio an exception is send
         catch (Exception ex)
         {
             LoggerManager.getLogger().Log("Error into get stream Audio", "ERROR");
+        }     
+        if (audioStream != null && audioStream.codec_type.equals(FFmpegStream.CodecType.AUDIO)) {
+            String songTitle = "";
+            String songArtist = "";
+            String songAlbum = "";
+            if (audioFormat.tags != null) {
+                songTitle = audioFormat.tags.get("TITLE");
+                songArtist = audioFormat.tags.get("ARTIST");
+                songAlbum = audioFormat.tags.get("ALBUM");
+            }
+            audio = (Audio) new MultimediaFactory().createAudio(file.getAbsolutePath(), file.getName(),
+                    FilenameUtils.getExtension(file.getAbsolutePath()), audioStream.codec_name, audioStream.duration,
+                    audioFormat.size, audioStream.channels, audioStream.sample_rate, audioFormat.bit_rate,
+                    audioStream.sample_fmt, songTitle, songArtist, songAlbum);
         }
-        if (audio!=null)
+        if (audio!=null){
             LoggerManager.getLogger().Log(String.format(
                     "New Audio: %s, sample rate: %d, channels: %d, bit rate: %d, bit depth: %s",
                     audio.getFileName(),
                     audio.getSampleRate(),
                     audio.getChannels(),
                     audio.getBitRate(),
-                    audio.getBitDepth()
-            ),"INFO");
+                    audio.getBitDepth()),"INFO");
+        }
         return audio;
     }
 }
-
 
