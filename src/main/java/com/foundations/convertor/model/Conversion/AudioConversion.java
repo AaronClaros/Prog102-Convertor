@@ -17,7 +17,6 @@ package com.foundations.convertor.model.Conversion;
 import com.foundations.convertor.common.ConAudioCrit;
 import com.foundations.convertor.common.ConversionCriteria;
 import com.foundations.convertor.utils.LoggerManager;
-import com.foundations.convertor.utils.Messages;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import net.bramp.ffmpeg.FFmpeg;
