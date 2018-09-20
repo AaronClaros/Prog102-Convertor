@@ -27,9 +27,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -264,23 +266,23 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
         //combo box selection bit_rate instance
         comBoxbAudioBitRate = new JComboBox(bit_rate);
         //Label for Sample Rate
-        labelAudioSampleRate = new JLabel("Sample Rate (Hz):", javax.swing.SwingConstants.RIGHT);
+        labelAudioSampleRate = new JLabel("Sample Rate (Hz):", SwingConstants.RIGHT);
         //sample rate array
         String[] sample_rate = MetadataFormats.audioSampleRates;
         //combo box selection sample rate instance
-        comBoxAudioSampleRate = new javax.swing.JComboBox(sample_rate);
+        comBoxAudioSampleRate = new JComboBox(sample_rate);
         //Label for Size
-        labelAudioBitDepth = new javax.swing.JLabel("Bit depth (bits):", javax.swing.SwingConstants.RIGHT);
+        labelAudioBitDepth = new JLabel("Bit depth (bits):", SwingConstants.RIGHT);
         //size array
         String[] bitDepth = MetadataFormats.audioBitDepth;
         //combo box selection size instance
-        comBoxAudioBitDepth = new javax.swing.JComboBox(bitDepth);
+        comBoxAudioBitDepth = new JComboBox(bitDepth);
         //Label for text field path
-        labelAudioChannels = new javax.swing.JLabel("Channels:", javax.swing.SwingConstants.RIGHT);
+        labelAudioChannels = new JLabel("Channels:", SwingConstants.RIGHT);
         //channels array
         String[] channels = MetadataFormats.audioChannels;
         //combo box selection channels instance
-        comBoxAudioChannels = new javax.swing.JComboBox(channels);
+        comBoxAudioChannels = new JComboBox(channels);
     }
 
     /**
@@ -437,7 +439,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
             data = MetadataFormats.videoExtensions;
         }
 
-        javax.swing.DefaultComboBoxModel model = new javax.swing.DefaultComboBoxModel( data );
+        DefaultComboBoxModel model = new DefaultComboBoxModel( data );
         boxFileExt.setModel( model );
         this.revalidate();
         this.repaint();
@@ -815,7 +817,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Getter of the search button
      * @return the search button object
      */
-    public javax.swing.JButton getSearchButton(){
+    public JButton getSearchButton(){
         return this.buttonSearch;
     }
 
@@ -823,7 +825,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Getter of the search path box
      * @return Path text field object
      */
-    public javax.swing.JTextField getBoxPath(){
+    public JTextField getBoxPath(){
         return this.boxPath;
     }
 
@@ -831,7 +833,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Getter for the file name box
      * @return file name text field object
      */
-    public javax.swing.JTextField getBoxFileName(){
+    public JTextField getBoxFileName(){
         return this.boxFileName;
     }
 
@@ -839,7 +841,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Getter for the file extension box
      * @return filer extension box object
      */
-    public javax.swing.JComboBox getBoxFileExt() {
+    public JComboBox getBoxFileExt() {
         return this.boxFileExt;
     }
 
@@ -847,13 +849,13 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Getter for the Frame Rate combo box
      * @return frame rate combo box object
      */
-    public javax.swing.JComboBox getCBFrameRate() {
+    public JComboBox getCBFrameRate() {
         return this.comboxFrameRate;
     }
     /**
      * Getter for the Duration From box object
      */
-    public javax.swing.JTextField getBoxDurationFrom() {
+    public JTextField getBoxDurationFrom() {
         return this.boxDurationFrom;
     }
 
@@ -861,7 +863,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Getter for the Duration To box
      * @return duration to combo box object
      */
-    public javax.swing.JTextField getBoxDurationTo() {
+    public JTextField getBoxDurationTo() {
         return this.boxDurationTo;
     }
 
@@ -869,7 +871,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Getter for the Aspect Ratio combo box
      * @return aspect ratio combo box object
      */
-    public javax.swing.JComboBox getCBAspectRatio() {
+    public JComboBox getCBAspectRatio() {
         return this.comboxAspectRatio;
     }
 
@@ -877,7 +879,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Getter for the Resolution combo box
      * @return resolution combo box object
      */
-    public javax.swing.JComboBox getCBResolution() {
+    public JComboBox getCBResolution() {
         return this.comboxResolution;
     }
 
@@ -885,7 +887,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Getter for the Video Codec combo box
      * @return video codec combo box object
      */
-    public javax.swing.JComboBox getCBVideoCodec() {
+    public JComboBox getCBVideoCodec() {
         return this.comboxVideoCodec;
     }
 
@@ -893,7 +895,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Getter for the Audio Codec combo box
      * @return audio codec combo box object
      */
-    public javax.swing.JComboBox getCBVAudioCodec() {
+    public JComboBox getCBVAudioCodec() {
         return this.comboxAudioCodec;
     }
 
@@ -947,7 +949,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * Setting Color to label
      * @param jLabel
      */
-    private void setColorLabel(javax.swing.JLabel jLabel){
+    private void setColorLabel(JLabel jLabel){
         jLabel.setBackground(new java.awt.Color(59, 59, 61));
     }
 
@@ -971,7 +973,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * getter for combo box audio bit rate component
      * @return combo box audio bit rate object
      */
-    public javax.swing.JComboBox getComBoxbAudioBitRate() {
+    public JComboBox getComBoxbAudioBitRate() {
         return comBoxbAudioBitRate;
     }
 
@@ -979,7 +981,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * getter for combo box audio sample rate component
      * @return combo box audio sample rate object
      */
-    public javax.swing.JComboBox getComBoxAudioSampleRate() {
+    public JComboBox getComBoxAudioSampleRate() {
         return comBoxAudioSampleRate;
     }
 
@@ -987,7 +989,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * getter for combo box audio bit depth component
      * @return combo box audio bit depth object
      */
-    public javax.swing.JComboBox getComBoxAudioBitDepth() {
+    public JComboBox getComBoxAudioBitDepth() {
         return comBoxAudioBitDepth;
     }
 
@@ -995,7 +997,7 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
      * getter for combo box audio channels component
      * @return combo box audio channels object
      */
-    public javax.swing.JComboBox getComBoxAudioChannels() {
+    public JComboBox getComBoxAudioChannels() {
         return comBoxAudioChannels;
     }
 
@@ -1035,13 +1037,13 @@ public class SearchPanel extends JPanel implements ActionListener, EventListener
 
         if (src == buttonPath) {
             //File chooser for path
-            javax.swing.JFileChooser fc = new javax.swing.JFileChooser();
+            JFileChooser fc = new JFileChooser();
             // start at application current directory
             fc.setCurrentDirectory(new java.io.File("."));
             //Only can select directories
-            fc.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int returnVal = fc.showSaveDialog(this);
-            if(returnVal == javax.swing.JFileChooser.APPROVE_OPTION) {
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
                 File yourFolder = fc.getSelectedFile();
             }
             //Copy selected path to the text box
