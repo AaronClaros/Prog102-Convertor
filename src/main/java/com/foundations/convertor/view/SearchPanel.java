@@ -20,12 +20,24 @@ package com.foundations.convertor.view;
  */
 
 import com.foundations.convertor.utils.LoggerManager;
-
 import com.foundations.convertor.utils.MetadataFormats;
 import com.foundations.convertor.utils.StyleUtils;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.text.MaskFormatter;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -34,15 +46,15 @@ import java.util.EventListener;
 /**
  * UI: Search panel with the criteria options for the search
  */
-public class SearchPanel extends javax.swing.JPanel implements ActionListener, EventListener{
+public class SearchPanel extends JPanel implements ActionListener, EventListener{
     //Panel labelTitle:Search Criteria
-    private javax.swing.JLabel labelTitle;
+    private JLabel labelTitle;
     //Panel labelTitle:Search Criteria
-    private javax.swing.JLabel labelPath;
+    private JLabel labelPath;
     // box for path insertion criteria
-    private javax.swing.JTextField boxPath;
+    private JTextField boxPath;
     // button with browse action
-    private javax.swing.JButton buttonPath;
+    private JButton buttonPath;
     //Title File name
     private JLabel titleFileName;
     // box for file name criteria
@@ -1041,6 +1053,7 @@ public class SearchPanel extends javax.swing.JPanel implements ActionListener, E
         }
         else if ( src == toggleAudio){
             if (toggleAudio.isSelected()){
+                //show search audio components when toggle audio is selected
                 toggleVideo.setSelected(!toggleAudio.isSelected());
                 toggleAudio.setEnabled(false);
                 toggleVideo.setEnabled(true);
@@ -1048,6 +1061,7 @@ public class SearchPanel extends javax.swing.JPanel implements ActionListener, E
             }
         }else if ( src == toggleVideo){
             if (toggleVideo.isSelected()){
+                //show search video components when toggle video is selected
                 toggleAudio.setSelected(!toggleVideo.isSelected());
                 toggleVideo.setEnabled(false);
                 toggleAudio.setEnabled(true);
