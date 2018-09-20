@@ -127,7 +127,7 @@ public class AudioConversion {
         }catch (Exception e){
             LoggerManager.getLogger().Log("Error: "+ AudioConversion.class.getName()+":"+e.getStackTrace()+" "+
                     e.getMessage(), "ERROR");
-            Messages.getInstance().informationMessage(e.getMessage(),"Atention!");
+            throw new RuntimeException(e.getMessage());
         }
     }
     /**
