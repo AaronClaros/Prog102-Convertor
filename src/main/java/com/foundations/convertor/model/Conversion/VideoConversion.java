@@ -118,6 +118,7 @@ public class VideoConversion {
         }catch (Exception e){
             LoggerManager.getLogger().Log("Error: "+ VideoConversion.class.getName()+":"+e.getStackTrace()+" "+
                                         e.getMessage(), "ERROR");
+            throw new RuntimeException(e.getMessage());
         }
     }
     /**
