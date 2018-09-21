@@ -362,7 +362,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             String pathSelected = view.getSLPanel().getTable().getValueAt(view.getSLPanel().getTable().getSelectedRow(), 1).toString();
             setPathToConvert(pathSelected);
             File f = new File(pathSelected);
-            if (search.isAudio(f)) {
+            if(search.isAudio(f)) {
                 view.getConvPanel().getCheckBoxAudio().setSelected(true);
             } else {
                 view.getConvPanel().getCheckBoxAudio().setSelected(false);
@@ -370,9 +370,9 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             view.getConvPanel().changeUI();
             LoggerManager.getLogger().Log("SELECTED: " + pathSelected, "INFO");
             view.getConvPanel().getTFInputPath().setText(pathSelected);
-        } catch (Exception e1){
-            LoggerManager.getLogger().Log("Table updated, selected item no longer valid","INFO");
-        }
 
+        } catch (Exception ex) {
+            LoggerManager.getLogger().Log("Table updated item selected no longer valid"+ex.getMessage(), "Error");
+        }
     }
 }
