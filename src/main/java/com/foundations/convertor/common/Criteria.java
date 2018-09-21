@@ -22,31 +22,16 @@ public class Criteria {
 
     // path to search
     private String path;
-
     // file name to search
     private String fileName;
-
     // extension of the file to search
     private String extension;
-
     // frame Rate to search
-    private String frameRate;
-
-    // Initial time to search
-    private String durFrom;
-
-    // Final time to search
-    private String durTo;
-
-    // aspect ratio to search
-    private String aspcRatio;
-
+    private Double frameRate;
     // resolution to search
     private String resolution;
-
     //video codec to search
     private String videoCodec;
-
     // audio codec to search
     private String audioCodec;
 
@@ -73,29 +58,8 @@ public class Criteria {
     /**
      * @return It returns the given frame rate to search
      */
-    public String getFrameRate() {
+    public Double getFrameRate() {
         return frameRate;
-    }
-
-    /**
-     * @return It returns the given initial time to search
-     */
-    public String getDurFrom() {
-        return durFrom;
-    }
-
-    /**
-     * @return It returns the given final time to search
-     */
-    public String getDurTo() {
-        return durTo;
-    }
-
-    /**
-     * @return It returns the given aspect ratio to search
-     */
-    public String getAspcRatio() {
-        return aspcRatio;
     }
 
     /**
@@ -150,29 +114,8 @@ public class Criteria {
     /**
      * @param frameRate It will set the frame rate to search
      */
-    public void setFrameRate(String frameRate) {
+    public void setFrameRate(Double frameRate) {
         this.frameRate = frameRate;
-    }
-
-    /**
-     * @param durFrom It will set the initial time to search
-     */
-    public void setDurFrom(String durFrom) {
-        this.durFrom = durFrom;
-    }
-
-    /**
-     * @param durTo It will set the final time to search
-     */
-    public void setDurTo(String durTo) {
-        this.durTo = durTo;
-    }
-
-    /**
-     * @param aspcRatio It will set the aspect ratio to search
-     */
-    public void setAspcRatio(String aspcRatio) {
-        this.aspcRatio = aspcRatio;
     }
 
     /**
