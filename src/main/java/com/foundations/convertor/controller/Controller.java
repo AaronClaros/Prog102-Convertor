@@ -197,7 +197,6 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         for (int i = 0; i < resultsList.size(); i++) {
 
             Object[] d;
-            //TODO
             if (resultsList.get(i) instanceof Video) {
                 Video v = (Video) resultsList.get(i);
                 d = fillRowVideo(v);
@@ -373,8 +372,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
             view.getConvPanel().getTFInputPath().setText(pathSelected);
 
         } catch (Exception ex) {
-            LoggerManager.getLogger().Log(ex.getMessage(), "Error");
-            Messages.getInstance().errorMessage("Output path file invalid","Error!");
+            LoggerManager.getLogger().Log("Table updated item selected no longer valid"+ex.getMessage(), "Error");
         }
     }
 }
