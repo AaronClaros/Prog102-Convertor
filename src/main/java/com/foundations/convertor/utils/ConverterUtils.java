@@ -15,9 +15,11 @@
 
 package com.foundations.convertor.utils;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
+import javax.swing.ImageIcon;
 import org.apache.commons.lang3.math.Fraction;
 
 /**
@@ -186,5 +188,38 @@ public class ConverterUtils {
                 .map(String::trim)
                 .toArray(String[]::new);
         return split;
+    }
+
+    public static String getFFmpegBinPath() {
+        String SEPARATOR = System.getProperty("file.separator");
+        String ffmpegpath = "";
+        try {
+            ffmpegpath = new File(".").getCanonicalFile() + SEPARATOR + "thirdparty"+SEPARATOR+"FFmpeg"+SEPARATOR+"bin"+SEPARATOR+  "ffmpeg.exe";
+        }
+        catch (Exception e){
+            LoggerManager.getLogger().Log("Error on get canonical file when search ffmpeg path","ERROR");
+        }
+        if (ffmpegpath != null) {
+            return ffmpegpath;
+        } else {
+            LoggerManager.getLogger().Log("Couldn't find ffmpeg.exe bin file","ERROR");
+            return null;
+        }
+    }
+    public static String getFFprobeBinPath() {
+        String SEPARATOR = System.getProperty("file.separator");
+        String ffprobepath = "";
+        try {
+            ffprobepath = new File(".").getCanonicalFile() + SEPARATOR +"thirdparty"+SEPARATOR+"FFmpeg"+SEPARATOR+"bin"+SEPARATOR+ "ffprobe.exe";
+        }
+        catch (Exception e){
+            LoggerManager.getLogger().Log("Error on get canonical file when search ffprobe path","ERROR");
+        }
+        if (ffprobepath != null) {
+            return ffprobepath;
+        } else {
+            LoggerManager.getLogger().Log("Couldn't find ffprobe.exe file","ERROR");
+            return null;
+        }
     }
 }

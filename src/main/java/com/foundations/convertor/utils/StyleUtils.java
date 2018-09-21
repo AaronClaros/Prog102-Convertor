@@ -34,7 +34,7 @@ public class StyleUtils {
       String imagesPath = "";
 
       try {
-        imagesPath = new File(".").getCanonicalFile() + separator + "src" + separator +"main" + separator +"resources" + separator +"images"+separator+ file;
+        imagesPath = new File(".").getCanonicalFile() + separator + "resources" + separator + "images"+separator+ file;
       }
       catch (Exception e){
         LoggerManager.getLogger().Log("Error to create Image Icon","ERROR");

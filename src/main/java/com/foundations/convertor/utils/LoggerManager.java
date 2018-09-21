@@ -36,9 +36,8 @@ public class LoggerManager {
      * Constructor private to singleton class
      */
     private LoggerManager(){
-        // log4j.properties: file path used to configure log4j
-        final URL log4jFile=LoggerManager.class.getResource("/log4j.properties");
-        PropertyConfigurator.configure(log4jFile);
+        final String path = "resources/log4j.properties";
+        PropertyConfigurator.configure(path);
     }
 
     /**

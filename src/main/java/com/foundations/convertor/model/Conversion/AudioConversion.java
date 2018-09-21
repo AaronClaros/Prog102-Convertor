@@ -14,8 +14,8 @@
 
 package com.foundations.convertor.model.Conversion;
 
-import com.foundations.convertor.common.ConAudioCrit;
-import com.foundations.convertor.common.ConversionCriteria;
+import com.foundations.convertor.common.ConversionAudioCriteria;
+import com.foundations.convertor.utils.ConverterUtils;
 import com.foundations.convertor.utils.LoggerManager;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -44,7 +44,6 @@ public class AudioConversion {
     //reference to ffmpegjob
     private FFmpegJob conversionJob;
     //reference to progress property from progress listener
-    private Progress progress;
 
     /**
      *  Constructor of class
@@ -57,7 +56,7 @@ public class AudioConversion {
      * Prepare criteria parameters to make audio conversion
      * @param criteria conversion criteria parameter
      */
-    public void doConversion(ConAudioCrit criteria){
+    public void doConversion(ConversionAudioCriteria criteria){
         String separator = System.getProperty("file.separator");
         FFmpegProbeResult in;
         String out;
@@ -67,10 +66,8 @@ public class AudioConversion {
         String bitDepth;
         String audioCodec;
         try{
-            String ffProbePath = new File(".").getCanonicalFile() + separator + "src" + separator +"main" + separator +"resources" + separator +"thirdparty"+separator+ "ffprobe.exe";
-            String ffMpegPath = new File(".").getCanonicalFile() + separator + "src" + separator +"main" + separator +"resources" + separator +"thirdparty"+separator+ "ffmpeg.exe";
-            FFprobe fpWrapper = new FFprobe(ffProbePath );
-            FFmpeg fmWrapper = new FFmpeg(ffMpegPath);
+            FFprobe fpWrapper = new FFprobe(ConverterUtils.getFFprobeBinPath() );
+            FFmpeg fmWrapper = new FFmpeg(ConverterUtils.getFFmpegBinPath());
             //convert input path into FFmpeg result
             in = fpWrapper.probe(criteria.getPath());
             out = criteria.getOutputPath();
@@ -114,7 +111,6 @@ public class AudioConversion {
                 final double duration_ns = in.getFormat().duration * TimeUnit.SECONDS.toNanos(1);
                 @Override
                 public void progress(Progress prog) {
-                    progress = prog;
                     setProgressPercentage(prog.out_time_ns / duration_ns);
                 }
             });
