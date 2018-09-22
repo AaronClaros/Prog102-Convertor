@@ -14,15 +14,13 @@
 
 package com.foundations.convertor.model.Conversion;
 
-import com.foundations.convertor.common.ConversionCriteria;
+import com.foundations.convertor.common.ConversionVideoCriteria;
+import com.foundations.convertor.utils.ConverterUtils;
 import com.foundations.convertor.utils.LoggerManager;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
-import net.bramp.ffmpeg.FFmpegUtils;
 import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.job.FFmpegJob;
@@ -55,13 +53,11 @@ public class VideoConversion {
      * Prepare criteria parameters to make a video conversion
      * @param criteria conversion criteria parameters
      */
-    public void doConversion(ConversionCriteria criteria){
+    public void doConversion(ConversionVideoCriteria criteria){
         String separator = System.getProperty("file.separator");
         try{
-            String ffProbePath = new File(".").getCanonicalFile() + separator + "src" + separator +"main" + separator +"resources" + separator +"thirdparty"+separator+ "ffprobe.exe";
-            String ffMpegPath = new File(".").getCanonicalFile() + separator + "src" + separator +"main" + separator +"resources" + separator +"thirdparty"+separator+ "ffmpeg.exe";
-            FFprobe fpWrapper = new FFprobe(ffProbePath );
-            FFmpeg fmWrapper = new FFmpeg(ffMpegPath);
+            FFprobe fpWrapper = new FFprobe(ConverterUtils.getFFprobeBinPath() );
+            FFmpeg fmWrapper = new FFmpeg(ConverterUtils.getFFmpegBinPath());
             //convert input path into FFmpeg result
             FFmpegProbeResult in = fpWrapper.probe(criteria.getPath());
             String out = criteria.getOutputPath();
@@ -103,7 +99,6 @@ public class VideoConversion {
                 final double duration_ns = in.getFormat().duration * TimeUnit.SECONDS.toNanos(1);
                 @Override
                 public void progress(Progress prog) {
-                    progress = prog;
                     setProgressPercentage(prog.out_time_ns / duration_ns);
                 }
             });

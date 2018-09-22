@@ -12,8 +12,8 @@
 
 package com.foundations.convertor.controller;
 
-import com.foundations.convertor.common.ConAudioCrit;
-import com.foundations.convertor.common.ConversionCriteria;
+import com.foundations.convertor.common.ConversionAudioCriteria;
+import com.foundations.convertor.common.ConversionVideoCriteria;
 import com.foundations.convertor.common.SearchCriteria;
 import com.foundations.convertor.model.Conversion.AudioConversion;
 import com.foundations.convertor.model.Conversion.VideoConversion;
@@ -40,25 +40,28 @@ import javax.swing.event.ListSelectionListener;
  * @version 0.1
  */
 public class Controller implements ActionListener, EventListener ,ListSelectionListener {
-
-    private View view; // reference to object view
-    private Search search; // reference to object search
-    public static SearchCriteria criteria; // reference to object criteria
-    private ConversionCriteria conversionCriteria; // reference to object Criteria of conversion
-    private String pathToConvert; // reference path to convert
+    // reference to object view
+    private View view;
+    // reference to object search
+    private Search search;
+    // reference to object criteria
+    public static SearchCriteria criteria;
+    // reference to object Criteria of conversion
+    private ConversionVideoCriteria conversionVideoCriteria;
+    // reference path to convert
+    private String pathToConvert;
     private Object [] headerAudio ={"File Name","File Path","Duration","Extension","Audio Codec","Sample Rate",
             "Bit Depth","Bit Rate","Channels","Size"};
     private Object[] headerVideo = {"File Name","File Path","Duration","Extension","Frame Rate","Aspect Ratio",
             "Resolution","Video Codec","Audio Codec","Size"};
 
-    private ConAudioCrit conAudioCrit;
+    private ConversionAudioCriteria conversionAudioCriteria;
     VideoConversion conversion;
     AudioConversion audioConversion;
     ProgressBar progressBar;
 
 
     public Controller() {
-        //instanceSearchCriteria();
         instanceViewComponent();
         instanceModelComponent();
         instanceConversionCriteria();
@@ -175,7 +178,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      */
     private Object[] fillRowAudio(Audio audio) {
         // Setting row data of table {"File Name","File Path","Duration","Extension"
-        //            //            ,"Audio Codec", sample rate, bit depth,bit rate,"Channels","Size"};
+        //                         ,"Audio Codec", sample rate, bit depth,bit rate,"Channels","Size"};
         Object[] d = {
                 audio.getFileName(), audio.getPathFile(),
                 audio.getDuration(), audio.getExt(),
@@ -238,24 +241,24 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      */
     private void convertVideo() {
         //Instance conversion criteria
-        conversionCriteria = new ConversionCriteria();
+        conversionVideoCriteria = new ConversionVideoCriteria();
         //Set conversion criteria fields with converter panel
-        conversionCriteria.setPath(pathToConvert);
-        conversionCriteria.setResolution(view.getConvPanel().getCmbResolution().getSelectedItem().toString());
-        conversionCriteria.setVideoCodec(view.getConvPanel().getCmbVideoCodec().getSelectedItem().toString());
-        conversionCriteria.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
-        conversionCriteria.setExtension(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
-        conversionCriteria.setFileName(view.getConvPanel().getTxtName().getText());
-        conversionCriteria.setOutputDirectory(view.getConvPanel().getTFOutputPath().getText());
+        conversionVideoCriteria.setPath(pathToConvert);
+        conversionVideoCriteria.setResolution(view.getConvPanel().getCmbResolution().getSelectedItem().toString());
+        conversionVideoCriteria.setVideoCodec(view.getConvPanel().getCmbVideoCodec().getSelectedItem().toString());
+        conversionVideoCriteria.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
+        conversionVideoCriteria.setExtension(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
+        conversionVideoCriteria.setFileName(view.getConvPanel().getTxtName().getText());
+        conversionVideoCriteria.setOutputDirectory(view.getConvPanel().getTFOutputPath().getText());
         if (!view.getConvPanel().getCmbFrameRate().getSelectedItem().toString().isEmpty()) {
-            conversionCriteria.setFrameRate(Double.parseDouble(view.getConvPanel().getCmbFrameRate().getSelectedItem().toString()));
+            conversionVideoCriteria.setFrameRate(Double.parseDouble(view.getConvPanel().getCmbFrameRate().getSelectedItem().toString()));
         }
 
         conversion = new VideoConversion();
         progressBar = new ProgressBar();
         conversion.getProgressPercentageProperty().addListener(progressBar);
         try {
-            conversion.doConversion(conversionCriteria);
+            conversion.doConversion(conversionVideoCriteria);
         } catch (Exception e){
             LoggerManager.getLogger().Log(e.getMessage(), "Error");
             Messages.getInstance().errorMessage("Could not convert video","Error!");
@@ -267,29 +270,29 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
      * execute an audio conversion
      */
     public void convertAudio(){
-        conAudioCrit = new ConAudioCrit();
-        conAudioCrit.setPath(pathToConvert);
-        conAudioCrit.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
-        conAudioCrit.setExtension(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
-        conAudioCrit.setFileName(view.getConvPanel().getTxtName().getText());
-        conAudioCrit.setOutputDirectory(view.getConvPanel().getTFOutputPath().getText());
+        conversionAudioCriteria = new ConversionAudioCriteria();
+        conversionAudioCriteria.setPath(pathToConvert);
+        conversionAudioCriteria.setAudioCodec(view.getConvPanel().getCmbAudioCodec().getSelectedItem().toString());
+        conversionAudioCriteria.setExtension(view.getConvPanel().getCmbFormat().getSelectedItem().toString());
+        conversionAudioCriteria.setFileName(view.getConvPanel().getTxtName().getText());
+        conversionAudioCriteria.setOutputDirectory(view.getConvPanel().getTFOutputPath().getText());
         if (view.getConvPanel().getSearchAudioPanel().getcbSampleRate().getSelectedItem()==""){
-            conAudioCrit.setSampleRate(0);
+            conversionAudioCriteria.setSampleRate(0);
         }else {
-            conAudioCrit.setSampleRate(Integer.parseInt(view.getConvPanel().getSearchAudioPanel().getcbSampleRate()
+            conversionAudioCriteria.setSampleRate(Integer.parseInt(view.getConvPanel().getSearchAudioPanel().getcbSampleRate()
                                         .getSelectedItem().toString()));
         }
         if (view.getConvPanel().getSearchAudioPanel().getcbBitRate().getSelectedItem()==""){
-            conAudioCrit.setBitRate(0);
+            conversionAudioCriteria.setBitRate(0);
         }else {
-            conAudioCrit.setBitRate(Long.parseLong(view.getConvPanel().getSearchAudioPanel().getcbBitRate()
+            conversionAudioCriteria.setBitRate(Long.parseLong(view.getConvPanel().getSearchAudioPanel().getcbBitRate()
                                                     .getSelectedItem().toString()));
         }
-        conAudioCrit.setBitDepth(view.getConvPanel().getSearchAudioPanel().getcbBitDepth().getSelectedItem().toString());
+        conversionAudioCriteria.setBitDepth(view.getConvPanel().getSearchAudioPanel().getcbBitDepth().getSelectedItem().toString());
         if (view.getConvPanel().getSearchAudioPanel().getcbChannels().getSelectedItem()==""){
-            conAudioCrit.setChannels(0);
+            conversionAudioCriteria.setChannels(0);
         }else {
-            conAudioCrit.setChannels(Integer.parseInt(view.getConvPanel().getSearchAudioPanel().getcbChannels()
+            conversionAudioCriteria.setChannels(Integer.parseInt(view.getConvPanel().getSearchAudioPanel().getcbChannels()
                                                         .getSelectedItem().toString()));
         }
 
@@ -297,7 +300,7 @@ public class Controller implements ActionListener, EventListener ,ListSelectionL
         progressBar = new ProgressBar();
         audioConversion.getProgressPercentageProperty().addListener(progressBar);
         try {
-            audioConversion.doConversion(conAudioCrit);
+            audioConversion.doConversion(conversionAudioCriteria);
         } catch (Exception e){
             LoggerManager.getLogger().Log(e.getMessage(), "Error");
             Messages.getInstance().errorMessage("Could not convert audio","Error!");

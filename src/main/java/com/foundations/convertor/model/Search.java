@@ -16,6 +16,7 @@ import com.foundations.convertor.model.Multimedia.Audio;
 import com.foundations.convertor.model.Multimedia.Multimedia;
 import com.foundations.convertor.model.Multimedia.MultimediaFactory;
 import com.foundations.convertor.model.Multimedia.Video;
+import com.foundations.convertor.utils.ConverterUtils;
 import com.foundations.convertor.utils.LoggerManager;
 import java.io.File;
 import java.util.ArrayList;
@@ -37,12 +38,8 @@ import static com.foundations.convertor.controller.Controller.criteria;
  * @version 0.1
  */
 public class Search implements ISearchVideo, ISearchAudio{
-    // list of file of the specified path
-    private List<File> lFiles = new ArrayList<File>();
     // Variable to get the metadata
     private FFprobe ffprobe;
-    //Variable to build the path
-    private static final String SEPARATOR = System.getProperty("file.separator");
 
     /**
      * Search constructor
@@ -259,31 +256,12 @@ public class Search implements ISearchVideo, ISearchAudio{
         FFmpegStream videoStream = null;
         FFmpegStream audioStream = null;
         try{
-            String ffProbePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
             if (ffprobe==null) {
-                ffprobe = new FFprobe(ffProbePath);
+                ffprobe = new FFprobe(ConverterUtils.getFFprobeBinPath());
             }
             probeResult = ffprobe.probe(file.getPath());
             videoStream = probeResult.getStreams().get(0);
             audioStream = probeResult.getStreams().get(1);
-            //set Video object values
-            /*
-            video.setExt(FilenameUtils.getExtension(file.getAbsolutePath()));
-            video.setFileName(file.getName());
-            video.setPathFile(file.getAbsolutePath());
-            video.setVideoCodec(videoStream.codec_name);
-            FFmpegStream audioStream = ffprobe.probe(file.getPath()).getStreams().get(1);
-            if (audioStream!=null) {
-                video.setAudioCodec(audioStream.codec_name);
-            } else {
-                video.setAudioCodec("");
-            }
-            video.setFrameRate((videoStream.avg_frame_rate.doubleValue()*100)/100);
-            video.setDuration(videoStream.duration);
-            video.setAspectRatio(videoStream.display_aspect_ratio);
-            video.setResolution(String.valueOf(videoStream.width) + "X" + String.valueOf(videoStream.height));
-            video.setSize(file.length());
-            */
         }
         //If the file is not a video an exception is send
         catch (Exception ex)
@@ -295,7 +273,7 @@ public class Search implements ISearchVideo, ISearchAudio{
             if (audioStream!=null) {
                 aCodecAux = audioStream.codec_name;
             }
-            //FFmpegFormat audioFormat = probeResult.format;
+            //set Video object values
             video = (Video) new MultimediaFactory().createVideo(file.getAbsolutePath() ,file.getName(),
                     FilenameUtils.getExtension(file.getAbsolutePath()), aCodecAux, videoStream.duration,
                     file.length(), videoStream.display_aspect_ratio,
@@ -317,29 +295,12 @@ public class Search implements ISearchVideo, ISearchAudio{
         FFmpegStream audioStream = null;
         FFmpegFormat audioFormat = null;
         try{
-            String ffProbePath = new File(".").getCanonicalFile() + SEPARATOR + "src" + SEPARATOR +"main" + SEPARATOR +"resources" + SEPARATOR +"thirdparty"+SEPARATOR+ "ffprobe.exe";
             if (ffprobe==null) {
-                ffprobe = new FFprobe(ffProbePath);
+                ffprobe = new FFprobe(ConverterUtils.getFFprobeBinPath());
             }
             probeResult = ffprobe.probe(file.getPath());
             audioStream = probeResult.getStreams().get(0);
             audioFormat = probeResult.getFormat();
-            //set Audio object values
-            /*
-            audio.setExt(FilenameUtils.getExtension(file.getAbsolutePath()));
-            audio.setFileName(file.getName());
-            audio.setPathFile(file.getAbsolutePath());
-            audio.setDuration(audioStream.duration);
-            audio.setAudioCodec(audioStream.codec_name);
-            audio.setSize(audioFormat.size);
-            audio.setChannels(audioStream.channels);
-            audio.setSampleRate(audioStream.sample_rate);
-            audio.setBitRate(audioFormat.bit_rate);
-            audio.setBitDepth(audioStream.sample_fmt);
-            audio.setSongArtist(audioFormat.tags.get("ARTIST"));
-            audio.setSongAlbum(audioFormat.tags.get("ALBUM"));
-            audio.setSongName(audioFormat.tags.get("TITLE"));
-            */
         }
         //If the file is not a audio an exception is send
         catch (Exception ex)
@@ -355,6 +316,7 @@ public class Search implements ISearchVideo, ISearchAudio{
                 songArtist = audioFormat.tags.get("ARTIST");
                 songAlbum = audioFormat.tags.get("ALBUM");
             }
+            //set Audio object values
             audio = (Audio) new MultimediaFactory().createAudio(file.getAbsolutePath(), file.getName(),
                     FilenameUtils.getExtension(file.getAbsolutePath()), audioStream.codec_name, audioStream.duration,
                     audioFormat.size, audioStream.channels, audioStream.sample_rate, audioFormat.bit_rate,
