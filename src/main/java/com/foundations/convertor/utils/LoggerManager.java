@@ -18,7 +18,6 @@ package com.foundations.convertor.utils;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import java.net.URL;
 
 public class LoggerManager {
     //Variables to define the level of the log
